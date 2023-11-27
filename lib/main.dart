@@ -6,8 +6,8 @@ import 'package:solar_app/view/splash/splash_view.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: btnPrimaryColor,
-    statusBarColor: btnPrimaryColor,
+    systemNavigationBarColor: primarycolor,
+    statusBarColor: primarycolor,
   ));
   runApp(const MyApp());
 }
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

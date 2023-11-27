@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
-import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/view/nav_bar/change_password/change_password_view.dart';
 import 'package:solar_app/view/nav_bar/chat_view/chat_view.dart';
 import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart';

@@ -36,6 +36,7 @@ class ComplaintConfirmationView extends StatelessWidget {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  mediumSpace,
                   Align(
                       alignment: Alignment.center,
                       child: Image.asset(
@@ -62,7 +63,9 @@ class ComplaintConfirmationView extends StatelessWidget {
                       ),
                       child: ctext(
                           text: """Thank you for contacting us,
-we will soon took into the matter!""",
+we will soon took into the matter!
+
+Tracking Id:982017391""",
                           fontSize: 16,
                           color: white,
                           textAlign: TextAlign.center),

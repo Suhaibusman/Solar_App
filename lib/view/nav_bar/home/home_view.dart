@@ -77,7 +77,6 @@ class HomeView extends StatelessWidget {
                   Container(
                     height: Get.height * 0.75,
                     decoration: BoxDecoration(
-                        // ignore: prefer_const_constructors
                         color: const Color(0xff192444).withOpacity(.4),
                         borderRadius: BorderRadius.circular(30)),
                     padding:

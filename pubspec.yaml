@@ -41,9 +41,11 @@ dependencies:
   flutter_svg: ^2.0.7
   google_nav_bar: ^5.0.6
   calendar_date_picker2: ^0.5.3
-  accordion: ^2.6.0
   custom_clippers: ^2.0.0
   lottie: ^2.6.0
+  flutter_rating_bar: ^4.0.1
+  dotted_border: ^2.1.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

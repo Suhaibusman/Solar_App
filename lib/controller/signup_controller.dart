@@ -7,9 +7,5 @@ class SignUpController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
-    List signUpLogos = [
-    IconsConstants.googleIcon,
-    IconsConstants.appleIcon,
-    IconsConstants.facebookIcon
-  ];
+  List signUpLogos = [IconsConstants.googleIcon, IconsConstants.facebookIcon];
 }

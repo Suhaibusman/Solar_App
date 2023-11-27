@@ -28,7 +28,6 @@ class SignUpView extends StatelessWidget {
             alignment: Alignment.topRight,
             child: Image.asset(
               ImageConstants.loginImage,
-              // height: Get.height * 0.45,
               width: Get.width * 0.47,
             ),
           ),

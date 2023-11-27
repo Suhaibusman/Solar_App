@@ -11,7 +11,6 @@ import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 import 'package:solar_app/view/auth/signup/signup_view.dart';
 
-// ignore: must_be_immutable
 class LoginView extends StatelessWidget {
   LoginView({super.key});
 
@@ -40,7 +39,6 @@ class LoginView extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: SingleChildScrollView(
-                // Wrap your Container with SingleChildScrollView
                 child: Container(
                   padding: EdgeInsets.only(
                     left: 20,
@@ -96,9 +94,7 @@ class LoginView extends StatelessWidget {
                             if (value!.isEmpty) {
                               return 'Please enter your email';
                             }
-                            // if (!isValidEmail(value)) {
-                            //   return 'Please enter a valid email';
-                            // }
+
                             return null;
                           },
                         ),
@@ -111,7 +107,7 @@ class LoginView extends StatelessWidget {
                         ),
                         CustomBorderTextField(
                           controller: loginController.passwordController,
-                          hint: 'Password', // Change 'Email' to 'Password'
+                          hint: 'Password',
                           prefix: Icon(
                             Icons.key,
                             color: lightPrimaryTextColor,

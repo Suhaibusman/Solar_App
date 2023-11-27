@@ -24,21 +24,3 @@ Widget ctext(
         color: color),
   );
 }
-
-// Header Widget
-Widget headerText(
-    {required String text,
-    double fontSize = 16,
-    TextAlign textAlign = TextAlign.center,
-    FontWeight fontWeight = FontWeight.bold,
-    Color color = Colors.black}) {
-  return Text(
-    text,
-    textAlign: textAlign,
-    style: TextStyle(
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-      color: color,
-    ),
-  );
-}

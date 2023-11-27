@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 
-// ignore: must_be_immutable
 class CustomUnderLineTextField extends StatelessWidget {
   final TextEditingController? controller;
   bool? isreadOnly = true;
@@ -11,9 +10,7 @@ class CustomUnderLineTextField extends StatelessWidget {
   bool? isPreffixIcon = false;
   final IconData? suffixIcon;
   final int? maxLines;
-  // ignore: prefer_typing_uninitialized_variables
   var onSuffixTap;
-  // ignore: prefer_typing_uninitialized_variables
   var onTap;
   final String hint;
   final TextInputType type;
@@ -77,7 +74,6 @@ class CustomUnderLineTextField extends StatelessWidget {
               : const SizedBox.shrink(),
         ),
         onChanged: (value) {
-          // this.phoneNo=value;
         },
       ),
     );
@@ -90,14 +86,13 @@ class CustomBorderTextField extends StatefulWidget {
   final IconData? suffix;
   final bool? isreadOnly;
   final ValueSetter<String>? onchanged;
-  // ignore: prefer_typing_uninitialized_variables
   final prefix;
   final TextEditingController? controller;
   final String? Function(String?)? valid;
   final FocusNode? focusNode;
-  // final String initialValue;
   final VoidCallback? onTap;
   final VoidCallback? textFieldTap;
+  final int? maxLines;
 
   const CustomBorderTextField({
     Key? key,
@@ -112,8 +107,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.controller,
     this.valid,
     this.onchanged,
-    // this.onTap,
-    // this.initialValue = '',
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -142,6 +136,7 @@ class _FieldTextState extends State<CustomBorderTextField> {
         ),
       ),
       child: TextFormField(
+        maxLines: widget.maxLines,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onchanged,
         focusNode: widget.focusNode,

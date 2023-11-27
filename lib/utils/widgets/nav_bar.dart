@@ -15,7 +15,6 @@ class MyBottomNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        // appBar: CustAppBar(),
         body: GetBuilder<BottomNavBarController>(
           builder: (context) {
             debugPrint(
@@ -38,7 +37,6 @@ class MyBottomNavbar extends StatelessWidget {
             backgroundColor: primarycolor,
             selectedIndex: _bottomNavigationBarController.currentIndex.value,
             onTabChange: (index) {
-              print(index);
               _bottomNavigationBarController.changeScreen(index);
             },
             padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
@@ -56,21 +54,18 @@ class MyBottomNavbar extends StatelessWidget {
               ),
               GButton(
                 onPressed: () {
-                  // Navigate to the Social screen.
                 },
                 icon: Icons.location_on,
                 text: 'Location',
               ),
               GButton(
                 onPressed: () {
-                  // Navigate to the Marketplace screen.
                 },
                 icon: CupertinoIcons.shopping_cart,
                 text: 'Products',
               ),
               GButton(
                 onPressed: () {
-                  // Navigate to the Adoption screen.
                 },
                 icon: CupertinoIcons.exclamationmark_shield_fill,
                 text: 'Complaint',

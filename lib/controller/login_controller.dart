@@ -6,9 +6,5 @@ class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  List loginLogos = [
-    IconsConstants.googleIcon,
-    IconsConstants.appleIcon,
-    IconsConstants.facebookIcon
-  ];
+  List loginLogos = [IconsConstants.googleIcon, IconsConstants.facebookIcon];
 }

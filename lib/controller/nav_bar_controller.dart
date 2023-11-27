@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart';
+import 'package:solar_app/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_app/view/nav_bar/home/home_view.dart';
 import 'package:solar_app/view/nav_bar/products/product_view.dart';
 import 'package:solar_app/view/nav_bar/profile/profile_view.dart';
@@ -37,7 +37,7 @@ class BottomNavBarController extends GetxController {
         _currentScreen = ProductView();
         break;
       case 3:
-        _currentScreen = RegisterComplaintView();
+        _currentScreen = ComplaintsView();
         break;
       case 4:
         _currentScreen = ProfileView();

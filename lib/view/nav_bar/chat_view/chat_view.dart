@@ -7,6 +7,7 @@ import 'package:solar_app/controller/chat_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -26,10 +27,8 @@ class ChatScreen extends StatelessWidget {
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: white),
-        leading: Icon(
-          Icons.arrow_back_ios_new_outlined,
-          color: white,
-        ),
+        leading:reusableBackButton(),
+        
       ),
       body: Stack(
         children: [
@@ -95,7 +94,7 @@ class ChatScreen extends StatelessWidget {
                                 ],
                               ),
                               mediumSpaceh,
-                              CircleAvatar(
+                              const CircleAvatar(
                                 backgroundImage: NetworkImage(
                                   "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
                                 ),

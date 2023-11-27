@@ -9,7 +9,6 @@ import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/custom_textfield.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
-// ignore: must_be_immutable
 class ChangePasswordView extends StatelessWidget {
   ChangePasswordView({super.key});
 
@@ -21,12 +20,10 @@ class ChangePasswordView extends StatelessWidget {
     return Scaffold(
         backgroundColor: primarycolor,
         body: Stack(children: [
-          Container(
-            child: SvgPicture.asset(
-              SvgConstants.homeBg,
-              width: Get.width,
-              fit: BoxFit.fill,
-            ),
+          SvgPicture.asset(
+            SvgConstants.homeBg,
+            width: Get.width,
+            fit: BoxFit.fill,
           ),
           SingleChildScrollView(
             child: Column(

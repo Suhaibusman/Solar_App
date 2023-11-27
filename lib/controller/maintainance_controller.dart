@@ -1,10 +1,25 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/utils/constants/image_constant.dart';
 
 class MaintainanceController extends GetxController {
   RxList<DateTime> selectedDates = <DateTime>[].obs;
   List<DateTime> multiDatePickerValueWithDefaultValue = [];
+
+  // List images = [
+  //   ImageConstants.monocrystalineImage,
+  //   ImageConstants.polycrystallineImage,
+  //   ImageConstants.thinFilmImage,
+  // ];
+  List maintainanceIcons = [
+    Icons.cleaning_services_rounded,
+    Icons.battery_2_bar_rounded,
+    Icons.inventory
+  ];
+
+  List text = ["Cleaning", "Battery", "Inventor"];
+  RxInt initialIndex = 0.obs;
 
   void addDate(DateTime date) {
     selectedDates.add(date);
@@ -23,14 +38,7 @@ class MaintainanceController extends GetxController {
     return CalendarDatePicker2(
       config: config,
       value: selectedDates.where((date) => date != null).toList(),
-      onValueChanged: (dates) {
-        // Filter out null values and assign the non-null dates
-        // selectedDates.assignAll(dates.where((date) => date != null));
-      },
+      onValueChanged: (dates) {},
     );
-  }
-
-  String _getValueText(CalendarDatePicker2Type type, List<DateTime> dates) {
-    return dates.map((date) => date.toLocal().toString()).join(", ");
   }
 }
