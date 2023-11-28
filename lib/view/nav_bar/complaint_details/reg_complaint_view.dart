@@ -207,8 +207,8 @@ class RegisterComplaintView extends StatelessWidget {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: complaintController.imagePath.isNotEmpty
-                                    ? FileImage(
-                                            File(complaintController.imagePath.value))
+                                    ? FileImage(File(
+                                        complaintController.imagePath.value))
                                     : const AssetImage('assets/default.png')
                                         as ImageProvider<Object>,
                                 fit: BoxFit.cover,
@@ -230,7 +230,6 @@ class RegisterComplaintView extends StatelessWidget {
                                   children: [
                                     Icon(Icons.add,
                                         color: lightPrimaryTextColor),
-                                        
                                     smallSpaceh,
                                     ctext(
                                         text: "Photo",
@@ -244,17 +243,19 @@ class RegisterComplaintView extends StatelessWidget {
                       );
                     }),
                     mediumSpace,
-                    CustomButton(
-                        borderRadius: BorderRadius.circular(15),
-                        height: 43,
-                        mywidth: 1,
-                        onPressed: () {
-                           complaintController.addComplain();
-                          // complaintController.lodgeComplain(context);
-                        },
-                        child: 'Submit',
-                        gradientColors: [btnPrimaryColor, btnSecondaryColor],
-                        color: btnSecondaryColor),
+                    Obx(() {
+                      return complaintController.loading.value ?const Center(child: CircularProgressIndicator()) : CustomButton(
+                          borderRadius: BorderRadius.circular(15),
+                          height: 43,
+                          mywidth: 1,
+                          onPressed: () {
+                            complaintController.addComplain();
+                            // complaintController.lodgeComplain(context);
+                          },
+                          child: 'Submit',
+                          gradientColors: [btnPrimaryColor, btnSecondaryColor],
+                          color: btnSecondaryColor);
+                    }),
                   ]).paddingSymmetric(horizontal: 16, vertical: 12)),
             ),
           )

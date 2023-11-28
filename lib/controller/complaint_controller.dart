@@ -110,9 +110,160 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
     );
   }
   
-  
+//  Future<Widget> fetchWholeData(
+//     setState,
+//     profilePic,
+//   ) async {
+//     return StreamBuilder<QuerySnapshot>(
+//       stream:  firestore.collection("users").doc(userUid).collection("complain"),
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.active) {
+//           if (snapshot.hasData && snapshot.data != null) {
+//             return Expanded(
+//               child: ListView.builder(
+//                itemCount: snapshot.data!.docs.length,
+//                 itemBuilder: (context, index) {
+//                   DocumentSnapshot doc = snapshot.data!.docs[index];
+//                   //querysnaphot me pora data ayegaa
 
-  
+//                   return Card(
+//               color: white,
+//               elevation: 12,
+//               shadowColor: btnPrimaryColor,
+//               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(12)),
+//               child: Column(
+//                 children: [
+//                   Row(
+//                     children: [
+//                       ctext(
+//                           text: "Battery issue",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 15,
+//                           color: Colors.black),
+//                       Spacer(),
+//                       Icon(
+//                         Icons.delete,
+//                         color: Colors.grey.withOpacity(.6),
+//                       )
+//                     ],
+//                   ),
+//                   extraSmallSpace,
+//                   Row(
+//                     children: [
+//                       Icon(Icons.calendar_month_outlined,
+//                           size: 14, color: Colors.grey.withOpacity(.6)),
+//                       ctext(
+//                           text: " Date: Noc 10 2023",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 11,
+//                           color: Colors.grey.withOpacity(.6)),
+//                     ],
+//                   ),
+//                   extraSmallSpace,
+//                   Row(
+//                     children: [
+//                       ctext(
+//                           text: "Status: ",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 11),
+//                       ctext(
+//                           text: "Pending",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 11,
+//                           color: Colors.red),
+//                     ],
+//                   ),
+//                   extraSmallSpace,
+//                   Row(
+//                     children: [
+//                       ctext(
+//                           text: "Progress: ",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 11),
+//                       ctext(
+//                           text: "Done",
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 11,
+//                           color: btnPrimaryColor),
+//                       const Spacer(),
+//                       RatingBar.builder(
+//                         itemSize: 16,
+//                         initialRating: 3,
+//                         minRating: 1,
+//                         direction: Axis.horizontal,
+//                         allowHalfRating: true,
+//                         itemCount: 5,
+//                         itemPadding:
+//                             const EdgeInsets.symmetric(horizontal: 0.2),
+//                         itemBuilder: (context, _) => const Icon(
+//                           Icons.star,
+//                           color: Colors.amber,
+//                           size: 13,
+//                         ),
+//                         onRatingUpdate: (rating) {},
+//                       ),
+//                     ],
+//                   )
+//                 ],
+//               ).paddingOnly(left: 12, top: 12, bottom: 12, right: 12),
+//             );
+//            },
+//               ),
+//             );
+//           } else {
+//             return const Center(child: Text("No Data Found"));
+//           }
+//         }
+//         return const Center(child: CircularProgressIndicator());
+//       },
+//     );
+//   }
+
+   
+Future<List<DocumentSnapshot>> getComplains() async {
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference userComplain =
+        firestore.collection("users").doc(userUID).collection("complain");
+    QuerySnapshot complainSbapshot = await userComplain.get();
+
+    if (complainSbapshot.docs.isNotEmpty) {
+      return complainSbapshot.docs;
+    }
+    return [];
+  }
+
+
+//   Future<List> getComplaints() async {
+//   try {
+//     QuerySnapshot querySnapshot = await firestore
+//         .collection("users")
+//         .doc(userUid)
+//         .collection("complain")
+//         .get();
+
+//     // Convert each document in the query snapshot to a Complaint object
+//     List complaints = querySnapshot.docs.map((doc) {
+//       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+//       return Complaint(
+//         title: data['title'],
+//         description: data['description'],
+//         status: data['status'],
+//         complaintNumber: data['complaintNumber'],
+//         complainPicture: data['complainpicture'],
+//         timestamp: data['timestamp'],
+//       );
+//     }).toList();
+
+//     return complaints;
+//   } catch (e) {
+//     print("Error retrieving complaints: $e");
+//     return [];
+//   }
+// }
+
 
   void addComplain() async {
     loading.value = true;
