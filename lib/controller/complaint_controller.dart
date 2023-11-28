@@ -18,6 +18,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class ComplaintController extends GetxController {
   var selectedValue = 'Urgent'.obs;
   RxBool loading = false.obs;
+  RxDouble ratingValue = 3.0.obs;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxList<DateTime> selectedDates = <DateTime>[].obs;
   RxString imagePath = "".obs;
@@ -85,7 +86,9 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                       color: Colors.amber,
                       size: 13,
                     ),
-                    onRatingUpdate: (rating) {},
+                    onRatingUpdate: (rating) {
+                      ratingValue.value = rating;
+                    },
                   ),
                 ),
                 mediumSpace,
@@ -265,7 +268,7 @@ Future<List<DocumentSnapshot>> getComplains() async {
 // }
 
 
-  void addComplain() async {
+  void addComplain(context) async {
     loading.value = true;
   try {
     if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
@@ -310,6 +313,7 @@ Future<List<DocumentSnapshot>> getComplains() async {
       imagePath.value = "";
       titleController.clear();
       descriptionController.clear();
+    lodgeComplain(context);
     }
   } catch (e) {
     loading.value = false;

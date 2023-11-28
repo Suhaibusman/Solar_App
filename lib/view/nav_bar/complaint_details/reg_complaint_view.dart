@@ -249,8 +249,8 @@ class RegisterComplaintView extends StatelessWidget {
                           height: 43,
                           mywidth: 1,
                           onPressed: () {
-                            complaintController.addComplain();
-                            // complaintController.lodgeComplain(context);
+                            complaintController.addComplain(context);
+                            //  complaintController.lodgeComplain(context);
                           },
                           child: 'Submit',
                           gradientColors: [btnPrimaryColor, btnSecondaryColor],
