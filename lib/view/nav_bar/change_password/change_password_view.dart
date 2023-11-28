@@ -108,7 +108,9 @@ class ChangePasswordView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                               height: 43,
                               mywidth: 0.75,
-                              onPressed: () {},
+                              onPressed: () {
+                                changePasswordController.changePassword();
+                              },
                               child: 'Change Password',
                               gradientColors: [
                                 btnPrimaryColor,
