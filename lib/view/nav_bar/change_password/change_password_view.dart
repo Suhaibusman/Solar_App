@@ -62,23 +62,44 @@ class ChangePasswordView extends StatelessWidget {
                         largeSpace,
                         ctext(text: "Old Password"),
                         CustomUnderLineTextField(
+                          isobscure: changePasswordController.isOldPassVissible.value,
+                           onSuffixTap: (){
+                            changePasswordController.isOldPassVissible.value =!changePasswordController.isOldPassVissible.value;
+                          },
+                          suffixIcon: changePasswordController.isOldPassVissible.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             controller:
-                                changePasswordController.emailController,
+                                changePasswordController.oldPasswordController,
                             hint: "**********",
                             type: TextInputType.emailAddress),
                         largeSpace,
                         ctext(text: "New Password"),
                         CustomUnderLineTextField(
+                          onSuffixTap: (){
+                            changePasswordController.isNewPassVissible.value =!changePasswordController.isNewPassVissible.value;
+                          },
+                          suffixIcon: changePasswordController.isNewPassVissible.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                                
+                          isobscure: changePasswordController.isNewPassVissible.value,
                             controller:
-                                changePasswordController.emailController,
+                                changePasswordController.newPasswordController,
                             hint: "**********",
                             type: TextInputType.emailAddress),
                         largeSpace,
                         ctext(text: "Retype Password"),
                         CustomUnderLineTextField(
-                          // isobscure: true,
+                           onSuffixTap: (){
+                            changePasswordController.isconfirmNewPassVissible.value =!changePasswordController.isconfirmNewPassVissible.value;
+                          },
+                          suffixIcon: changePasswordController.isconfirmNewPassVissible.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            isobscure: changePasswordController.isconfirmNewPassVissible.value,
                             controller:
-                                changePasswordController.emailController,
+                                changePasswordController.confirmNewPasswordController,
                             hint: "**********",
                             type: TextInputType.emailAddress),
                         largeSpace,

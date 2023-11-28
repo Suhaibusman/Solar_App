@@ -46,7 +46,7 @@ class CustomUnderLineTextField extends StatelessWidget {
         readOnly: isreadOnly ?? false,
         enabled: true,
         textAlign: TextAlign.left,
-        maxLines: maxLines,
+        maxLines: maxLines ?? 1,
         keyboardType: type,
         style: const TextStyle(
           fontSize: 14,

@@ -9,7 +9,6 @@ import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/custom_textfield.dart';
-import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 import 'package:solar_app/view/auth/signup/signup_view.dart';
 
