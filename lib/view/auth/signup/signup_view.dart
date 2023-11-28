@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -66,22 +68,26 @@ class SignUpView extends StatelessWidget {
                     ),
                     mediumSpace,
                     ctext(
-                        text: "Email Address",
-                        fontWeight: FontWeight.w600,
-                        color: lightPrimaryTextColor,
-                        fontSize: 13),
-                    CustomBorderTextField(
-                        hint: 'Email',
-                        prefix: Icon(Icons.email_outlined,
-                            color: lightPrimaryTextColor)),
-                    smallSpace,
-                    ctext(
                         text: "Name",
                         fontWeight: FontWeight.w600,
                         color: lightPrimaryTextColor,
                         fontSize: 13),
                     CustomBorderTextField(
-                        hint: 'Email',
+                      isobscure: false,
+                        controller: signUpController.nameController,
+                        hint: 'Name',
+                        prefix: Icon(Icons.email_outlined,
+                            color: lightPrimaryTextColor)),
+                    smallSpace,
+                    ctext(
+                        text: "Email Address",
+                        fontWeight: FontWeight.w600,
+                        color: lightPrimaryTextColor,
+                        fontSize: 13),
+                    CustomBorderTextField(
+                      isobscure: false,
+                        controller: signUpController.emailController,
+                        hint: 'Email Address',
                         prefix: Icon(Icons.person_2_outlined,
                             color: lightPrimaryTextColor)),
                     smallSpace,
@@ -91,17 +97,23 @@ class SignUpView extends StatelessWidget {
                         color: lightPrimaryTextColor,
                         fontSize: 13),
                     CustomBorderTextField(
-                        hint: 'Email',
+                        //  isobscure: signUpController.isPassVisible.value,
+                        controller: signUpController.passwordController,
+                        hint: 'Password',
                         prefix: Icon(Icons.key, color: lightPrimaryTextColor)),
                     mediumSpace,
-                    CustomButton(
-                        borderRadius: BorderRadius.circular(15),
-                        height: 43,
-                        mywidth: 1,
-                        onPressed: () {},
-                        child: 'Sign up',
-                        gradientColors: [btnPrimaryColor, btnSecondaryColor],
-                        color: btnSecondaryColor),
+                    Obx(() {
+                      return signUpController.loading.value ? const Center(child: CircularProgressIndicator()):CustomButton(
+                          borderRadius: BorderRadius.circular(15),
+                          height: 43,
+                          mywidth: 1,
+                          onPressed: () {
+                            signUpController.signUpWithEmailAndPassword();
+                          },
+                          child: 'Sign up',
+                          gradientColors: [btnPrimaryColor, btnSecondaryColor],
+                          color: btnSecondaryColor);
+                    }),
                     smallSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -150,9 +162,9 @@ class SignUpView extends StatelessWidget {
                                   end: Alignment.centerRight,
                                   colors: [
                                     Colors.grey.withOpacity(.3),
-                                    Color(0xff353C43),
-                                    Color(0xff222A33),
-                                    Color(0xff19232D),
+                                    const Color(0xff353C43),
+                                    const Color(0xff222A33),
+                                    const Color(0xff19232D),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(10),

@@ -84,18 +84,21 @@ class ProfileView extends StatelessWidget {
                           largeSpace,
                           ctext(text: "Your Mail ID"),
                           CustomUnderLineTextField(
+                              isobscure: false,
                               controller: profileController.emailController,
                               hint: "abc@gmail.com",
                               type: TextInputType.emailAddress),
                           largeSpace,
                           ctext(text: "Phone Number"),
                           CustomUnderLineTextField(
+                              isobscure: false,
                               controller: profileController.emailController,
                               hint: "+92 332 283628",
                               type: TextInputType.emailAddress),
                           largeSpace,
                           ctext(text: "Address"),
                           CustomUnderLineTextField(
+                              isobscure: false,
                               controller: profileController.emailController,
                               hint: "abc street, Apt R-42, pechs society",
                               type: TextInputType.emailAddress),

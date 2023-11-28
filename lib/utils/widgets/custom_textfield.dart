@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:solar_app/utils/themes/color_theme.dart';
 
 class CustomUnderLineTextField extends StatelessWidget {
   final TextEditingController? controller;
+ final bool? isobscure;
   bool? isreadOnly = true;
   bool? issuffixIcon = false;
   bool? isPreffixIcon = false;
@@ -15,6 +18,7 @@ class CustomUnderLineTextField extends StatelessWidget {
   final String hint;
   final TextInputType type;
   CustomUnderLineTextField({
+     this.isobscure,
     required this.controller,
     required this.hint,
     this.issuffixIcon,
@@ -36,6 +40,7 @@ class CustomUnderLineTextField extends StatelessWidget {
         focusColor: primarycolor,
       ),
       child: TextField(
+        obscureText: isobscure ?? false,
         controller: controller,
         onTap: onTap,
         readOnly: isreadOnly ?? false,
@@ -81,6 +86,7 @@ class CustomUnderLineTextField extends StatelessWidget {
 }
 
 class CustomBorderTextField extends StatefulWidget {
+  final bool? isobscure;
   final String hint;
   final List<TextInputFormatter>? inputFormatters;
   final IconData? suffix;
@@ -95,8 +101,10 @@ class CustomBorderTextField extends StatefulWidget {
   final int? maxLines;
 
   const CustomBorderTextField({
+    
     Key? key,
     required this.hint,
+    this.isobscure,
     this.inputFormatters,
     this.suffix,
     this.focusNode,
@@ -107,7 +115,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.controller,
     this.valid,
     this.onchanged,
-    this.maxLines,
+    this.maxLines, 
   }) : super(key: key);
 
   @override
@@ -136,6 +144,7 @@ class _FieldTextState extends State<CustomBorderTextField> {
         ),
       ),
       child: TextFormField(
+        obscureText: widget.isobscure ?? false,
         maxLines: widget.maxLines,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onchanged,

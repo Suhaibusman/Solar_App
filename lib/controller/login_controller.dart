@@ -7,4 +7,5 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   List loginLogos = [IconsConstants.googleIcon, IconsConstants.facebookIcon];
+  RxBool isPass = true.obs;
 }

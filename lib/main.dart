@@ -1,14 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/firebase_options.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/view/splash/splash_view.dart';
 
-void main() {
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: primarycolor,
     statusBarColor: primarycolor,
   ));
+   await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

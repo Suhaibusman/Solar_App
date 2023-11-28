@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -74,6 +76,7 @@ class ChangePasswordView extends StatelessWidget {
                         largeSpace,
                         ctext(text: "Retype Password"),
                         CustomUnderLineTextField(
+                          // isobscure: true,
                             controller:
                                 changePasswordController.emailController,
                             hint: "**********",

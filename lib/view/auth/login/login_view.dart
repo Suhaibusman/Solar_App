@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -84,6 +86,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 13,
                         ),
                         CustomBorderTextField(
+                            isobscure: false,
                           controller: loginController.emailController,
                           hint: 'Email',
                           prefix: Icon(
@@ -106,18 +109,20 @@ class LoginView extends StatelessWidget {
                           fontSize: 13,
                         ),
                         CustomBorderTextField(
+                          // isobscure: true,
+                            //  isobscure: loginController.isPass.value,
                           controller: loginController.passwordController,
                           hint: 'Password',
                           prefix: Icon(
                             Icons.key,
                             color: lightPrimaryTextColor,
                           ),
-                          valid: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
+                          // valid: (value) {
+                          //   if (value!.isEmpty) {
+                          //     return 'Please enter your password';
+                          //   }
+                          //   return null;
+                          // },
                         ),
                         mediumSpace,
                         CustomButton(
