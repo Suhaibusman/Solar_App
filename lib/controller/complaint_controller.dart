@@ -15,11 +15,13 @@ import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 import 'package:solar_app/view/nav_bar/complaint_details/complaint_confirmation_view.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
 class ComplaintController extends GetxController {
   var selectedValue = 'Urgent'.obs;
+  bool goToNext =false;
   RxBool loading = false.obs;
   RxDouble ratingValue = 3.0.obs;
-final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxList<DateTime> selectedDates = <DateTime>[].obs;
   RxString imagePath = "".obs;
   TextEditingController titleController = TextEditingController();
@@ -49,8 +51,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
     );
   }
 
-
-  void lodgeComplain(context) {
+  void lodgeComplain(context, complainDocId) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -87,6 +88,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                       size: 13,
                     ),
                     onRatingUpdate: (rating) {
+                        goToNext =true;
                       ratingValue.value = rating;
                     },
                   ),
@@ -97,7 +99,11 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
                   height: 43,
                   mywidth: 1,
                   onPressed: () {
-                    Get.to(const ComplaintConfirmationView());
+                  goToNext= true;
+                    // complainData
+                    Get.to(
+                        
+                        ComplaintConfirmationView(complainUid: complainDocId));
                   },
                   child: 'Submit',
                   gradientColors: [
@@ -112,7 +118,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
       },
     );
   }
-  
+
 //  Future<Widget> fetchWholeData(
 //     setState,
 //     profilePic,
@@ -224,8 +230,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 //     );
 //   }
 
-   
-Future<List<DocumentSnapshot>> getComplains() async {
+  Future<List<DocumentSnapshot>> getComplains() async {
     String userUID = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference userComplain =
         firestore.collection("users").doc(userUID).collection("complain");
@@ -236,7 +241,6 @@ Future<List<DocumentSnapshot>> getComplains() async {
     }
     return [];
   }
-
 
 //   Future<List> getComplaints() async {
 //   try {
@@ -267,75 +271,92 @@ Future<List<DocumentSnapshot>> getComplains() async {
 //   }
 // }
 
-
   void addComplain(context) async {
     loading.value = true;
-  try {
-    if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
-      loading.value = false;
-      Get.snackbar("Complain Error", "Please fill in all the values");
-    } else if (imagePath.isEmpty) {
-      loading.value = false;
-      Get.snackbar("Complain Error", "Please upload your image");
-    } else {
-      String complainNumber = generateComplaintNumber();
-      String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
+        loading.value = false;
+        Get.snackbar("Complain Error", "Please fill in all the values");
+      } else if (imagePath.isEmpty) {
+        loading.value = false;
+        Get.snackbar("Complain Error", "Please upload your image");
+      } else {
+        String complainNumber = generateComplaintNumber();
+        String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
 
-      // Upload image to Firebase Storage
-      UploadTask uploadImage = FirebaseStorage.instance
-          .ref()
-          .child("complain")
-          .child(currentLoginUid)
-          .putFile(File(imagePath.value));
+        // Upload image to Firebase Storage
+        UploadTask uploadImage = FirebaseStorage.instance
+            .ref()
+            .child("complain")
+            .child(currentLoginUid)
+            .putFile(File(imagePath.value));
 
-      TaskSnapshot taskSnapshot = await uploadImage;
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+        TaskSnapshot taskSnapshot = await uploadImage;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
-      // Prepare data to be added to Firestore
-      Map<String, dynamic> complainData = {
-        'title': titleController.text,
-        'description': descriptionController.text,
-        'status': selectedValue.value,
-        'complaintNumber': complainNumber,
-        'complainpicture': downloadUrl,
-        'timestamp': FieldValue.serverTimestamp(),
-      };
+        // Prepare data to be added to Firestore
+        Map<String, dynamic> complainData = {
+          'title': titleController.text,
+          'description': descriptionController.text,
+          'status': selectedValue.value,
+          'complaintNumber': complainNumber,
+          'complainpicture': downloadUrl,
+          'timestamp': FieldValue.serverTimestamp(),
+        };
 
-      // Add data to Firestore
-      await firestore
-          .collection("users")
-          .doc(userUid)
-          .collection("complain")
-          .add(complainData);
+        // Add data to Firestore
+        await firestore
+            .collection("users")
+            .doc(userUid)
+            .collection("complain")
+            .add(complainData)
+            .then((DocumentReference document) {
+          // Access the document ID here
+          String complainDocId = document.id;
+
+        
+            goToNext == true?  firestore
+              .collection("users")
+              .doc(userUid)
+              .collection("complain")
+              .doc(complainDocId)
+              .update({"status": "pending", "rating": ratingValue.toString()}) : null;
+  lodgeComplain(context, complainDocId);
+          // If you want to navigate to a new screen with the complainDocId:
+
+          // Get.to(ComplaintConfirmationView(
+          //    complainUid: complainDocId
+          //   ));
+
           loading.value = false;
-    Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
-      // Clear text fields after submitting the complaint
-      imagePath.value = "";
-      titleController.clear();
-      descriptionController.clear();
-    lodgeComplain(context);
+        });
+        loading.value = false;
+
+        Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
+        // Clear text fields after submitting the complaint
+        imagePath.value = "";
+        titleController.clear();
+        descriptionController.clear();
+        // lodgeComplain(context , complainDocId);
+      }
+    } catch (e) {
+      loading.value = false;
+      Get.snackbar("Error", e.toString());
     }
-  } catch (e) {
-    loading.value = false;
-    Get.snackbar("Error", e.toString());
   }
-}
- String generateComplaintNumber() {
+
+  String generateComplaintNumber() {
     // Generate a random complaint number based on current timestamp
     DateTime now = DateTime.now();
     String timestamp = now.microsecondsSinceEpoch.toString();
     return 'CMP$timestamp';
   }
-  
-  Future getImage()async{
-    final ImagePicker picker= ImagePicker();
+
+  Future getImage() async {
+    final ImagePicker picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
-    if(image!=null){
+    if (image != null) {
       imagePath.value = image.path.toString();
     }
   }
 }
-
-
- 
-
