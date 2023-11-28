@@ -44,7 +44,7 @@ class ComplaintsView extends StatelessWidget {
         future: complainController.getComplains(),
         builder: (context , snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
       }else if (snapshot.hasError) {
       return Text('Error: ${snapshot.error}');
     }
@@ -52,7 +52,7 @@ class ComplaintsView extends StatelessWidget {
      
       List<DocumentSnapshot<Object?>>? complainReports = snapshot.data;
  if (complainReports!.isEmpty) {
-              return const Center(child: Text( "No Favourite Doctor Found"));
+              return const Center(child: Text( "No Complain Found"));
             }
       return ListView.builder(
         itemCount: complainReports.length,
@@ -75,7 +75,7 @@ class ComplaintsView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                               color: Colors.black),
-                          Spacer(),
+                          const Spacer(),
                           Icon(
                             Icons.delete,
                             color: Colors.grey.withOpacity(.6),
