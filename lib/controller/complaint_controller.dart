@@ -17,7 +17,7 @@ import 'package:solar_app/view/nav_bar/complaint_details/complaint_confirmation_
 import 'package:firebase_storage/firebase_storage.dart';
 class ComplaintController extends GetxController {
   var selectedValue = 'Urgent'.obs;
-
+  RxBool loading = false.obs;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxList<DateTime> selectedDates = <DateTime>[].obs;
   RxString imagePath = "".obs;
@@ -115,10 +115,13 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
   
 
   void addComplain() async {
+    loading.value = true;
   try {
     if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
+      loading.value = false;
       Get.snackbar("Complain Error", "Please fill in all the values");
     } else if (imagePath.isEmpty) {
+      loading.value = false;
       Get.snackbar("Complain Error", "Please upload your image");
     } else {
       String complainNumber = generateComplaintNumber();
@@ -150,12 +153,15 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
           .doc(userUid)
           .collection("complain")
           .add(complainData);
-
+          loading.value = false;
+    Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
       // Clear text fields after submitting the complaint
+      imagePath.value = "";
       titleController.clear();
       descriptionController.clear();
     }
   } catch (e) {
+    loading.value = false;
     Get.snackbar("Error", e.toString());
   }
 }

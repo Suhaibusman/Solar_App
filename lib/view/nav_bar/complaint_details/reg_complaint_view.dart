@@ -230,6 +230,7 @@ class RegisterComplaintView extends StatelessWidget {
                                   children: [
                                     Icon(Icons.add,
                                         color: lightPrimaryTextColor),
+                                        
                                     smallSpaceh,
                                     ctext(
                                         text: "Photo",
