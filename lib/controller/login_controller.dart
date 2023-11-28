@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
+import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/view/nav_bar/home/home_view.dart';
 
 
@@ -49,12 +50,12 @@ class LoginController extends GetxController {
 
         currentLoginedName = box.read("currentloginedName");
        
-       
+       Get.offAll(()=> MyBottomNavbar());
 
         // Navigate to HomeScreen
-        Get.offAll(()=>HomeView(
-        userName: currentLoginedName ?? box.read("currentloginedName"),
-        ));
+        // Get.offAll(()=>HomeView(
+        // userName: currentLoginedName ?? box.read("currentloginedName"),
+        // ));
         box.write("isLogined", true);
           isLogined=true;
         //   Navigator.popUntil(context, (route) => route.isFirst);

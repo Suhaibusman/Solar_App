@@ -67,7 +67,7 @@ class RegisterComplaintView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12)),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: 'Complai Title',
+                          hintText: 'Complain Title',
                           hintStyle: TextStyle(color: lightPrimaryTextColor),
                           alignLabelWithHint: true,
                           border: InputBorder.none,
