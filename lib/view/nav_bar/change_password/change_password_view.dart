@@ -117,7 +117,7 @@ class ChangePasswordView extends StatelessWidget {
                         largeSpace,
                         Center(
                           child: Obx(() {
-                            return changePasswordController.loading.value? CircularProgressIndicator() : CustomButton(
+                            return changePasswordController.loading.value? const CircularProgressIndicator() : CustomButton(
                                 borderRadius: BorderRadius.circular(15),
                                 height: 43,
                                 mywidth: 0.75,

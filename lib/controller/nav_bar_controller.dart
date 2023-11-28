@@ -32,13 +32,13 @@ class BottomNavBarController extends GetxController {
         _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
         break;
       case 1:
-        _currentScreen = TrackLocationView();
+        _currentScreen = const TrackLocationView();
         break;
       case 2:
         _currentScreen = ProductView();
         break;
       case 3:
-        _currentScreen = ComplaintsView();
+        _currentScreen = const ComplaintsView();
         break;
       case 4:
         _currentScreen = ProfileView();

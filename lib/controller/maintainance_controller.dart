@@ -36,6 +36,7 @@ class MaintainanceController extends GetxController {
 
     return CalendarDatePicker2(
       config: config,
+      // ignore: unnecessary_null_comparison
       value: selectedDates.where((date) => date != null).toList(),
       onValueChanged: (dates) {},
     );

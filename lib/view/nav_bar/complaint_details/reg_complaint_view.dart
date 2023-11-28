@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -66,6 +68,7 @@ class RegisterComplaintView extends StatelessWidget {
                           color: primarycolor,
                           borderRadius: BorderRadius.circular(12)),
                       child: TextField(
+                        controller: complaintController.titleController,
                         decoration: InputDecoration(
                           hintText: 'Complain Title',
                           hintStyle: TextStyle(color: lightPrimaryTextColor),
@@ -73,8 +76,7 @@ class RegisterComplaintView extends StatelessWidget {
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(16.0),
                         ),
-                        style:
-                            const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     smallSpace,
@@ -94,6 +96,7 @@ class RegisterComplaintView extends StatelessWidget {
                         ),
                       ),
                       child: TextField(
+                        controller: complaintController.descriptionController,
                         maxLines: 5,
                         decoration: InputDecoration(
                           hintText: 'Write the description of your complaint',
@@ -102,8 +105,7 @@ class RegisterComplaintView extends StatelessWidget {
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(16.0),
                         ),
-                        style:
-                            const TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     smallSpace,
@@ -192,45 +194,62 @@ class RegisterComplaintView extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         fontSize: 13),
                     smallSpace,
-                    Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 15),
-                        height: Get.height * 0.13,
-                        width: Get.width * 1,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: primarycolor,
-                        ),
-                        child: DottedBorder(
-                          dashPattern: const [6, 3, 2, 3],
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(8),
-                          color: btnPrimaryColor,
-                          strokeWidth: 1,
-                          borderPadding:
-                              const EdgeInsets.symmetric(horizontal: 8),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.add, color: lightPrimaryTextColor),
-                                smallSpaceh,
-                                ctext(
-                                    text: "Photo",
-                                    fontWeight: FontWeight.bold,
-                                    color: lightPrimaryTextColor,
-                                    fontSize: 13),
-                              ],
+                    Obx(() {
+                      return InkWell(
+                        onTap: () {
+                          complaintController.getImage();
+                        },
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 15),
+                            height: Get.height * 0.13,
+                            width: Get.width * 1,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: complaintController.imagePath.isNotEmpty
+                                    ? FileImage(
+                                            File(complaintController.imagePath.value))
+                                    : const AssetImage('assets/default.png')
+                                        as ImageProvider<Object>,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              color: primarycolor,
                             ),
-                          ),
-                        )),
+                            child: DottedBorder(
+                              dashPattern: const [6, 3, 2, 3],
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(8),
+                              color: btnPrimaryColor,
+                              strokeWidth: 1,
+                              borderPadding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add,
+                                        color: lightPrimaryTextColor),
+                                    smallSpaceh,
+                                    ctext(
+                                        text: "Photo",
+                                        fontWeight: FontWeight.bold,
+                                        color: lightPrimaryTextColor,
+                                        fontSize: 13),
+                                  ],
+                                ),
+                              ),
+                            )),
+                      );
+                    }),
                     mediumSpace,
                     CustomButton(
                         borderRadius: BorderRadius.circular(15),
                         height: 43,
                         mywidth: 1,
                         onPressed: () {
-                          complaintController.lodgeComplain(context);
+                           complaintController.addComplain();
+                          // complaintController.lodgeComplain(context);
                         },
                         child: 'Submit',
                         gradientColors: [btnPrimaryColor, btnSecondaryColor],

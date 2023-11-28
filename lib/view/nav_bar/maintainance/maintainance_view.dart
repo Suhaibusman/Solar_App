@@ -151,7 +151,7 @@ class MaintainanceView extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: lightPrimaryTextColor),
-                      Divider(),
+                      const Divider(),
                       Container(
                         padding: EdgeInsets.zero,
                         height: Get.height * 0.33,
@@ -160,7 +160,7 @@ class MaintainanceView extends StatelessWidget {
                         child: maintainanceController
                             .buildDefaultMultiDatePickerWithValue(),
                       ),
-                      Divider(),
+                      const Divider(),
                     ]).paddingSymmetric(horizontal: 16, vertical: 12)),
               ),
             )

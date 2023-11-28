@@ -91,7 +91,7 @@ class TrackLocationView extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       color: lightPrimaryTextColor,
                                       fontSize: 12),
-                                  Spacer(),
+                                  const Spacer(),
                                   Icon(CupertinoIcons.phone_circle_fill,
                                       color: btnPrimaryColor),
                                   extraSmallSpace,

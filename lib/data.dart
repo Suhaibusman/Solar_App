@@ -7,5 +7,6 @@ class MyAppInitializer {
     
     // Additional initialization logic can be added here
   }}
+// ignore: prefer_typing_uninitialized_variables
 var currentLoginUid;
 String? currentLoginedName;
