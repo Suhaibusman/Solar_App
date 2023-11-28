@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/controller/profile_controller.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/custom_textfield.dart';
 import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
@@ -71,7 +73,7 @@ class ProfileView extends StatelessWidget {
                                  ),
                                 ),
                                 title: ctext(
-                                    text: "Your Name",
+                                    text: box.read("currentloginedName") ?? currentLoginedName ?? "name",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13),
                                 subtitle: ctext(
@@ -83,6 +85,8 @@ class ProfileView extends StatelessWidget {
                               )),
                           largeSpace,
                           ctext(text: "Your Mail ID"),
+                         
+
                           CustomUnderLineTextField(
                               isobscure: false,
                               controller: profileController.emailController,
@@ -92,16 +96,28 @@ class ProfileView extends StatelessWidget {
                           ctext(text: "Phone Number"),
                           CustomUnderLineTextField(
                               isobscure: false,
-                              controller: profileController.emailController,
+                              controller: profileController.phoneController,
                               hint: "+92 332 283628",
                               type: TextInputType.emailAddress),
                           largeSpace,
                           ctext(text: "Address"),
                           CustomUnderLineTextField(
                               isobscure: false,
-                              controller: profileController.emailController,
+                              controller: profileController.addressController,
                               hint: "abc street, Apt R-42, pechs society",
                               type: TextInputType.emailAddress),
+                           largeSpace,
+                                 CustomButton(
+                        borderRadius: BorderRadius.circular(15),
+                        height: 43,
+                        mywidth: 1,
+                        onPressed: () {
+                         profileController.addPhoneAndAddress();
+                        },
+                        child: 'Add',
+                        gradientColors: [btnPrimaryColor, btnSecondaryColor],
+                        color: btnSecondaryColor),
+                 
                         ],
                       ),
                     ),

@@ -3,10 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:solar_app/data.dart';
 import 'package:solar_app/firebase_options.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
-import 'package:solar_app/view/nav_bar/home/home_view.dart';
+import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/view/splash/splash_view.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -39,9 +38,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
     home: (FirebaseAuth.instance.currentUser != null)
-  ? HomeView(
-      userName: box.read("currentLoginedName") ?? "User",
-    )
+  ? 
+  MyBottomNavbar()
+  // HomeView(
+  //     userName: box.read("  
+  //urrentLoginedName") ?? "User",
+  //   )
   : const SplashScreen(),
 
     );
