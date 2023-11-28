@@ -86,7 +86,7 @@ class LoginView extends StatelessWidget {
                           fontSize: 13,
                         ),
                         CustomBorderTextField(
-                            isobscure: false,
+                          isobscure: false,
                           controller: loginController.emailController,
                           hint: 'Email',
                           prefix: Icon(
@@ -108,31 +108,34 @@ class LoginView extends StatelessWidget {
                           color: lightPrimaryTextColor,
                           fontSize: 13,
                         ),
-                        CustomBorderTextField(
-                          // isobscure: true,
-                            //  isobscure: loginController.isPass.value,
-                          controller: loginController.passwordController,
-                          hint: 'Password',
-                          prefix: Icon(
-                            Icons.key,
-                            color: lightPrimaryTextColor,
-                          ),
-                          // valid: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'Please enter your password';
-                          //   }
-                          //   return null;
-                          // },
-                        ),
+                        Obx(() {
+                          return CustomBorderTextField(
+                            // isobscure: true,
+                              // isobscure: loginController.isPass.value,
+                            controller: loginController.passwordController,
+                            hint: 'Password',
+                            prefix: Icon(
+                              Icons.key,
+                              color: lightPrimaryTextColor,
+                            ),
+                            suffix: loginController.isPass.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            // valid: (value) {
+                            //   if (value!.isEmpty) {
+                            //     return 'Please enter your password';
+                            //   }
+                            //   return null;
+                            // },
+                          );
+                        }),
                         mediumSpace,
                         CustomButton(
                           borderRadius: BorderRadius.circular(15),
                           height: 43,
                           mywidth: 1,
                           onPressed: () {
-                       
-                              Get.to(MyBottomNavbar());
-                          
+                            Get.to(MyBottomNavbar());
                           },
                           child: 'Sign in',
                           gradientColors: [

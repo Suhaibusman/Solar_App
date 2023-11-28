@@ -175,7 +175,7 @@ class _FieldTextState extends State<CustomBorderTextField> {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               onPressed: widget.onTap,
-              icon: Icon(widget.suffix),
+              icon: Icon(widget.suffix, color: Colors.grey,),
             ),
           ),
         ),

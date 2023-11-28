@@ -100,6 +100,9 @@ class SignUpView extends StatelessWidget {
                         //  isobscure: signUpController.isPassVisible.value,
                         controller: signUpController.passwordController,
                         hint: 'Password',
+                        suffix: signUpController.isPassVisible.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                         prefix: Icon(Icons.key, color: lightPrimaryTextColor)),
                     mediumSpace,
                     Obx(() {
