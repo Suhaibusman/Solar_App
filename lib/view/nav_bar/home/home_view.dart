@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import 'package:solar_app/controller/home_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
@@ -9,7 +11,11 @@ import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView({super.key});
+  final String userName;
+  HomeView({
+    Key? key,
+    required this.userName,
+  }) : super(key: key);
 
   final HomeController homeController = Get.put(HomeController());
 
@@ -36,9 +42,18 @@ class HomeView extends StatelessWidget {
               ),
             ),
             smallSpaceh,
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: btnPrimaryColor,
+            InkWell(
+              onTap: () {
+                homeController.signout();
+              },
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: btnPrimaryColor,
+              child: Icon(
+                  Icons.exit_to_app,
+                  color: white,
+                ),
+              ),
             ),
             smallSpaceh,
           ],
@@ -57,7 +72,7 @@ class HomeView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ctext(
-                      text: "Hi Khadija Azeem",
+                      text: "Hi $userName",
                       fontSize: 24,
                       fontWeight: FontWeight.w400,
                       color: white),

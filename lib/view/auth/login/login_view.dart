@@ -110,17 +110,20 @@ class LoginView extends StatelessWidget {
                         ),
                         Obx(() {
                           return CustomBorderTextField(
-                            // isobscure: true,
-                              // isobscure: loginController.isPass.value,
+                           
+                             isobscure: loginController.isPass.value,
                             controller: loginController.passwordController,
                             hint: 'Password',
                             prefix: Icon(
                               Icons.key,
                               color: lightPrimaryTextColor,
                             ),
-                            suffix: loginController.isPass.value
+                           suffixonTap: (){
+                            loginController.isPass.value =!loginController.isPass.value;
+                           }, suffix: loginController.isPass.value
                                 ? Icons.visibility_off
                                 : Icons.visibility,
+                                
                             // valid: (value) {
                             //   if (value!.isEmpty) {
                             //     return 'Please enter your password';
@@ -130,20 +133,23 @@ class LoginView extends StatelessWidget {
                           );
                         }),
                         mediumSpace,
-                        CustomButton(
-                          borderRadius: BorderRadius.circular(15),
-                          height: 43,
-                          mywidth: 1,
-                          onPressed: () {
-                            Get.to(MyBottomNavbar());
-                          },
-                          child: 'Sign in',
-                          gradientColors: [
-                            btnPrimaryColor,
-                            btnSecondaryColor,
-                          ],
-                          color: btnSecondaryColor,
-                        ),
+                        Obx(() {
+                          return loginController.loading.value ?const Center(child: CircularProgressIndicator()): CustomButton(
+                            borderRadius: BorderRadius.circular(15),
+                            height: 43,
+                            mywidth: 1,
+                            onPressed: () {
+                              loginController.loginWithEmailAndPassword();
+                              // Get.to(MyBottomNavbar());
+                            },
+                            child: 'Sign in',
+                            gradientColors: [
+                              btnPrimaryColor,
+                              btnSecondaryColor,
+                            ],
+                            color: btnSecondaryColor,
+                          );
+                        }),
                         smallSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -195,9 +201,9 @@ class LoginView extends StatelessWidget {
                                       end: Alignment.centerRight,
                                       colors: [
                                         Colors.grey.withOpacity(.3),
-                                        Color(0xff353C43),
-                                        Color(0xff222A33),
-                                        Color(0xff19232D),
+                                        const Color(0xff353C43),
+                                        const Color(0xff222A33),
+                                        const Color(0xff19232D),
                                       ],
                                     ),
                                     borderRadius: BorderRadius.circular(10),

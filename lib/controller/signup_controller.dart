@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
+import 'package:solar_app/view/auth/login/login_view.dart';
 
 class SignUpController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -14,6 +15,7 @@ class SignUpController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxBool loading = false.obs;
   RxBool isPassVisible = true.obs;
+ 
   signUpWithEmailAndPassword(
       ) async {
         loading.value =true;
@@ -41,6 +43,7 @@ class SignUpController extends GetxController {
            loading.value = false;
           Get.snackbar( "Sign Up Successfully",
               "The User With This Email: $emailAddress is Registered Successfully");
+              Get.to(()=> LoginView());
           emailController.clear();
           passwordController.clear();
           nameController.clear();

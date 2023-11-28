@@ -73,7 +73,7 @@ class SignUpView extends StatelessWidget {
                         color: lightPrimaryTextColor,
                         fontSize: 13),
                     CustomBorderTextField(
-                      isobscure: false,
+                        isobscure: false,
                         controller: signUpController.nameController,
                         hint: 'Name',
                         prefix: Icon(Icons.email_outlined,
@@ -85,7 +85,7 @@ class SignUpView extends StatelessWidget {
                         color: lightPrimaryTextColor,
                         fontSize: 13),
                     CustomBorderTextField(
-                      isobscure: false,
+                        isobscure: false,
                         controller: signUpController.emailController,
                         hint: 'Email Address',
                         prefix: Icon(Icons.person_2_outlined,
@@ -96,26 +96,38 @@ class SignUpView extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: lightPrimaryTextColor,
                         fontSize: 13),
-                    CustomBorderTextField(
-                        //  isobscure: signUpController.isPassVisible.value,
-                        controller: signUpController.passwordController,
-                        hint: 'Password',
-                        suffix: signUpController.isPassVisible.value
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                        prefix: Icon(Icons.key, color: lightPrimaryTextColor)),
+                    Obx(() {
+                      return  CustomBorderTextField(
+                          isobscure: signUpController.isPassVisible.value,
+                          controller: signUpController.passwordController,
+                          hint: 'Password',
+                          suffixonTap: () {
+                            signUpController.isPassVisible.value =
+                                !signUpController.isPassVisible.value;
+                          },
+                          suffix: signUpController.isPassVisible.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          prefix:
+                              Icon(Icons.key, color: lightPrimaryTextColor));
+                    }),
                     mediumSpace,
                     Obx(() {
-                      return signUpController.loading.value ? const Center(child: CircularProgressIndicator()):CustomButton(
-                          borderRadius: BorderRadius.circular(15),
-                          height: 43,
-                          mywidth: 1,
-                          onPressed: () {
-                            signUpController.signUpWithEmailAndPassword();
-                          },
-                          child: 'Sign up',
-                          gradientColors: [btnPrimaryColor, btnSecondaryColor],
-                          color: btnSecondaryColor);
+                      return signUpController.loading.value
+                          ? const Center(child: CircularProgressIndicator())
+                          : CustomButton(
+                              borderRadius: BorderRadius.circular(15),
+                              height: 43,
+                              mywidth: 1,
+                              onPressed: () {
+                                signUpController.signUpWithEmailAndPassword();
+                              },
+                              child: 'Sign up',
+                              gradientColors: [
+                                btnPrimaryColor,
+                                btnSecondaryColor
+                              ],
+                              color: btnSecondaryColor);
                     }),
                     smallSpace,
                     Row(

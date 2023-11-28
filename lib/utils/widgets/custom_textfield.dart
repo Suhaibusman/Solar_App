@@ -97,6 +97,7 @@ class CustomBorderTextField extends StatefulWidget {
   final String? Function(String?)? valid;
   final FocusNode? focusNode;
   final VoidCallback? onTap;
+  final VoidCallback? suffixonTap;
   final VoidCallback? textFieldTap;
   final int? maxLines;
 
@@ -108,6 +109,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.inputFormatters,
     this.suffix,
     this.focusNode,
+    this.suffixonTap,
     this.onTap,
     this.textFieldTap,
     this.prefix,
@@ -145,7 +147,7 @@ class _FieldTextState extends State<CustomBorderTextField> {
       ),
       child: TextFormField(
         obscureText: widget.isobscure ?? false,
-        maxLines: widget.maxLines,
+        maxLines: widget.maxLines ?? 1,
         inputFormatters: widget.inputFormatters,
         onChanged: widget.onchanged,
         focusNode: widget.focusNode,
@@ -175,7 +177,9 @@ class _FieldTextState extends State<CustomBorderTextField> {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               onPressed: widget.onTap,
-              icon: Icon(widget.suffix, color: Colors.grey,),
+              icon: InkWell(
+                onTap: widget.suffixonTap,
+                child: Icon(widget.suffix, color: Colors.grey,)),
             ),
           ),
         ),

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/view/nav_bar/change_password/change_password_view.dart';
 import 'package:solar_app/view/nav_bar/chat_view/chat_view.dart';
@@ -6,6 +8,7 @@ import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart
 import 'package:solar_app/view/nav_bar/maintainance/maintainance_view.dart';
 import 'package:solar_app/view/nav_bar/products/product_view.dart';
 import 'package:solar_app/view/nav_bar/support/support_view.dart';
+import 'package:solar_app/view/splash/splash_view.dart';
 
 class HomeController extends GetxController {
   List gridTextList = [
@@ -34,4 +37,15 @@ class HomeController extends GetxController {
     SupportView(),
     ChangePasswordView()
   ];
+
+
+  void signout()async{
+     await FirebaseAuth.instance.signOut();
+                  box.remove("currentLoginUsername");
+                  box.remove("isLogined");
+                  box.erase();
+                  // currentLoginUid = box.remove("currentLoginUid");
+                 
+          Get.offAll(const SplashScreen());
+  }
 }

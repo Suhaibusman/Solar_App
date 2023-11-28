@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/firebase_options.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/view/nav_bar/home/home_view.dart';
 import 'package:solar_app/view/splash/splash_view.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async{
+  // await MyAppInitializer.initialize();
+  await GetStorage.init();
    WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: primarycolor,
@@ -19,10 +25,12 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
+    
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -30,7 +38,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+    home: (FirebaseAuth.instance.currentUser != null)
+  ? HomeView(
+      userName: box.read("currentLoginedName") ?? "User",
+    )
+  : const SplashScreen(),
+
     );
   }
 }

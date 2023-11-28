@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/view/nav_bar/complaint_details/coplaints_view.dart';
 import 'package:solar_app/view/nav_bar/home/home_view.dart';
 import 'package:solar_app/view/nav_bar/products/product_view.dart';
@@ -11,7 +12,7 @@ class BottomNavBarController extends GetxController {
 
   @override
   onInit() {
-    _currentScreen = HomeView();
+    _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
     currentIndex(0);
     super.onInit();
   }
@@ -20,7 +21,7 @@ class BottomNavBarController extends GetxController {
     super.onClose();
   }
 
-  Widget _currentScreen = HomeView();
+  Widget _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
 
   Widget get currentScreen => _currentScreen;
 
@@ -28,7 +29,7 @@ class BottomNavBarController extends GetxController {
     currentIndex(index);
     switch (index) {
       case 0:
-        _currentScreen = HomeView();
+        _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
         break;
       case 1:
         _currentScreen = TrackLocationView();
