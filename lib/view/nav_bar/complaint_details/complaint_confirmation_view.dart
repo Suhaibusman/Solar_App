@@ -7,6 +7,7 @@ import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
+import 'package:solar_app/view/nav_bar/complaint_details/coplaints_view.dart';
 
 class ComplaintConfirmationView extends StatelessWidget {
   final String complainUid;
@@ -21,13 +22,14 @@ class ComplaintConfirmationView extends StatelessWidget {
         backgroundColor: primarycolor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          
           automaticallyImplyLeading: false,
           title: ctext(
               text: "Confirmation Details",
               fontWeight: FontWeight.bold,
               color: white,
               fontSize: 20),
-          leading: reusableBackButton(),
+          // leading: reusableBackButton(),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -81,7 +83,9 @@ Tracking Id: $complainUid""",
                     borderRadius: BorderRadius.circular(50),
                     height: 70,
                     mywidth: 0.9,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(()=>const ComplaintsView());
+                    },
                     child: 'Complaint Submitted',
                     gradientColors: [
                       btnPrimaryColor,

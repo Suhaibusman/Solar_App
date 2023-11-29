@@ -6,7 +6,6 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -365,7 +364,7 @@ class ComplaintController extends GetxController {
               .doc(userUid)
               .collection("complain")
               .doc(complainDocId)
-              .update({"status": "pending", "rating": ratingValue.toString()});
+              .update({"status": "pending", "progress" :"in process","rating": ratingValue.toString() });
               
   }
      

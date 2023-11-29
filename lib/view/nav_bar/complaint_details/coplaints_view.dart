@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:solar_app/controller/complaint_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart';
 
@@ -27,22 +28,17 @@ class ComplaintsView extends StatelessWidget {
   Timestamp timestamp = doc['timestamp'];
 
   // Handle null case if needed
-  if (timestamp != null) {
-    DateTime complaintDate = timestamp.toDate();
-    
-    // Call the ctext function or use the formatted date as needed
-  return  ctext(
-      text: DateFormat('yyyy-MM-dd HH:mm:ss').format(complaintDate),
-      fontWeight: FontWeight.bold,
-      fontSize: 11,
-      color: Colors.grey.withOpacity(0.6),
-    );
+  DateTime complaintDate = timestamp.toDate();
+  
+  // Call the ctext function or use the formatted date as needed
+return  ctext(
+    text: DateFormat('yyyy-MM-dd HH:mm:ss').format(complaintDate),
+    fontWeight: FontWeight.bold,
+    fontSize: 11,
+    color: Colors.grey.withOpacity(0.6),
+  );
 
-    // Or do something else with the complaintDate...
-  } else {
-    // Handle the case where the timestamp is null
-    print('Timestamp is null in Firestore document.');
-  }
+  // Or do something else with the complaintDate...
 }
   @override
 
@@ -55,7 +51,11 @@ class ComplaintsView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         automaticallyImplyLeading: true,
-        leading: Icon(Icons.arrow_back_ios_new, color: white),
+        leading: InkWell(
+          onTap: () {
+            Get.to(()=> MyBottomNavbar());
+          },
+          child: Icon(Icons.arrow_back_ios_new, color: white)),
         title: ctext(
             text: "Complains",
             fontWeight: FontWeight.bold,
@@ -153,7 +153,7 @@ class ComplaintsView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 11),
                           ctext(
-                              text: "Done",
+                              text: doc["progress"],
                               fontWeight: FontWeight.bold,
                               fontSize: 11,
                               color: btnPrimaryColor),
@@ -184,7 +184,7 @@ class ComplaintsView extends StatelessWidget {
                },
       );
     } else {
-      return const Text('No favorite doctors found.');
+      return const Text('No Complain Found.');
     }}
       ),
     );
