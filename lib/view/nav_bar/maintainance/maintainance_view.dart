@@ -54,11 +54,14 @@ class MaintainanceView extends StatelessWidget {
                   color: white,
                   fontSize: 17),
               extraSmallSpace,
-              ctext(
-                  text: "Pricing: \$25",
-                  fontWeight: FontWeight.w600,
-                  color: white,
-                  fontSize: 15),
+              Obx(() {
+                return ctext(
+                    text:
+                        "Pricing: \$ ${maintainanceController.price[maintainanceController.initialIndex.value]}",
+                    fontWeight: FontWeight.w600,
+                    color: white,
+                    fontSize: 15);
+              }),
             ]).paddingOnly(top: Get.height * 0.1, left: 20, right: 20),
             Align(
               alignment: Alignment.topRight,

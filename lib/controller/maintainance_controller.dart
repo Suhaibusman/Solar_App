@@ -16,10 +16,10 @@ class MaintainanceController extends GetxController {
     Icons.battery_2_bar_rounded,
     Icons.inventory
   ];
-
+  List price=["15","25" ,"35"];
   List text = ["Cleaning", "Battery", "Inventor"];
   RxInt initialIndex = 0.obs;
-
+  RxInt selectedIndex = 0.obs;
   void addDate(DateTime date) {
     selectedDates.add(date);
   }
