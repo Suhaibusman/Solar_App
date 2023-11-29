@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:solar_app/controller/complaint_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -11,9 +12,44 @@ import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart
 class ComplaintsView extends StatelessWidget {
   const ComplaintsView({super.key});
 
+
+
+// func(doc){
+//    Timestamp timestamp = doc['timestamp'],
+//                           DateTime complaintDate = timestamp.toDate();
+
+
+//         // Format the date
+//                   String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+// }
+
+ yourFunction(DocumentSnapshot doc) {
+  Timestamp timestamp = doc['timestamp'];
+
+  // Handle null case if needed
+  if (timestamp != null) {
+    DateTime complaintDate = timestamp.toDate();
+    
+    // Call the ctext function or use the formatted date as needed
+  return  ctext(
+      text: DateFormat('yyyy-MM-dd HH:mm:ss').format(complaintDate),
+      fontWeight: FontWeight.bold,
+      fontSize: 11,
+      color: Colors.grey.withOpacity(0.6),
+    );
+
+    // Or do something else with the complaintDate...
+  } else {
+    // Handle the case where the timestamp is null
+    print('Timestamp is null in Firestore document.');
+  }
+}
   @override
+
+
   Widget build(BuildContext context) {
     ComplaintController complainController = Get.find<ComplaintController>();
+    
     return Scaffold(
       backgroundColor: primarycolor,
       appBar: AppBar(
@@ -87,11 +123,12 @@ class ComplaintsView extends StatelessWidget {
                         children: [
                           Icon(Icons.calendar_month_outlined,
                               size: 14, color: Colors.grey.withOpacity(.6)),
-                          ctext(
-                              text: " Date: Noc 10 2023",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                              color: Colors.grey.withOpacity(.6)),
+                         yourFunction(doc)
+                          // ctext(
+                          //     text: DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
+                          //     fontWeight: FontWeight.bold,
+                          //     fontSize: 11,
+                          //     color: Colors.grey.withOpacity(.6)),
                         ],
                       ),
                       extraSmallSpace,
@@ -102,7 +139,7 @@ class ComplaintsView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 11),
                           ctext(
-                              text: "Pending",
+                              text: doc["status"],
                               fontWeight: FontWeight.bold,
                               fontSize: 11,
                               color: Colors.red),
@@ -123,7 +160,7 @@ class ComplaintsView extends StatelessWidget {
                           const Spacer(),
                           RatingBar.builder(
                             itemSize: 16,
-                            initialRating: 3,
+                            initialRating: double.parse(doc["rating"]),
                             minRating: 1,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
@@ -135,7 +172,9 @@ class ComplaintsView extends StatelessWidget {
                               color: Colors.amber,
                               size: 13,
                             ),
-                            onRatingUpdate: (rating) {},
+                            onRatingUpdate: (rating) {
+                              rating = doc["rating"];
+                            },
                           ),
                         ],
                       )

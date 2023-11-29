@@ -6,6 +6,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -231,7 +232,7 @@ class ComplaintController extends GetxController {
 //     );
 //   }
 
-  Future<List<DocumentSnapshot>> getComplains() async {
+ Future<List<DocumentSnapshot>> getComplains() async {
     String userUID = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference userComplain =
         firestore.collection("users").doc(userUID).collection("complain");
@@ -241,10 +242,7 @@ class ComplaintController extends GetxController {
       return complainSbapshot.docs;
     }
     return [];
-  }
-
-//   Future<List> getComplaints() async {
-//   try {
+  }//   try {
 //     QuerySnapshot querySnapshot = await firestore
 //         .collection("users")
 //         .doc(userUid)
