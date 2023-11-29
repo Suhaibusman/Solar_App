@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:solar_app/controller/track_location_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -12,6 +13,8 @@ class TrackLocationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TrackLocationController trackLocationController =
+        Get.put(TrackLocationController());
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -77,8 +80,15 @@ class TrackLocationView extends StatelessWidget {
                                         color: lightPrimaryTextColor,
                                         fontSize: 12),
                                     const Spacer(),
-                                    Icon(CupertinoIcons.chat_bubble_2_fill,
-                                        color: btnPrimaryColor),
+                                    InkWell(
+                                      onTap: () {
+                                        trackLocationController.launchWhatsApp(
+                                            "+923112136120",
+                                            "Hello, I am facing problem with my solar panel. Please help me.");
+                                      },
+                                      child: Icon(CupertinoIcons.chat_bubble_2_fill,
+                                          color: btnPrimaryColor),
+                                    ),
                                     extraSmallSpace,
                                   ],
                                 ),
@@ -92,8 +102,13 @@ class TrackLocationView extends StatelessWidget {
                                       color: lightPrimaryTextColor,
                                       fontSize: 12),
                                   const Spacer(),
-                                  Icon(CupertinoIcons.phone_circle_fill,
-                                      color: btnPrimaryColor),
+                                  InkWell(
+                                    onTap: () {
+                                      trackLocationController.openWhatsAppCall("+923112136120");
+                                    },
+                                    child: Icon(CupertinoIcons.phone_circle_fill,
+                                        color: btnPrimaryColor),
+                                  ),
                                   extraSmallSpace,
                                 ]),
                               )

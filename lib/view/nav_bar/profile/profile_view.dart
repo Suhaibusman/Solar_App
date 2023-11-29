@@ -30,7 +30,8 @@ class ProfileView extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: white,
               fontSize: 20),
-          leading: reusableBackButton(),
+          leading: reusableBackButton(  
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),

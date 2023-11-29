@@ -32,6 +32,10 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
+ 
+
+ 
+ 
   Future<void> fetchDetails() async {
   try {
     isLoading.value = true;
@@ -44,7 +48,7 @@ class ProfileController extends GetxController {
       addressController.text = snapshot.get("address");
       
       // Update imagePath with the download URL from Firebase Storage
-      String firebaseImagePath = snapshot.get("profileImage");
+      String firebaseImagePath = snapshot.get("profileImage") ?? "";
       if (firebaseImagePath != null && firebaseImagePath.isNotEmpty) {
         // Optionally, you can download the image to local storage if needed
         // For simplicity, this example assumes you directly use the URL
