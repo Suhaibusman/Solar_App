@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -13,19 +12,16 @@ class ComplaintConfirmationView extends StatelessWidget {
   final String complainUid;
   const ComplaintConfirmationView({super.key, required this.complainUid});
 
+
+
   @override
   Widget build(BuildContext context) {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-      fecthSpecificData() async {
-    DocumentSnapshot snapshot =
-        await firestore.collection("users").doc("05NHGEjt1Jklkbd1Yl4h").get();
-          
-   
-  }
+    
     return Scaffold(
         backgroundColor: primarycolor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: ctext(
               text: "Confirmation Details",
               fontWeight: FontWeight.bold,
@@ -74,7 +70,7 @@ class ComplaintConfirmationView extends StatelessWidget {
                           text: """Thank you for contacting us,
 we will soon took into the matter!
 
-Tracking Id:982017391""",
+Tracking Id: $complainUid""",
                           fontSize: 16,
                           color: white,
                           textAlign: TextAlign.center),

@@ -100,10 +100,11 @@ class ComplaintController extends GetxController {
                   mywidth: 1,
                   onPressed: () {
                   goToNext= true;
-                    // complainData
-                    Get.to(
-                        
-                        ComplaintConfirmationView(complainUid: complainDocId));
+                  
+                    addRating(complainDocId);
+                    fetchComplainUid(complainDocId);
+                    // Get.to(
+                    //     ComplaintConfirmationView(complainUid: complainDocId));
                   },
                   child: 'Submit',
                   gradientColors: [
@@ -315,17 +316,17 @@ class ComplaintController extends GetxController {
           String complainDocId = document.id;
 
         
-            goToNext == true?  firestore
+            firestore
               .collection("users")
               .doc(userUid)
               .collection("complain")
               .doc(complainDocId)
-              .update({"status": "pending", "rating": ratingValue.toString()}) : null;
-  lodgeComplain(context, complainDocId);
+              .update({"status": "pending", "rating": ratingValue.toString()});
+              lodgeComplain(context, complainDocId);
           // If you want to navigate to a new screen with the complainDocId:
 
           // Get.to(ComplaintConfirmationView(
-          //    complainUid: complainDocId
+          //    complainUid: complainDocId 
           //   ));
 
           loading.value = false;
@@ -359,4 +360,55 @@ class ComplaintController extends GetxController {
       imagePath.value = image.path.toString();
     }
   }
+
+  Future addRating(complainDocId)async{
+     firestore
+              .collection("users")
+              .doc(userUid)
+              .collection("complain")
+              .doc(complainDocId)
+              .update({"status": "pending", "rating": ratingValue.toString()});
+              
+  }
+     
+      
+ fetchComplainUid(complainDocId) async {
+  try {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(userUid)
+        .collection("complain")
+        .doc(complainDocId)
+        .get();
+
+    if (snapshot.exists) {
+      Map<String, dynamic>? userData = snapshot.data() as Map<String, dynamic>?;
+
+      if (userData != null) {
+        // Extract the complaint number from userData
+        String complaintNumber = userData["complaintNumber"];
+
+        // Use Get.to to navigate to the ComplaintConfirmationView
+        Get.to(ComplaintConfirmationView(complainUid: complaintNumber));
+
+        // Optionally, you can return the complaint number or null based on your requirements
+        return complaintNumber;
+      } else {
+        // Handle the case where user data is null
+        Get.snackbar("Error", "User data is null.");
+        return null;
+      }
+    } else {
+      // Handle the case where the user document does not exist
+      Get.snackbar("Error", "User document does not exist.");
+      return null;
+    }
+  } catch (e) {
+    // Handle errors
+    print('Error fetching complain UID: $e');
+    Get.snackbar("Error", "An error occurred while fetching complain UID.");
+    return null;
+  }
+}
+
 }
