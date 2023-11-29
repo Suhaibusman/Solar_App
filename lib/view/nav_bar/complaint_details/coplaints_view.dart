@@ -173,7 +173,7 @@ return  ctext(
                               size: 13,
                             ),
                             onRatingUpdate: (rating) {
-                              rating = doc["rating"];
+                              
                             },
                           ),
                         ],
@@ -184,7 +184,11 @@ return  ctext(
                },
       );
     } else {
-      return const Text('No Complain Found.');
+      return  ctext(
+        color: Colors.white,
+                              text: "No Complain Found",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20);
     }}
       ),
     );

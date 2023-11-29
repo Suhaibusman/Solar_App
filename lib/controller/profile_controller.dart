@@ -5,33 +5,64 @@ import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-final userUid = FirebaseAuth.instance.currentUser!.uid;
- 
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final userUid = FirebaseAuth.instance.currentUser!.uid;
 
- @override
- void onInit() {
+  // Loading state
+  var isLoading = true.obs;
+
+  @override
+  void onInit() {
     super.onInit();
     fetchDetails();
- }
- 
- void fetchDetails()async{
-  
-    DocumentSnapshot snapshot =
-        await firestore.collection("users").doc(userUid).get();
-    emailController.text = snapshot.get("emailAddress");
-    phoneController.text = snapshot.get("phoneNumber");
-    addressController.text = snapshot.get("address");
-   
- 
- }
- void addPhoneAndAddress(){
-   firestore.collection("users").doc(userUid).update({
-     "phoneNumber":phoneController.text,
-     "address":addressController.text
-   });
-   Get.back();
- }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    super.onClose();
+  }
+
+  Future<void> fetchDetails() async {
+    try {
+      isLoading.value =true;
+      DocumentSnapshot snapshot =
+          await firestore.collection("users").doc(userUid).get();
+      if (snapshot.exists) {
+        isLoading.value =false;
+        emailController.text = snapshot.get("emailAddress");
+        phoneController.text = snapshot.get("phoneNumber");
+        addressController.text = snapshot.get("address");
+      } else {
+        isLoading.value =true;
+        phoneController.clear();
+        addressController.clear();
+        // Handle the case where the document does not exist
+        print("User document does not exist");
+      }
+    } catch (error) {
+      isLoading.value =false;
+      // Handle errors during data fetching
+      print("Error fetching user details: $error");
+    } finally {
+     isLoading.value =false;
+    }
+  }
+
+  void addPhoneAndAddress() {
+    firestore.collection("users").doc(userUid).update({
+      "phoneNumber": phoneController.text,
+      "address": addressController.text,
+    }).then((value) {
+      // Handle success if needed
+      Get.back();
+    }).catchError((error) {
+      // Handle update error
+      print("Error updating user details: $error");
+    });
+  }
 }

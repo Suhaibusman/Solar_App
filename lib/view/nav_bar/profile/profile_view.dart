@@ -70,10 +70,12 @@ class ProfileView extends StatelessWidget {
                                   width: 90,
                                   decoration: BoxDecoration(
                                     border: Border.all(width: .3),
-                                 ),
+                                  ),
                                 ),
                                 title: ctext(
-                                    text: box.read("currentloginedName") ?? currentLoginedName ?? "name",
+                                    text: box.read("currentloginedName") ??
+                                        currentLoginedName ??
+                                        "name",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13),
                                 subtitle: ctext(
@@ -85,8 +87,6 @@ class ProfileView extends StatelessWidget {
                               )),
                           largeSpace,
                           ctext(text: "Your Mail ID"),
-                         
-
                           CustomUnderLineTextField(
                               isobscure: false,
                               controller: profileController.emailController,
@@ -106,19 +106,26 @@ class ProfileView extends StatelessWidget {
                               controller: profileController.addressController,
                               hint: "abc street, Apt R-42, pechs society",
                               type: TextInputType.emailAddress),
-                           largeSpace,
-                                 CustomButton(
-                        borderRadius: BorderRadius.circular(15),
-                        height: 43,
-                        mywidth: 1,
-                        onPressed: () {
-                         profileController.addPhoneAndAddress();
-                        },
-                        child: 'Add',
-                        gradientColors: [btnPrimaryColor, btnSecondaryColor],
-                        color: btnSecondaryColor),
-                 
-                        ],
+                          largeSpace,
+                          Obx(() {
+  return profileController.isLoading.value ? const Center(child: CircularProgressIndicator()): CustomButton(
+    borderRadius: BorderRadius.circular(15),
+    height: 43,
+    mywidth: 1,
+    onPressed: () {
+      profileController.addPhoneAndAddress();
+    },
+    child:
+     (profileController.addressController.text.isEmpty ||
+            profileController.phoneController.text.isEmpty ||
+            profileController.addressController.text.isEmpty)
+        ? 'Add'
+        : "Update",
+    gradientColors: [btnPrimaryColor, btnSecondaryColor],
+    color: btnSecondaryColor,
+  );
+}),
+],
                       ),
                     ),
                   ),

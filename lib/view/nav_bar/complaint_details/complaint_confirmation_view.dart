@@ -5,7 +5,6 @@ import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
-import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 import 'package:solar_app/view/nav_bar/complaint_details/coplaints_view.dart';
 
