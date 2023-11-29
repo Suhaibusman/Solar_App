@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -63,32 +65,40 @@ class ProfileView extends StatelessWidget {
                                   border: Border.all(
                                       width: 0.6, color: lightPrimaryTextColor),
                                   borderRadius: BorderRadius.circular(15.0)),
-                              child: ListTile(
-                                minVerticalPadding: 0.0,
-                                leading: Container(
-                                  height: 70,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: .3),
+                              child: Obx(() {
+                                return ListTile(
+                                  minVerticalPadding: 0.0,
+                                  leading: Container(
+                                    height: 70,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                      image:DecorationImage(
+  image: profileController.imagePath.isNotEmpty
+      ? NetworkImage(profileController.imagePath.value)
+      : const AssetImage('assets/default.png') as ImageProvider<Object>,
+  fit: BoxFit.cover,
+),
+                                      border: Border.all(width: .3),
+                                    ),
                                   ),
-                                ),
-                                title: ctext(
-                                    text: box.read("currentloginedName") ??
-                                        currentLoginedName ??
-                                        "name",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13),
-                                subtitle: ctext(
-                                    text: "Client No: 0",
-                                    fontWeight: FontWeight.w400,
-                                    color: lightPrimaryTextColor,
-                                    fontSize: 12),
-                                trailing:  InkWell(
-                                  onTap: () {
-                                    profileController.getImage();
-                                  },
-                                  child: const Icon(Icons.camera_alt)),
-                              )),
+                                  title: ctext(
+                                      text: box.read("currentloginedName") ??
+                                          currentLoginedName ??
+                                          "name",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13),
+                                  subtitle: ctext(
+                                      text: "Client No: 0",
+                                      fontWeight: FontWeight.w400,
+                                      color: lightPrimaryTextColor,
+                                      fontSize: 12),
+                                  trailing: profileController.imagePath.value == ""? InkWell(
+                                      onTap: () {
+                                        profileController.getImage();
+                                      },
+                                      child: const Icon(Icons.camera_alt)) : null,
+                                );
+                              })),
                           largeSpace,
                           ctext(text: "Your Mail ID"),
                           CustomUnderLineTextField(
@@ -112,24 +122,32 @@ class ProfileView extends StatelessWidget {
                               type: TextInputType.emailAddress),
                           largeSpace,
                           Obx(() {
-  return profileController.isLoading.value ? const Center(child: CircularProgressIndicator()): CustomButton(
-    borderRadius: BorderRadius.circular(15),
-    height: 43,
-    mywidth: 1,
-    onPressed: () {
-      profileController.addPhoneAndAddress();
-    },
-    child:
-     (profileController.addressController.text.isEmpty ||
-            profileController.phoneController.text.isEmpty ||
-            profileController.addressController.text.isEmpty)
-        ? 'Add'
-        : "Update",
-    gradientColors: [btnPrimaryColor, btnSecondaryColor],
-    color: btnSecondaryColor,
-  );
-}),
-],
+                            return profileController.isLoading.value
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : CustomButton(
+                                    borderRadius: BorderRadius.circular(15),
+                                    height: 43,
+                                    mywidth: 1,
+                                    onPressed: () {
+                                      profileController.addPhoneAndAddress();
+                                    },
+                                    child: (profileController.addressController
+                                                .text.isEmpty ||
+                                            profileController
+                                                .phoneController.text.isEmpty ||
+                                            profileController
+                                                .addressController.text.isEmpty)
+                                        ? 'Add'
+                                        : "Update",
+                                    gradientColors: [
+                                      btnPrimaryColor,
+                                      btnSecondaryColor
+                                    ],
+                                    color: btnSecondaryColor,
+                                  );
+                          }),
+                        ],
                       ),
                     ),
                   ),
