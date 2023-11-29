@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  RxString imagePath = "".obs;
   final userUid = FirebaseAuth.instance.currentUser!.uid;
 
   // Loading state
@@ -64,5 +66,12 @@ class ProfileController extends GetxController {
       // Handle update error
       print("Error updating user details: $error");
     });
+  }
+   Future getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      imagePath.value = image.path.toString();
+    }
   }
 }

@@ -83,7 +83,11 @@ class ProfileView extends StatelessWidget {
                                     fontWeight: FontWeight.w400,
                                     color: lightPrimaryTextColor,
                                     fontSize: 12),
-                                trailing: const Icon(Icons.camera_alt),
+                                trailing:  InkWell(
+                                  onTap: () {
+                                    profileController.getImage();
+                                  },
+                                  child: const Icon(Icons.camera_alt)),
                               )),
                           largeSpace,
                           ctext(text: "Your Mail ID"),
