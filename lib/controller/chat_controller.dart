@@ -12,9 +12,10 @@ class ChatController extends GetxController {
  
 
   void _simulateCompanyResponse(msg) {
+    
     messages.add(msg(text: 'Great! Here is my first question', isUser: false));
     messages.add(msg(text: '1) Is your home shaded (yes/no)', isUser: false));
-    // Simulate more company responses as needed
+   
   }
 }
 
