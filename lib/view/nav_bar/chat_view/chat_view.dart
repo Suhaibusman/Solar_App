@@ -13,7 +13,6 @@ import 'package:solar_app/utils/widgets/text_widget.dart';
 class ChatScreen extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
 
-
   ChatScreen({super.key});
 
   @override
@@ -27,8 +26,7 @@ class ChatScreen extends StatelessWidget {
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: white),
-        leading:reusableBackButton(),
-        
+        leading: reusableBackButton(),
       ),
       body: Stack(
         children: [
@@ -74,10 +72,8 @@ class ChatScreen extends StatelessWidget {
                                         color: lightPrimaryTextColor,
                                       ),
                                       child: ctext(
-                                        maxLines:
-                                            6,
-                                        overflow: TextOverflow
-                                            .ellipsis,
+                                        maxLines: 6,
+                                        overflow: TextOverflow.ellipsis,
                                         text: message.toString(),
                                         fontSize: 14,
                                         color: white,
@@ -131,10 +127,10 @@ class ChatScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          final msg = chatController.msgController.text;
-                          chatController.addMessages(msg);
-                          chatController.msgController.clear();
                           chatController.chatBot();
+                          // final msg = chatController.msgController.text;
+                          // chatController.addMessages(msg);
+                          chatController.msgController.clear();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
