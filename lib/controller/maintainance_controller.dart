@@ -73,4 +73,22 @@ class MaintainanceController extends GetxController {
       Get.back();
     });
   }
+
+  Future<bool> checkMaintainanceInProgress() async {
+    String currentUid = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      // Check if the document with the current user's UID exists in the "maintainance" collection
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection("maintainance")
+          .doc(currentUid)
+          .get();
+
+      // Return true if the document exists, indicating maintainance is in progress
+      return documentSnapshot.exists;
+    } catch (e) {
+      // Handle error
+      print('Error checking maintainance: $e');
+      return false;
+    }
+  }
 }
