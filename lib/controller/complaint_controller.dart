@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
@@ -405,6 +407,26 @@ class ComplaintController extends GetxController {
     print('Error fetching complain UID: $e');
     Get.snackbar("Error", "An error occurred while fetching complain UID.");
     return null;
+  }
+}
+Future<void> sendEmail() async {
+  // Set up the Gmail SMTP server
+  final smtpServer = gmail("your@gmail.com", "your_password");
+
+  // Create our message.
+  final message = Message()
+    ..from = Address("your@gmail.com", "Your Name")
+    ..recipients.add("suhaibusman54@gmail.com")
+    ..subject = "New Complaint Submitted"
+    ..text = "A new complaint has been submitted.";
+
+  try {
+    // Send the email
+    final sendReport = await send(message, smtpServer);
+
+    print('Message sent: ' + sendReport.toString());
+  } catch (e) {
+    print('Error sending email: $e');
   }
 }
 

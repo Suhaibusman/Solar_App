@@ -16,7 +16,7 @@ class MaintainanceController extends GetxController {
     Icons.battery_2_bar_rounded,
     Icons.inventory
   ];
-  List price=["15","25" ,"35"];
+  List price = ["15", "25", "35"];
   List text = ["Cleaning", "Battery", "Inventor"];
   RxInt initialIndex = 0.obs;
   RxInt selectedIndex = 0.obs;
@@ -29,8 +29,13 @@ class MaintainanceController extends GetxController {
   }
 
   buildDefaultMultiDatePickerWithValue() {
+    final DateTime currentDate = DateTime.now();
+    final DateTime lastSelectableDate = currentDate.add(Duration(days: 10));
     final config = CalendarDatePicker2Config(
-      calendarType: CalendarDatePicker2Type.multi,
+      calendarType: CalendarDatePicker2Type.single,
+      currentDate: currentDate,
+      firstDate: currentDate,
+      lastDate: lastSelectableDate,
       selectedDayHighlightColor: Colors.indigo,
     );
 

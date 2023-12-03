@@ -12,7 +12,7 @@ import 'package:solar_app/utils/widgets/text_widget.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
-  final TextEditingController msgController = TextEditingController();
+
 
   ChatScreen({super.key});
 
@@ -120,7 +120,7 @@ class ChatScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: TextField(
-                            controller: msgController,
+                            controller: chatController.msgController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               fillColor: primarycolor.withOpacity(.3),
@@ -131,9 +131,10 @@ class ChatScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          final msg = msgController.text;
-                          chatController.addMessage(msg);
-                          msgController.clear();
+                          final msg = chatController.msgController.text;
+                          chatController.addMessages(msg);
+                          chatController.msgController.clear();
+                          chatController.chatBot();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),

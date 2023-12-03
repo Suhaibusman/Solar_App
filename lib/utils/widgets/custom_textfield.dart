@@ -12,6 +12,7 @@ class CustomUnderLineTextField extends StatelessWidget {
   bool? issuffixIcon = false;
   bool? isPreffixIcon = false;
   final IconData? suffixIcon;
+  
   final int? maxLines;
   var onSuffixTap;
   var onTap;
