@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "solarapp-rfrk",
+  "private_key_id": "20c5ade165386b86696fdc547773f3f8a2656e31",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDxwuq3MyNJdvGh\nP61iMzP2GbZLxPugHDpsY7D/KF9Vf+/YR7H8kwNbjNiuzzexg5hzipOz4yKeRJU4\nHK4V7Pndwrneb5q2WHRu1K1Ugp3WXrv4ZII3RNqXWiJrRnbc4SOm5+qI6S8ecEnP\npwjwWGPnLxFs9mx8MQcvzURr60VIDBrZi2V+0sLtQwar6Qtyi+qg9DZpOZU8uAgJ\nXW8LOOQh1xMGMhLsNg3x3NSqwAO/NRdNvf6DP/1sdwKRakD+mU8QaILjEctSU61+\nHtIjBSyBuniYYEVTDiaZfBVrZ9xKmLF2X0nlos7Oj1y4i5BMOh0Ml5g8iGL8wue4\n814AXtt5AgMBAAECgf9o/wGsRiuzTMVOsMDaFPFko2QA7JqYpXv1+5BzxNhmrZPl\n1Bht6g5DShV0FdID+TlQTKJpGwiRieECUaz1YlOZ7C4ouGfT0UfDvUiGA6gK3ZVh\n6JjdDZmDeKjTQkSHHmAQadtWtqZ23s4pRFC/RXEm2trOHgnRqNtt5VfjEYxJaIEh\nqgJlcanJj/zB8R7pIeSSh4gcwhecz94qEG6V5u0GZhuE1mvJV5d+O047cVx2HNPs\n+NTiHN0Pj/rvQKxLVyofqym04ET+mrP7qMvzba8kF0FQvEf4rTG4d0E/Lg8ODBGL\n6rVJtW9qcpFZ8pN/EMUvJ0BDcUorF9yM3C8cyu8CgYEA+o9Qx5bay7m/JJ0Qsgvd\n35Fg1FKanfEomSKmvcDJ3wlx6DpgntpG+cw2C1fJBoIUfBT1SnP2lTtiJGaT+2oy\ngI3spneqGHyu7q7XZaVdL6CyBrngqkSbpPVsniJHF3l7I4WO8ulFXW3ANxzbGFiJ\nHs9Nf6Yy9ifbL5/aRXn34QMCgYEA9wKycslRdilg8oKMJyo4Mgk8jVDCi4//cwue\ngY+FC5YvHP+bzArrJ6VA2ZaL/hVtC/4SaTAr9a3ReoMXgknY5PKJEtV5BFtuCCEi\nrY5H5erKNjx6OQmG+sujDRdWl8t7Ub0XiHFbGKH0+Gvfmkl1WXfcAnscZ1RtYA8w\nRlu6ItMCgYBLNqRAFbe+Ohb3zbJKUCedSg2wDs/dI5xVQ8Kb6Xhv3Gz2EjgY11tA\n9x0uEH8G1huCF+R+IgteRsIyPRyk9v8L+g6U9gz4Zs04VwHPwHEVr/5g6IFZe1jh\njs65NX7zvALL6fa8UmwBHMX7hUz7pPAccIxKCkD4BYTVaf3ipzdSswKBgQDe+bhM\nlh7LI584S1BpKluAD4Zxqq1zfpGCMMLtAbmANBpjevoQvup3510bDiNhQcYmRTwp\naCrGpBmtFhlqq273fVjvf3S20jIJdJ/xO7b7fW78dqt+QXNvgdO2RZMNg8nWh3Nu\n36T0H38boYU/qYAdO22Hb8q8HCJ/zDYvzS3BsQKBgCJgS9itC9fquhH+WBJHY8nS\nq1QILwMv2tlL0RAApZdik4fFa0cg6k2xGbI5RKAiDqptIR9uFXhtZ/p++Hli4jKg\n3RsFKXQqz8owavO3/yJv5GKJWeyPOHIg3/E0sXQ9WkXK3LUuPRQ4j/zFZ63wdOyA\nPw+YsLgA/480WGd10utJ\n-----END PRIVATE KEY-----\n",
+  "client_email": "solarapp@solarapp-rfrk.iam.gserviceaccount.com",
+  "client_id": "104476559953586798551",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/solarapp%40solarapp-rfrk.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

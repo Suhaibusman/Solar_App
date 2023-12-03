@@ -32,7 +32,8 @@ class MaintainanceController extends GetxController {
 
   buildDefaultMultiDatePickerWithValue() {
     final DateTime currentDate = DateTime.now();
-    final DateTime lastSelectableDate = currentDate.add(Duration(days: 10));
+    final DateTime lastSelectableDate =
+        currentDate.add(const Duration(days: 10));
     final config = CalendarDatePicker2Config(
       calendarType: CalendarDatePicker2Type.single,
       currentDate: currentDate,
@@ -56,7 +57,7 @@ class MaintainanceController extends GetxController {
 
   addMaintainance() {
     loading.value = true;
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       loading.value = false;
       String currentUid = FirebaseAuth.instance.currentUser!.uid;
       List<Timestamp?> timestampList = selectedDates

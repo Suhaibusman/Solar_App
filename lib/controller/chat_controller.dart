@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:solar_app/controller/messages.dart';
 
 class ChatController extends GetxController {
   TextEditingController msgController = TextEditingController();
-  final messages = [].obs;
+  RxList messages = [].obs;
   String formattedTime = "";
+  final greetings = ["hi", "hello", "hey"];
+  late DialogFlowtter dialogFlowtter;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   String getCurrentTime() {
     final DateTime now = DateTime.now();
     final String formattedTime =
@@ -32,58 +35,41 @@ class ChatController extends GetxController {
     messages.add(msg(text: '1) Is your home shaded (yes/no)', isUser: false));
   }
 
-  Future<void> getMessages({message}) async {
+  Future<void> sendMessage({message}) async {
     await firestore
         .collection("chats")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({
-      'message': message,
-      'isSent': true,
-      'isRecived': false,
-      'currenttime': getCurrentTime(),
+        .collection("messages") // Create a sub-collection for messages
+        .add({
+      message: {
+        'isSent': true,
+        'isReceived': false,
+        'currenttime': getCurrentTime(),
+      }
+    });
+  }
+
+  Future<void> getResponse({message}) async {
+    await firestore
+        .collection("chats")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("messages") // Create a sub-collection for messages
+        .add({
+      message: {
+        'isSent': false,
+        'isReceived': true,
+        'currenttime': getCurrentTime(),
+      }
     });
   }
 
   void chatBot() {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your Complain");
-    } else if (msgController.text == "hi" ||
-        msgController.text == "hello" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hey" ||
-        msgController.text == "Hey" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hi" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hey" ||
-        msgController.text == "Hey" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hi" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hey" ||
-        msgController.text == "Hey" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hi" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hey" ||
-        msgController.text == "Hey" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hi" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hello" ||
-        msgController.text == "Hi" ||
-        msgController.text == "hey" ||
-        msgController.text == "Hey" ||
-        msgController.text == "Hi") {
-      getMessages(message: msgController.text);
-
+    } else if (greetings.contains(msgController.text.toLowerCase())) {
+      sendMessage(message: msgController.text);
+      getResponse(
+          message: "Welcome to our Solar Power Company! How can I help you?");
       msgController.clear();
     }
   }
