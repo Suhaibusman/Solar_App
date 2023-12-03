@@ -5,6 +5,7 @@ import 'package:solar_app/controller/maintainance_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
@@ -164,6 +165,24 @@ class MaintainanceView extends StatelessWidget {
                             .buildDefaultMultiDatePickerWithValue(),
                       ),
                       const Divider(),
+                      mediumSpace,
+                      Obx(() {
+                        return maintainanceController.loading.value
+                            ? const Center(child: CircularProgressIndicator())
+                            : CustomButton(
+                                borderRadius: BorderRadius.circular(15),
+                                height: 43,
+                                mywidth: 1,
+                                onPressed: () {
+                                  maintainanceController.addMaintainance();
+                                },
+                                child: 'Submit',
+                                gradientColors: [
+                                  btnPrimaryColor,
+                                  btnSecondaryColor
+                                ],
+                                color: btnSecondaryColor);
+                      }),
                     ]).paddingSymmetric(horizontal: 16, vertical: 12)),
               ),
             )
