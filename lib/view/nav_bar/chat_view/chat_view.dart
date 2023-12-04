@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_clippers/custom_clippers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -50,7 +52,8 @@ class ChatScreen extends StatelessWidget {
                     () => ListView.builder(
                       itemCount: chatController.messages.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final message = chatController.messages[index];
+                        final message =
+                            chatController.messages[index]['message'];
                         return Container(
                           margin: const EdgeInsets.all(10),
                           child: Row(
@@ -127,10 +130,8 @@ class ChatScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
+                          print("Messages: ${chatController.messages}");
                           chatController.chatBot();
-                          // final msg = chatController.msgController.text;
-                          // chatController.addMessages(msg);
-                          chatController.msgController.clear();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),

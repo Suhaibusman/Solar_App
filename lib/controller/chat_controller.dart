@@ -7,12 +7,30 @@ import 'package:intl/intl.dart';
 
 class ChatController extends GetxController {
   TextEditingController msgController = TextEditingController();
-  RxList messages = [].obs;
+  RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
   String formattedTime = "";
   final greetings = ["hi", "hello", "hey"];
   late DialogFlowtter dialogFlowtter;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void onInit() {
+    super.onInit();
+    print("ChatController initialized");
+    _firestore
+        .collection("chats")
+        .doc(_auth.currentUser!.uid)
+        .collection("messages")
+        .orderBy('currenttime')
+        .snapshots()
+        .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      print("Messages: ${snapshot.docs.map((doc) => doc.data()).toList()}");
+      messages.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+    });
+  }
 
   String getCurrentTime() {
     final DateTime now = DateTime.now();
@@ -20,19 +38,6 @@ class ChatController extends GetxController {
         DateFormat('h:mm a').format(now); // Format for "10:14 PM"
 
     return formattedTime;
-  }
-
-  void addMessages(String msg) {
-    messages.add((msg));
-    if (msg.toLowerCase().contains('yes') ||
-        msg.toLowerCase().contains('sure')) {
-      _simulateCompanyResponse(msg);
-    }
-  }
-
-  void _simulateCompanyResponse(msg) {
-    messages.add(msg(text: 'Great! Here is my first question', isUser: false));
-    messages.add(msg(text: '1) Is your home shaded (yes/no)', isUser: false));
   }
 
   Future<void> sendMessage({message}) async {
@@ -70,6 +75,7 @@ class ChatController extends GetxController {
       sendMessage(message: msgController.text);
       getResponse(
           message: "Welcome to our Solar Power Company! How can I help you?");
+
       msgController.clear();
     }
   }
