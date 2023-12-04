@@ -79,4 +79,18 @@ class ChatController extends GetxController {
       msgController.clear();
     }
   }
+
+  Future<List<DocumentSnapshot>> getChats() async {
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference userChats =
+        firestore.collection("chats").doc(userUID).collection("messages");
+    QuerySnapshot userChatSnapshot = await userChats.get();
+
+    if (userChatSnapshot.docs.isNotEmpty) {
+      print(userChatSnapshot.docs);
+      return userChatSnapshot.docs;
+    }
+    print("No chats found");
+    return [];
+  }
 }

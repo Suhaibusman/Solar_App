@@ -131,6 +131,7 @@ class ChatScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           print("Messages: ${chatController.messages}");
+                          chatController.getChats();
                           chatController.chatBot();
                         },
                         child: Container(
