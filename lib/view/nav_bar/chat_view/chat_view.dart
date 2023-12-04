@@ -54,52 +54,114 @@ class ChatScreen extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         final message =
                             chatController.messages[index]['message'];
+                        final isSent = chatController.messages[index]['isSent'];
+                        final currentTime =
+                            chatController.messages[index]['currenttime'];
                         return Container(
                           margin: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipPath(
-                                    clipper: LowerNipMessageClipper(
-                                        MessageType.send),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 12,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: lightPrimaryTextColor,
-                                      ),
-                                      child: ctext(
-                                        maxLines: 6,
-                                        overflow: TextOverflow.ellipsis,
-                                        text: message.toString(),
-                                        fontSize: 14,
-                                        color: white,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                          child: isSent == true
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipPath(
+                                          clipper: LowerNipMessageClipper(
+                                              MessageType.send),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 12,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: lightPrimaryTextColor,
+                                            ),
+                                            child: SizedBox(
+                                              child: Flexible(
+                                                child: SizedBox(
+                                                  child: ctext(
+                                                    maxLines: 6,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    text: message.toString(),
+                                                    fontSize: 12,
+                                                    color: white,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ctext(
+                                          text: currentTime.toString(),
+                                          fontSize: 10,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  ctext(
-                                    text: '12:34 PM',
-                                    fontSize: 10,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                              mediumSpaceh,
-                              const CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                    mediumSpaceh,
+                                    const CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                      ),
+                                    ).paddingOnly(top: 15),
+                                  ],
+                                )
+                              : Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                      ),
+                                    ).paddingOnly(bottom: 15),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipPath(
+                                          clipper: LowerNipMessageClipper(
+                                              MessageType.receive),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 12,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: lightPrimaryTextColor,
+                                            ),
+                                            child: SizedBox(
+                                              width: Get.width * 0.5,
+                                              child: Flexible(
+                                                child: ctext(
+                                                  maxLines: 6,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  text: message.toString(),
+                                                  fontSize: 12,
+                                                  color: white,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        ctext(
+                                          text: currentTime.toString(),
+                                          fontSize: 10,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ).paddingOnly(top: 15),
-                            ],
-                          ),
                         );
                       },
                     ),
@@ -158,4 +220,46 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildSentMessage(Map<String, dynamic> message) {
+  return Align(
+    alignment: Alignment.centerRight,
+    child: Container(
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        message['messages'] ?? "",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+        softWrap: true, // Allow the text to wrap onto the next line
+      ),
+    ),
+  );
+}
+
+Widget _buildReceivedMessage(Map<String, dynamic> message) {
+  return Align(
+    alignment: Alignment.centerLeft,
+    child: Container(
+      margin: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        message['message'] ?? "",
+        style: TextStyle(
+          color: Colors.black,
+        ),
+        softWrap: true, // Allow the text to wrap onto the next line
+      ),
+    ),
+  );
 }

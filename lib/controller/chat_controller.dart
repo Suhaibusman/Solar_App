@@ -27,8 +27,14 @@ class ChatController extends GetxController {
         .orderBy('currenttime')
         .snapshots()
         .listen((QuerySnapshot<Map<String, dynamic>> snapshot) {
-      print("Messages: ${snapshot.docs.map((doc) => doc.data()).toList()}");
-      messages.assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+      messages.assignAll(snapshot.docs.map((doc) {
+        return {
+          'message': doc['message'] ?? '',
+          'isSent': doc['isSent'] ?? false,
+          'currenttime': doc['currenttime'] ?? '',
+        };
+      }).toList());
+      print("Messages: $messages");
     });
   }
 
@@ -46,11 +52,9 @@ class ChatController extends GetxController {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("messages") // Create a sub-collection for messages
         .add({
-      message: {
-        'isSent': true,
-        'isReceived': false,
-        'currenttime': getCurrentTime(),
-      }
+      'message': message,
+      'isSent': true,
+      'currenttime': getCurrentTime(),
     });
   }
 
@@ -60,11 +64,9 @@ class ChatController extends GetxController {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("messages") // Create a sub-collection for messages
         .add({
-      message: {
-        'isSent': false,
-        'isReceived': true,
-        'currenttime': getCurrentTime(),
-      }
+      'message': message,
+      'isSent': false,
+      'currenttime': getCurrentTime(),
     });
   }
 
