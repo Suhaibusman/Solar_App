@@ -79,18 +79,16 @@ class ChatScreen extends StatelessWidget {
                                             decoration: BoxDecoration(
                                               color: lightPrimaryTextColor,
                                             ),
-                                            child: SizedBox(
-                                              child: Flexible(
-                                                child: SizedBox(
-                                                  child: ctext(
-                                                    maxLines: 6,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    text: message.toString(),
-                                                    fontSize: 12,
-                                                    color: white,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                            child: Flexible(
+                                              child: SizedBox(
+                                                child: ctext(
+                                                  maxLines: 6,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  text: message.toString(),
+                                                  fontSize: 12,
+                                                  color: white,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                             ),
@@ -193,8 +191,9 @@ class ChatScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           print("Messages: ${chatController.messages}");
-                          chatController.getChats();
+                          //   chatController.getChats();
                           chatController.chatBot();
+                          // chatController.handleUserInput();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
