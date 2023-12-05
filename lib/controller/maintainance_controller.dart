@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -88,7 +90,7 @@ class MaintainanceController extends GetxController {
       return documentSnapshot.exists;
     } catch (e) {
       // Handle error
-      print('Error checking maintainance: $e');
+      // print('Error checking maintainance: $e');
       return false;
     }
   }

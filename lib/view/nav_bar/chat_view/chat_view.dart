@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_clippers/custom_clippers.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -190,10 +188,10 @@ class ChatScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print("Messages: ${chatController.messages}");
+                          // print("Messages: ${chatController.messages}");
                           //   chatController.getChats();
-                          chatController.chatBot();
-                          // chatController.handleUserInput();
+                          // chatController.chatBot();
+                          chatController.handleUserInput();
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -219,46 +217,4 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _buildSentMessage(Map<String, dynamic> message) {
-  return Align(
-    alignment: Alignment.centerRight,
-    child: Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Text(
-        message['messages'] ?? "",
-        style: TextStyle(
-          color: Colors.white,
-        ),
-        softWrap: true, // Allow the text to wrap onto the next line
-      ),
-    ),
-  );
-}
-
-Widget _buildReceivedMessage(Map<String, dynamic> message) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Text(
-        message['message'] ?? "",
-        style: TextStyle(
-          color: Colors.black,
-        ),
-        softWrap: true, // Allow the text to wrap onto the next line
-      ),
-    ),
-  );
 }

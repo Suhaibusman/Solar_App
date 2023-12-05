@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,58 +34,56 @@ class ProfileController extends GetxController {
     super.onClose();
   }
 
- 
-
- 
- 
   Future<void> fetchDetails() async {
-  try {
-    isLoading.value = true;
-    DocumentSnapshot snapshot =
-        await firestore.collection("users").doc(userUid).get();
-    if (snapshot.exists) {
-      isLoading.value = false;
-      emailController.text = snapshot.get("emailAddress");
-      phoneController.text = snapshot.get("phoneNumber");
-      addressController.text = snapshot.get("address");
-      
-      // Update imagePath with the download URL from Firebase Storage
-      String firebaseImagePath = snapshot.get("profileImage") ?? "";
-      if (firebaseImagePath != null && firebaseImagePath.isNotEmpty) {
-        // Optionally, you can download the image to local storage if needed
-        // For simplicity, this example assumes you directly use the URL
-        imagePath.value = firebaseImagePath;
-      } else {
-        // If profileImage is not available, set a default image
-        imagePath.value = 'assets/default.png';
-      }
-    } else {
+    try {
       isLoading.value = true;
-      phoneController.clear();
-      addressController.clear();
-      // Handle the case where the document does not exist
-      print("User document does not exist");
+      DocumentSnapshot snapshot =
+          await firestore.collection("users").doc(userUid).get();
+      if (snapshot.exists) {
+        isLoading.value = false;
+        emailController.text = snapshot.get("emailAddress");
+        phoneController.text = snapshot.get("phoneNumber");
+        addressController.text = snapshot.get("address");
+
+        // Update imagePath with the download URL from Firebase Storage
+        String firebaseImagePath = snapshot.get("profileImage") ?? "";
+        // ignore: unnecessary_null_comparison
+        if (firebaseImagePath != null && firebaseImagePath.isNotEmpty) {
+          // Optionally, you can download the image to local storage if needed
+          // For simplicity, this example assumes you directly use the URL
+          imagePath.value = firebaseImagePath;
+        } else {
+          // If profileImage is not available, set a default image
+          imagePath.value = 'assets/default.png';
+        }
+      } else {
+        isLoading.value = true;
+        phoneController.clear();
+        addressController.clear();
+        // Handle the case where the document does not exist
+        print("User document does not exist");
+      }
+    } catch (error) {
+      isLoading.value = false;
+      // Handle errors during data fetching
+      print("Error fetching user details: $error");
+    } finally {
+      isLoading.value = false;
     }
-  } catch (error) {
-    isLoading.value = false;
-    // Handle errors during data fetching
-    print("Error fetching user details: $error");
-  } finally {
-    isLoading.value = false;
   }
-}
- Future<void> addPhoneAndAddress() async {
-          String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
 
-        // Upload image to Firebase Storage
-        UploadTask uploadImage = FirebaseStorage.instance
-            .ref()
-            .child("profilepicture")
-            .child(currentLoginUid)
-            .putFile(File(imagePath.value));
+  Future<void> addPhoneAndAddress() async {
+    String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
 
-             TaskSnapshot taskSnapshot = await uploadImage;
-        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    // Upload image to Firebase Storage
+    UploadTask uploadImage = FirebaseStorage.instance
+        .ref()
+        .child("profilepicture")
+        .child(currentLoginUid)
+        .putFile(File(imagePath.value));
+
+    TaskSnapshot taskSnapshot = await uploadImage;
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
     firestore.collection("users").doc(userUid).update({
       "phoneNumber": phoneController.text,
       "address": addressController.text,
@@ -93,7 +93,7 @@ class ProfileController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.green,
           colorText: Colors.white);
-      
+
       // Handle success if needed
       Get.back();
     }).catchError((error) {
@@ -101,7 +101,8 @@ class ProfileController extends GetxController {
       print("Error updating user details: $error");
     });
   }
-   Future getImage() async {
+
+  Future getImage() async {
     final ImagePicker picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {

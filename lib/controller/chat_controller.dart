@@ -21,7 +21,7 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("ChatController initialized");
+
     _firestore
         .collection("chats")
         .doc(_auth.currentUser!.uid)
@@ -36,7 +36,6 @@ class ChatController extends GetxController {
           'currenttime': doc['currenttime'] ?? '',
         };
       }).toList());
-      print("Messages: $messages");
     });
   }
 
@@ -72,86 +71,101 @@ class ChatController extends GetxController {
     });
   }
 
-  void processUserResponse(String userResponse) {
-    if (greetings.contains(userResponse)) {
-      getResponse(
-          message: "Welcome to our Solar Power Company! How can I help you?");
-      getResponse(
-          message:
-              "I can help you to find out⚡How You Can Save With Solar Energy⚡");
-      getResponse(
-          message:
-              "Let me ask you a few questions to see if you qualify for the free eligibility review.");
-      if (userResponse.contains("sure")) {
-        getResponse(message: "Great! Then, here is my first question:");
-      } else if (userResponse == "no") {
-        getResponse(message: "I think you are not interested.");
-      } else {
-        // Handle other responses here
-        // You can ask for clarification, offer alternatives, or redirect the conversation
-        getResponse(
-            message:
-                "I need more information to understand your interest. Can you please clarify?");
-      }
-    }
-  }
-
   void handleUserInput() {
     if (msgController.text.isEmpty) {
-      // Handle empty input
       Get.snackbar("Undefined", "Please enter your complaint");
     } else {
-      sendMessage(message: msgController.text);
-
-      // Process user input and start the chat loop
-      startChatLoop(msgController.text.toLowerCase());
-
-      // Clear the input field
+      // copyChats();
+      chatBot();
       msgController.clear();
     }
   }
 
-  void chatBot() {
-    if (msgController.text.isEmpty) {
-      Get.snackbar("Undefined", "Please enter your Complain");
+  greetingMessage() async {
+    Future.delayed(
+      const Duration(seconds: 2),
+      () async {
+        await getResponse(
+            message: "Welcome to our Solar Power Company! How can I help you?");
+        await getResponse(
+            message:
+                "I can help you find out ⚡How You Can Save With Solar Energy⚡");
+        await getResponse(
+            message:
+                "Let me ask you a few questions to see if you qualify for the free eligibility review type sure.");
+      },
+    );
+  }
+
+  void chatBot() async {
+    if (greetings.contains(msgController.text.toLowerCase())) {
+      await sendMessage(message: msgController.text);
+      await greetingMessage();
     } else {
-      if (greetings.contains(msgController.text.toLowerCase())) {
-        sendMessage(message: msgController.text);
-
-        Future.delayed(const Duration(seconds: 2), () {
-          getResponse(
-              message:
-                  "Welcome to our Solar Power Company! How can I help you?");
-        });
-
-        Future.delayed(const Duration(seconds: 2), () {
-          getResponse(
-              message:
-                  "I can help you to find out⚡How You Can Save With Solar Energy⚡");
-        });
-
-        Future.delayed(const Duration(seconds: 2), () {
-          getResponse(
-              message:
-                  "Let me ask you a few questions to see if you qualify for the free eligibility review.");
-        });
-
-        if (msgController.text.toLowerCase().contains("sure")) {
-          Future.delayed(const Duration(seconds: 2), () {
-            getResponse(message: "Great! Then, here is my first question:");
-          });
-        } else if (msgController.text.toLowerCase() == "no") {
-          Future.delayed(const Duration(seconds: 2), () {
-            getResponse(message: "I Think You Are Not Interested");
-          });
-        } else {
-          Future.delayed(const Duration(seconds: 2), () {
-            getResponse(
-                message:
-                    "I need more information to understand your interest. Can you please clarify?");
-          });
-        }
+      if (msgController.text == "sure") {
+        await sendMessage(message: msgController.text);
+        await getResponse(message: "Great! Then, here is my first question");
+        generateAutoReply("1");
+      } else if (msgController.text == "yes") {
+        await sendMessage(message: msgController.text);
+        await getResponse(
+            message:
+                "Please type your address including city, state, and country");
+      } else if (msgController.text == "no") {
+        await sendMessage(message: msgController.text);
+        await getResponse(message: "I think you are not interested.");
+      } else {
+        await sendMessage(message: msgController.text);
+        generateAutoReply("2");
       }
+    }
+  }
+
+  questions() {
+    Future.delayed(const Duration(seconds: 2), () async {
+      await getResponse(message: "Is Your Home Shaded? (Yes/No)");
+    });
+
+    if (msgController.text.toLowerCase() == "yes") {
+      sendMessage(message: msgController.text);
+      getResponse(
+          message:
+              "Please type your address including city, state, and country.");
+    } else {
+      if (msgController.text == "no") {
+        sendMessage(message: msgController.text);
+        getResponse(
+            message:
+                "I Think You Need To Contact our company so after survey they tell u are you eligible for solar or not.");
+      }
+    }
+  }
+
+  generateAutoReply(String input) async {
+    switch (input) {
+      case '1':
+        return {questions()};
+      case '2':
+        return {
+          Future.delayed(
+            const Duration(seconds: 2),
+            () async {
+              await getResponse(
+                  message:
+                      "I need more information to understand your interest. Can you please clarify?");
+            },
+          )
+        };
+      case '3':
+        return {
+          await getResponse(
+              message:
+                  "Let me ask you a few questions to see if you qualify for the free eligibility review.")
+        };
+      case '4':
+        return 'I am a chatbot that can help you with your questions.';
+      default:
+        return 'I am sorry, I didnt understand. Can you please clarify?';
     }
   }
 
@@ -171,34 +185,10 @@ class ChatController extends GetxController {
     QuerySnapshot userChatSnapshot = await userChats.get();
 
     if (userChatSnapshot.docs.isNotEmpty) {
-      print(userChatSnapshot.docs);
+      // print(userChatSnapshot.docs);
       return userChatSnapshot.docs;
     }
-    print("No chats found");
+    // print("No chats found");
     return [];
   }
-
-  void startChatLoop(String userResponse) {
-    while (chatActive) {
-      if (greetings.contains(userResponse)) {
-        processUserResponse(userResponse);
-      }
-      // You can set a condition to break out of the loop if needed
-      // Example: chatActive = false;
-    }
-  }
-
-  // void processUserResponse(String userResponse) {
-  //   if (userResponse.contains("sure")) {
-  //     getResponse(message: "Great! Then, here is my first question:");
-  //   } else if (userResponse == "no") {
-  //     getResponse(message: "I think you are not interested.");
-  //   } else {
-  //     // Handle other responses here
-  //     // You can ask for clarification, offer alternatives, or redirect the conversation
-  //     getResponse(
-  //         message:
-  //             "I need more information to understand your interest. Can you please clarify?");
-  //   }
-  // }
 }

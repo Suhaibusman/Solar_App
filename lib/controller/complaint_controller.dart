@@ -20,7 +20,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class ComplaintController extends GetxController {
   var selectedValue = 'Urgent'.obs;
-  bool goToNext =false;
+  bool goToNext = false;
   RxBool loading = false.obs;
   RxDouble ratingValue = 3.0.obs;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -31,6 +31,7 @@ class ComplaintController extends GetxController {
   String status = "Pending"; // Default status
   String userUid = FirebaseAuth.instance.currentUser!.uid;
   List<DateTime> multiDatePickerValueWithDefaultValue = [];
+  RxList<DocumentSnapshot<Object?>> complaints = <DocumentSnapshot>[].obs;
 
   void addDate(DateTime date) {
     selectedDates.add(date);
@@ -90,7 +91,7 @@ class ComplaintController extends GetxController {
                       size: 13,
                     ),
                     onRatingUpdate: (rating) {
-                        goToNext =true;
+                      goToNext = true;
                       ratingValue.value = rating;
                     },
                   ),
@@ -101,8 +102,8 @@ class ComplaintController extends GetxController {
                   height: 43,
                   mywidth: 1,
                   onPressed: () {
-                  goToNext= true;
-                  
+                    goToNext = true;
+
                     addRating(complainDocId);
                     fetchComplainUid(complainDocId);
                     // Get.to(
@@ -122,118 +123,7 @@ class ComplaintController extends GetxController {
     );
   }
 
-//  Future<Widget> fetchWholeData(
-//     setState,
-//     profilePic,
-//   ) async {
-//     return StreamBuilder<QuerySnapshot>(
-//       stream:  firestore.collection("users").doc(userUid).collection("complain"),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.active) {
-//           if (snapshot.hasData && snapshot.data != null) {
-//             return Expanded(
-//               child: ListView.builder(
-//                itemCount: snapshot.data!.docs.length,
-//                 itemBuilder: (context, index) {
-//                   DocumentSnapshot doc = snapshot.data!.docs[index];
-//                   //querysnaphot me pora data ayegaa
-
-//                   return Card(
-//               color: white,
-//               elevation: 12,
-//               shadowColor: btnPrimaryColor,
-//               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-//               shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(12)),
-//               child: Column(
-//                 children: [
-//                   Row(
-//                     children: [
-//                       ctext(
-//                           text: "Battery issue",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 15,
-//                           color: Colors.black),
-//                       Spacer(),
-//                       Icon(
-//                         Icons.delete,
-//                         color: Colors.grey.withOpacity(.6),
-//                       )
-//                     ],
-//                   ),
-//                   extraSmallSpace,
-//                   Row(
-//                     children: [
-//                       Icon(Icons.calendar_month_outlined,
-//                           size: 14, color: Colors.grey.withOpacity(.6)),
-//                       ctext(
-//                           text: " Date: Noc 10 2023",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 11,
-//                           color: Colors.grey.withOpacity(.6)),
-//                     ],
-//                   ),
-//                   extraSmallSpace,
-//                   Row(
-//                     children: [
-//                       ctext(
-//                           text: "Status: ",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 11),
-//                       ctext(
-//                           text: "Pending",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 11,
-//                           color: Colors.red),
-//                     ],
-//                   ),
-//                   extraSmallSpace,
-//                   Row(
-//                     children: [
-//                       ctext(
-//                           text: "Progress: ",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 11),
-//                       ctext(
-//                           text: "Done",
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 11,
-//                           color: btnPrimaryColor),
-//                       const Spacer(),
-//                       RatingBar.builder(
-//                         itemSize: 16,
-//                         initialRating: 3,
-//                         minRating: 1,
-//                         direction: Axis.horizontal,
-//                         allowHalfRating: true,
-//                         itemCount: 5,
-//                         itemPadding:
-//                             const EdgeInsets.symmetric(horizontal: 0.2),
-//                         itemBuilder: (context, _) => const Icon(
-//                           Icons.star,
-//                           color: Colors.amber,
-//                           size: 13,
-//                         ),
-//                         onRatingUpdate: (rating) {},
-//                       ),
-//                     ],
-//                   )
-//                 ],
-//               ).paddingOnly(left: 12, top: 12, bottom: 12, right: 12),
-//             );
-//            },
-//               ),
-//             );
-//           } else {
-//             return const Center(child: Text("No Data Found"));
-//           }
-//         }
-//         return const Center(child: CircularProgressIndicator());
-//       },
-//     );
-//   }
-
- Future<List<DocumentSnapshot>> getComplains() async {
+  Future<List<DocumentSnapshot>> getComplains() async {
     String userUID = FirebaseAuth.instance.currentUser!.uid;
     CollectionReference userComplain =
         firestore.collection("users").doc(userUID).collection("complain");
@@ -243,33 +133,7 @@ class ComplaintController extends GetxController {
       return complainSbapshot.docs;
     }
     return [];
-  }//   try {
-//     QuerySnapshot querySnapshot = await firestore
-//         .collection("users")
-//         .doc(userUid)
-//         .collection("complain")
-//         .get();
-
-//     // Convert each document in the query snapshot to a Complaint object
-//     List complaints = querySnapshot.docs.map((doc) {
-//       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
-//       return Complaint(
-//         title: data['title'],
-//         description: data['description'],
-//         status: data['status'],
-//         complaintNumber: data['complaintNumber'],
-//         complainPicture: data['complainpicture'],
-//         timestamp: data['timestamp'],
-//       );
-//     }).toList();
-
-//     return complaints;
-//   } catch (e) {
-//     print("Error retrieving complaints: $e");
-//     return [];
-//   }
-// }
+  }
 
   void addComplain(context) async {
     loading.value = true;
@@ -314,18 +178,17 @@ class ComplaintController extends GetxController {
           // Access the document ID here
           String complainDocId = document.id;
 
-        
-            firestore
+          firestore
               .collection("users")
               .doc(userUid)
               .collection("complain")
               .doc(complainDocId)
               .update({"status": "pending", "rating": ratingValue.toString()});
-              lodgeComplain(context, complainDocId);
+          lodgeComplain(context, complainDocId);
           // If you want to navigate to a new screen with the complainDocId:
 
           // Get.to(ComplaintConfirmationView(
-          //    complainUid: complainDocId 
+          //    complainUid: complainDocId
           //   ));
 
           loading.value = false;
@@ -360,74 +223,91 @@ class ComplaintController extends GetxController {
     }
   }
 
-  Future addRating(complainDocId)async{
-     firestore
-              .collection("users")
-              .doc(userUid)
-              .collection("complain")
-              .doc(complainDocId)
-              .update({"status": "pending", "progress" :"in process","rating": ratingValue.toString() });
-              
-  }
-     
-      
- fetchComplainUid(complainDocId) async {
-  try {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+  Future addRating(complainDocId) async {
+    firestore
         .collection("users")
         .doc(userUid)
         .collection("complain")
         .doc(complainDocId)
-        .get();
+        .update({
+      "status": "pending",
+      "progress": "in process",
+      "rating": ratingValue.toString()
+    });
+  }
 
-    if (snapshot.exists) {
-      Map<String, dynamic>? userData = snapshot.data() as Map<String, dynamic>?;
+  fetchComplainUid(complainDocId) async {
+    try {
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userUid)
+          .collection("complain")
+          .doc(complainDocId)
+          .get();
 
-      if (userData != null) {
-        // Extract the complaint number from userData
-        String complaintNumber = userData["complaintNumber"];
+      if (snapshot.exists) {
+        Map<String, dynamic>? userData =
+            snapshot.data() as Map<String, dynamic>?;
 
-        // Use Get.to to navigate to the ComplaintConfirmationView
-        Get.to(ComplaintConfirmationView(complainUid: complaintNumber));
+        if (userData != null) {
+          // Extract the complaint number from userData
+          String complaintNumber = userData["complaintNumber"];
 
-        // Optionally, you can return the complaint number or null based on your requirements
-        return complaintNumber;
+          // Use Get.to to navigate to the ComplaintConfirmationView
+          Get.to(ComplaintConfirmationView(complainUid: complaintNumber));
+
+          // Optionally, you can return the complaint number or null based on your requirements
+          return complaintNumber;
+        } else {
+          // Handle the case where user data is null
+          Get.snackbar("Error", "User data is null.");
+          return null;
+        }
       } else {
-        // Handle the case where user data is null
-        Get.snackbar("Error", "User data is null.");
+        // Handle the case where the user document does not exist
+        Get.snackbar("Error", "User document does not exist.");
         return null;
       }
-    } else {
-      // Handle the case where the user document does not exist
-      Get.snackbar("Error", "User document does not exist.");
+    } catch (e) {
+      // Handle errors
+      print('Error fetching complain UID: $e');
+      Get.snackbar("Error", "An error occurred while fetching complain UID.");
       return null;
     }
-  } catch (e) {
-    // Handle errors
-    print('Error fetching complain UID: $e');
-    Get.snackbar("Error", "An error occurred while fetching complain UID.");
-    return null;
   }
-}
-Future<void> sendEmail() async {
-  // Set up the Gmail SMTP server
-  final smtpServer = gmail("your@gmail.com", "your_password");
 
-  // Create our message.
-  final message = Message()
-    ..from = Address("your@gmail.com", "Your Name")
-    ..recipients.add("suhaibusman54@gmail.com")
-    ..subject = "New Complaint Submitted"
-    ..text = "A new complaint has been submitted.";
+  Future<void> sendEmail() async {
+    // Set up the Gmail SMTP server
+    final smtpServer = gmail("your@gmail.com", "your_password");
 
-  try {
-    // Send the email
-    final sendReport = await send(message, smtpServer);
+    // Create our message.
+    final message = Message()
+      ..from = const Address("your@gmail.com", "Your Name")
+      ..recipients.add("suhaibusman54@gmail.com")
+      ..subject = "New Complaint Submitted"
+      ..text = "A new complaint has been submitted.";
 
-    print('Message sent: ' + sendReport.toString());
-  } catch (e) {
-    print('Error sending email: $e');
+    try {
+      // Send the email
+      final sendReport = await send(message, smtpServer);
+
+      print('Message sent: ' + sendReport.toString());
+    } catch (e) {
+      print('Error sending email: $e');
+    }
   }
-}
 
+  void deleteComplain(String id) {
+    String currentUid = FirebaseAuth.instance.currentUser!.uid;
+    firestore
+        .collection("users")
+        .doc(currentUid)
+        .collection("complain")
+        .doc(id)
+        .delete();
+  }
+  // void deleteComplain(String id) {
+  //   // Assuming Complain class has an 'id' property
+  //   complaints.removeWhere((complain) => complain.id == id);
+  // }
 }

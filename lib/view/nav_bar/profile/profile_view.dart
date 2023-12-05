@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -30,8 +28,7 @@ class ProfileView extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: white,
               fontSize: 20),
-          leading: reusableBackButton(  
-          ),
+          leading: reusableBackButton(),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -73,12 +70,16 @@ class ProfileView extends StatelessWidget {
                                     height: 70,
                                     width: 90,
                                     decoration: BoxDecoration(
-                                      image:DecorationImage(
-  image: profileController.imagePath.isNotEmpty
-      ? NetworkImage(profileController.imagePath.value)
-      : const AssetImage('assets/default.png') as ImageProvider<Object>,
-  fit: BoxFit.cover,
-),
+                                      image: DecorationImage(
+                                        image: profileController
+                                                .imagePath.isNotEmpty
+                                            ? NetworkImage(profileController
+                                                .imagePath.value)
+                                            : const AssetImage(
+                                                    'assets/default.png')
+                                                as ImageProvider<Object>,
+                                        fit: BoxFit.cover,
+                                      ),
                                       border: Border.all(width: .3),
                                     ),
                                   ),
@@ -93,11 +94,14 @@ class ProfileView extends StatelessWidget {
                                       fontWeight: FontWeight.w400,
                                       color: lightPrimaryTextColor,
                                       fontSize: 12),
-                                  trailing: profileController.imagePath.value == ""? InkWell(
-                                      onTap: () {
-                                        profileController.getImage();
-                                      },
-                                      child: const Icon(Icons.camera_alt)) : null,
+                                  trailing: profileController.imagePath.value ==
+                                          ""
+                                      ? InkWell(
+                                          onTap: () {
+                                            profileController.getImage();
+                                          },
+                                          child: const Icon(Icons.camera_alt))
+                                      : null,
                                 );
                               })),
                           largeSpace,
