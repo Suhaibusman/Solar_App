@@ -202,8 +202,6 @@ class MaintainanceView extends StatelessWidget {
                             height: 43,
                             mywidth: 1,
                             onPressed: () {
-                              print("khali " +
-                                  box.read("currentLoginedPhoneNumber"));
                               (box.read("currentLoginedPhoneNumber") == "" ||
                                       box.read("address") == "")
                                   ? Get.snackbar("Error",

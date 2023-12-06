@@ -38,14 +38,18 @@ class HomeController extends GetxController {
     ChangePasswordView()
   ];
 
+  void signout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      box.remove("currentLoginUsername");
+      box.remove("currentLoginedPhoneNumber");
+      box.remove("currentloginedUid");
+      box.remove("address");
 
-  void signout()async{
-     await FirebaseAuth.instance.signOut();
-                  box.remove("currentLoginUsername");
-                  box.remove("isLogined");
-                  box.erase();
-                  // currentLoginUid = box.remove("currentLoginUid");
-                 
-          Get.offAll(const SplashScreen());
+      box.remove("isLogined");
+      box.erase();
+
+      Get.offAll(const SplashScreen());
+    } catch (e) {}
   }
 }

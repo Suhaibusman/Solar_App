@@ -46,7 +46,7 @@ class ProfileController extends GetxController {
         phoneController.text = snapshot.get("phoneNumber");
         addressController.text = snapshot.get("address");
         imagePath.value = snapshot.get("profileImage");
-        box.write("currentLoginedPhoneNumber", snapshot.get("phoneNumber"));
+
         String firebaseImagePath = snapshot.get("profileImage") ?? "";
         if (firebaseImagePath != null && firebaseImagePath == "") {
           imagePath.value = firebaseImagePath;
