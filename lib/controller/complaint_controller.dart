@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
@@ -125,12 +126,17 @@ class ComplaintController extends GetxController {
 
   Future<List<DocumentSnapshot>> getComplains() async {
     String userUID = FirebaseAuth.instance.currentUser!.uid;
-    CollectionReference userComplain =
-        firestore.collection("users").doc(userUID).collection("complain");
-    QuerySnapshot complainSbapshot = await userComplain.get();
+    String subcollectionName = box.read("currentloginedName");
 
-    if (complainSbapshot.docs.isNotEmpty) {
-      return complainSbapshot.docs;
+    CollectionReference userComplain = firestore
+        .collection("complain")
+        .doc(userUID)
+        .collection(subcollectionName);
+
+    QuerySnapshot complainSnapshot = await userComplain.get();
+
+    if (complainSnapshot.docs.isNotEmpty) {
+      return complainSnapshot.docs;
     }
     return [];
   }
@@ -166,37 +172,20 @@ class ComplaintController extends GetxController {
           'complaintNumber': complainNumber,
           'complainpicture': downloadUrl,
           'timestamp': FieldValue.serverTimestamp(),
+          'progress': 'pending',
         };
 
         // Add data to Firestore
         await firestore
-            .collection("users")
-            .doc(userUid)
             .collection("complain")
-            .add(complainData)
-            .then((DocumentReference document) {
-          // Access the document ID here
-          String complainDocId = document.id;
+            .doc(userUid)
+            .collection(box.read("currentloginedName"))
+            .add(complainData);
 
-          firestore
-              .collection("users")
-              .doc(userUid)
-              .collection("complain")
-              .doc(complainDocId)
-              .update({"status": "pending", "rating": ratingValue.toString()});
-          lodgeComplain(context, complainDocId);
-          // If you want to navigate to a new screen with the complainDocId:
-
-          // Get.to(ComplaintConfirmationView(
-          //    complainUid: complainDocId
-          //   ));
-
-          loading.value = false;
-        });
         loading.value = false;
-
+        ComplaintConfirmationView(complainUid: complainNumber);
         Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
-        // Clear text fields after submitting the complaint
+
         imagePath.value = "";
         titleController.clear();
         descriptionController.clear();

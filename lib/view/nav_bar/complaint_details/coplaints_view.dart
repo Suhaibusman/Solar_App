@@ -88,7 +88,7 @@ class ComplaintsView extends StatelessWidget {
                 itemCount: complainReports.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot doc = complainReports[index];
-
+                  print(doc["title"]);
                   return Card(
                     color: white,
                     elevation: 12,
@@ -158,22 +158,22 @@ class ComplaintsView extends StatelessWidget {
                                 fontSize: 11,
                                 color: btnPrimaryColor),
                             const Spacer(),
-                            RatingBar.builder(
-                              itemSize: 16,
-                              initialRating: double.parse(doc["rating"]),
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 0.2),
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 13,
-                              ),
-                              onRatingUpdate: (rating) {},
-                            ),
+                            // RatingBar.builder(
+                            //   itemSize: 16,
+                            //   initialRating: double.parse(doc["rating"]),
+                            //   minRating: 1,
+                            //   direction: Axis.horizontal,
+                            //   allowHalfRating: true,
+                            //   itemCount: 5,
+                            //   itemPadding:
+                            //       const EdgeInsets.symmetric(horizontal: 0.2),
+                            //   itemBuilder: (context, _) => const Icon(
+                            //     Icons.star,
+                            //     color: Colors.amber,
+                            //     size: 13,
+                            //   ),
+                            //   onRatingUpdate: (rating) {},
+                            // ),
                           ],
                         )
                       ],
