@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -57,53 +59,57 @@ class ProfileView extends StatelessWidget {
                         children: [
                           mediumSpace,
                           Container(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 0.6, color: lightPrimaryTextColor),
-                                  borderRadius: BorderRadius.circular(15.0)),
-                              child: Obx(() {
-                                return ListTile(
-                                  minVerticalPadding: 0.0,
-                                  leading: Container(
-                                    height: 70,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: profileController
-                                                .imagePath.isNotEmpty
-                                            ? NetworkImage(profileController
-                                                .imagePath.value)
-                                            : const AssetImage(
-                                                    'assets/default.png')
-                                                as ImageProvider<Object>,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      border: Border.all(width: .3),
+                            padding: const EdgeInsets.only(top: 20, bottom: 20),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.6, color: lightPrimaryTextColor),
+                                borderRadius: BorderRadius.circular(15.0)),
+                            child: Obx(() {
+                              return ListTile(
+                                minVerticalPadding: 0.0,
+                                leading: Container(
+                                  height: 70,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image:
+                                          profileController.imagePath.isNotEmpty
+                                              ? FileImage(File(profileController
+                                                  .imagePath.value))
+                                              : const AssetImage(
+                                                      'assets/default.png')
+                                                  as ImageProvider<Object>,
+                                      fit: BoxFit.cover,
                                     ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: primarycolor,
                                   ),
-                                  title: ctext(
-                                      text: box.read("currentloginedName") ??
-                                          currentLoginedName ??
-                                          "name",
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13),
-                                  subtitle: ctext(
-                                      text: "Client No: 0",
-                                      fontWeight: FontWeight.w400,
-                                      color: lightPrimaryTextColor,
-                                      fontSize: 12),
-                                  trailing: profileController.imagePath.value ==
-                                          ""
-                                      ? InkWell(
-                                          onTap: () {
-                                            profileController.getImage();
-                                          },
-                                          child: const Icon(Icons.camera_alt))
-                                      : null,
-                                );
-                              })),
+                                ),
+                                title: ctext(
+                                  text: box.read("currentloginedName") ??
+                                      currentLoginedName ??
+                                      "name",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                                subtitle: ctext(
+                                  text: "Client No: 0",
+                                  fontWeight: FontWeight.w400,
+                                  color: lightPrimaryTextColor,
+                                  fontSize: 12,
+                                ),
+                                trailing:
+                                    profileController.imagePath.value == ""
+                                        ? InkWell(
+                                            onTap: () {
+                                              profileController.getImage();
+                                            },
+                                            child: const Icon(Icons.camera_alt),
+                                          )
+                                        : null,
+                              );
+                            }),
+                          ),
                           largeSpace,
                           ctext(text: "Your Mail ID"),
                           CustomUnderLineTextField(
@@ -136,6 +142,14 @@ class ProfileView extends StatelessWidget {
                                     mywidth: 1,
                                     onPressed: () {
                                       profileController.addPhoneAndAddress();
+                                      box.write(
+                                          "currentLoginedPhoneNumber",
+                                          profileController
+                                              .phoneController.text);
+                                      box.write(
+                                          "address",
+                                          profileController
+                                              .addressController.text);
                                     },
                                     child: (profileController.addressController
                                                 .text.isEmpty ||

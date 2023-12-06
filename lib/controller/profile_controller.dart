@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:solar_app/data.dart';
 
 class ProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -44,17 +45,14 @@ class ProfileController extends GetxController {
         emailController.text = snapshot.get("emailAddress");
         phoneController.text = snapshot.get("phoneNumber");
         addressController.text = snapshot.get("address");
-
-        // Update imagePath with the download URL from Firebase Storage
+        imagePath.value = snapshot.get("profileImage");
+        box.write("currentLoginedPhoneNumber", snapshot.get("phoneNumber"));
         String firebaseImagePath = snapshot.get("profileImage") ?? "";
-        // ignore: unnecessary_null_comparison
-        if (firebaseImagePath != null && firebaseImagePath.isNotEmpty) {
-          // Optionally, you can download the image to local storage if needed
-          // For simplicity, this example assumes you directly use the URL
+        if (firebaseImagePath != null && firebaseImagePath == "") {
           imagePath.value = firebaseImagePath;
         } else {
-          // If profileImage is not available, set a default image
-          imagePath.value = 'assets/default.png';
+          imagePath.value =
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png';
         }
       } else {
         isLoading.value = true;
@@ -73,33 +71,67 @@ class ProfileController extends GetxController {
   }
 
   Future<void> addPhoneAndAddress() async {
-    String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
+    try {
+      // Start loading state
+      isLoading.value = true;
 
-    // Upload image to Firebase Storage
-    UploadTask uploadImage = FirebaseStorage.instance
-        .ref()
-        .child("profilepicture")
-        .child(currentLoginUid)
-        .putFile(File(imagePath.value));
+      String currentLoginUid = FirebaseAuth.instance.currentUser!.uid;
 
-    TaskSnapshot taskSnapshot = await uploadImage;
-    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-    firestore.collection("users").doc(userUid).update({
-      "phoneNumber": phoneController.text,
-      "address": addressController.text,
-      "profileImage": downloadUrl,
-    }).then((value) {
-      Get.snackbar("Success", "User details updated successfully",
+      // Check if the imagePath is not null or empty
+      if (imagePath.value != null && imagePath.value.isNotEmpty) {
+        // Upload image to Firebase Storage
+        File imageFile = File(imagePath.value);
+        UploadTask uploadImage = FirebaseStorage.instance
+            .ref()
+            .child("profilepicture")
+            .child(currentLoginUid)
+            .putFile(imageFile);
+
+        TaskSnapshot taskSnapshot = await uploadImage;
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+        // Update user details in Firestore
+        await firestore.collection("users").doc(userUid).update({
+          "phoneNumber": phoneController.text,
+          "address": addressController.text,
+          "profileImage": downloadUrl,
+        });
+
+        // Stop loading state
+        isLoading.value = false;
+
+        // Show success snackbar
+        Get.snackbar("Success", "User details updated successfully",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white);
+
+        // Navigate back
+        Get.back();
+      } else {
+        // Stop loading state
+        isLoading.value = false;
+
+        // Show error snackbar
+        Get.snackbar("Error", "Image path is null or empty",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+
+        print("Image path is null or empty. Image not uploaded.");
+      }
+    } catch (error) {
+      // Stop loading state
+      isLoading.value = false;
+
+      // Handle update error
+      Get.snackbar("Error", "Failed to update user details: $error",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           colorText: Colors.white);
 
-      // Handle success if needed
-      Get.back();
-    }).catchError((error) {
-      // Handle update error
       print("Error updating user details: $error");
-    });
+    }
   }
 
   Future getImage() async {

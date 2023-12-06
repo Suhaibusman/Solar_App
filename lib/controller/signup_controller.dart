@@ -15,20 +15,19 @@ class SignUpController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxBool loading = false.obs;
   RxBool isPassVisible = true.obs;
- 
-  signUpWithEmailAndPassword(
-      ) async {
-        loading.value =true;
+
+  signUpWithEmailAndPassword() async {
+    loading.value = true;
     String emailAddress = emailController.text.toString().trim();
     String password = passwordController.text.toString().trim();
     String userName = nameController.text.toString().trim();
 
     if (emailAddress == "" || password == "" || userName == "") {
-      Get.snackbar( "Sign up Error", "Please Fill All The Values");
-     loading.value = false;
-    }  else {
+      Get.snackbar("Sign up Error", "Please Fill All The Values");
+      loading.value = false;
+    } else {
       try {
-         loading.value = true;
+        loading.value = true;
         final credential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailAddress,
@@ -37,23 +36,27 @@ class SignUpController extends GetxController {
         await firestore.collection("users").doc(credential.user!.uid).set({
           "username": userName,
           "emailAddress": emailAddress,
-          "Password": password
+          "Password": password,
+          "phoneNumber": "",
+          "profileImage": "",
+          "address": ""
         });
         if (credential.user != null) {
-           loading.value = false;
-          Get.snackbar( "Sign Up Successfully",
+          loading.value = false;
+          Get.snackbar("Sign Up Successfully",
               "The User With This Email: $emailAddress is Registered Successfully");
-              Get.to(()=> LoginView());
+          Get.to(() => LoginView());
           emailController.clear();
           passwordController.clear();
           nameController.clear();
         }
       } on FirebaseAuthException catch (e) {
-    loading.value = false;
-        Get.snackbar( "Error", e.toString());
+        loading.value = false;
+        Get.snackbar("Error", e.toString());
       } catch (e) {
         loading.value = false;
-        Get.snackbar( "Error", e.toString());
+        Get.snackbar("Error", e.toString());
       }
     }
-}}
+  }
+}

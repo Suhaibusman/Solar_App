@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:solar_app/data.dart';
 
 class MaintainanceController extends GetxController {
   RxList<DateTime> selectedDates = <DateTime>[].obs;
@@ -71,7 +72,10 @@ class MaintainanceController extends GetxController {
           .set({
         "date": timestampList,
         "price": price[initialIndex.value],
-        "text": text[initialIndex.value],
+        "issue": text[initialIndex.value],
+        "emailAddress": FirebaseAuth.instance.currentUser!.email,
+        "phoneNumber": box.read("currentLoginedPhoneNumber"),
+        "userName": box.read("currentloginedName"),
       });
       Get.back();
     });

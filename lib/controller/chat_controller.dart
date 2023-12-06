@@ -11,6 +11,7 @@ class ChatController extends GetxController {
   String formattedTime = "";
   RxBool isOptionButtonVisible = true.obs;
   bool chatActive = true;
+  bool isEnterAddress = false;
   final greetings = ["hi", "hello", "hey"];
   late DialogFlowtter dialogFlowtter;
 
@@ -128,9 +129,18 @@ class ChatController extends GetxController {
 
     if (msgController.text.toLowerCase() == "yes") {
       sendMessage(message: msgController.text);
-      getResponse(
-          message:
-              "Please type your address including city, state, and country.");
+      Future.delayed(const Duration(seconds: 2), () async {
+        getResponse(
+            message:
+                "Please type your address including city, state, and country.");
+      });
+
+      isEnterAddress = true;
+      while (isEnterAddress) {
+        sendMessage(message: msgController.text);
+        getResponse(message: "Our Company Will Call You.");
+        isEnterAddress = false;
+      }
     } else {
       if (msgController.text == "no") {
         sendMessage(message: msgController.text);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/controller/maintainance_controller.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -201,7 +202,13 @@ class MaintainanceView extends StatelessWidget {
                             height: 43,
                             mywidth: 1,
                             onPressed: () {
-                              maintainanceController.addMaintainance();
+                              print("khali " +
+                                  box.read("currentLoginedPhoneNumber"));
+                              (box.read("currentLoginedPhoneNumber") == "" ||
+                                      box.read("address") == "")
+                                  ? Get.snackbar("Error",
+                                      "Please Add Phone Number in Profile")
+                                  : maintainanceController.addMaintainance();
                             },
                             child: 'Submit',
                             gradientColors: [

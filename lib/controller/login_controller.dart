@@ -7,8 +7,6 @@ import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/widgets/nav_bar.dart';
 
-
-
 class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -16,92 +14,88 @@ class LoginController extends GetxController {
   List loginLogos = [IconsConstants.googleIcon, IconsConstants.facebookIcon];
   RxBool isPass = true.obs;
   RxBool loading = false.obs;
-   bool isLogined =false;
-   loginWithEmailAndPassword() async {
-  loading.value = true;
-  String emailAddress = emailController.text.toString().trim();
-  String password = passwordController.text.toString().trim();
+  bool isLogined = false;
+  loginWithEmailAndPassword() async {
+    loading.value = true;
+    String emailAddress = emailController.text.toString().trim();
+    String password = passwordController.text.toString().trim();
 
-  if (emailAddress == "" || password == "") {
-    Get.snackbar(
-        "Error",
-        "Please Enter Username and Password");
-    loading.value = false;
-  } else {
-    try {
-      loading.value = true;
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: emailAddress, password: password);
-      emailController.clear();
-      passwordController.clear();
-      // currentloginedUid = credential.user!.uid;
-      box.write("currentloginedUid", credential.user!.uid);
-      final userUid = credential.user!.uid;
+    if (emailAddress == "" || password == "") {
+      Get.snackbar("Error", "Please Enter Username and Password");
+      loading.value = false;
+    } else {
+      try {
+        loading.value = true;
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+                email: emailAddress, password: password);
+        emailController.clear();
+        passwordController.clear();
+        // currentloginedUid = credential.user!.uid;
+        box.write("currentloginedUid", credential.user!.uid);
+        final userUid = credential.user!.uid;
 
-      // Check if the user exists in the "user" collection
-      DocumentSnapshot userSnapshot =
-          await firestore.collection("users").doc(userUid).get();
-      if (userSnapshot.exists) {
-        // User is a regular user
-        Map<String, dynamic> userData =
-            userSnapshot.data() as Map<String, dynamic>;
+        // Check if the user exists in the "user" collection
+        DocumentSnapshot userSnapshot =
+            await firestore.collection("users").doc(userUid).get();
+        if (userSnapshot.exists) {
+          // User is a regular user
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
 
-        box.write("currentloginedName", userData["username"]);
-       
+          box.write("currentloginedName", userData["username"]);
+          box.write("currentLoginedPhoneNumber", userData["phoneNumber"]);
+          box.write("address", userData["address"]);
 
-        currentLoginedName = box.read("currentloginedName");
-       
-       Get.offAll(()=> MyBottomNavbar());
+          currentLoginedName = box.read("currentloginedName");
 
-        // Navigate to HomeScreen
-        // Get.offAll(()=>HomeView(
-        // userName: currentLoginedName ?? box.read("currentloginedName"),
-        // ));
-        box.write("isLogined", true);
-          isLogined=true;
-        //   Navigator.popUntil(context, (route) => route.isFirst);
+          Get.offAll(() => MyBottomNavbar());
 
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => HomePage(
-        // userNames: currentLoginedName ?? box.read("currentloginedName"),
-        // )
-        //   ),
-        // );
-      } else {
+          // Navigate to HomeScreen
+          // Get.offAll(()=>HomeView(
+          // userName: currentLoginedName ?? box.read("currentloginedName"),
+          // ));
+          box.write("isLogined", true);
+          isLogined = true;
+          //   Navigator.popUntil(context, (route) => route.isFirst);
+
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => HomePage(
+          // userNames: currentLoginedName ?? box.read("currentloginedName"),
+          // )
+          //   ),
+          // );
+        } else {
+          Get.snackbar("Login Error", "You are not a registered user");
+          // Handle the case where the user is not found in the "user" collection
+        }
+      } catch (e) {
         Get.snackbar(
-            "Login Error",
-            "You are not a registered user");
-        // Handle the case where the user is not found in the "user" collection
-      }
-    } catch (e) {
-      Get.snackbar(
           "Error",
           e.toString(),
-      );
+        );
+      }
     }
+    loading.value = false;
   }
-  loading.value = false;
-}
 
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
 
-Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
-}
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 }
