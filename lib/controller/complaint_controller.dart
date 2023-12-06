@@ -183,9 +183,9 @@ class ComplaintController extends GetxController {
             .add(complainData);
 
         loading.value = false;
-        ComplaintConfirmationView(complainUid: complainNumber);
-        Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
 
+        Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
+        Get.to(() => ComplaintConfirmationView(complainUid: complainNumber));
         imagePath.value = "";
         titleController.clear();
         descriptionController.clear();
