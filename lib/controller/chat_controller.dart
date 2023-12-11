@@ -76,26 +76,31 @@ class ChatController extends GetxController {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your complaint");
     } else {
-      // copyChats();
       chatBot();
       msgController.clear();
     }
   }
 
   greetingMessage() async {
-    Future.delayed(
-      const Duration(seconds: 2),
+    await Future.delayed(
+      const Duration(seconds: 1),
       () async {
         await getResponse(
             message: "Welcome to our Solar Power Company! How can I help you?");
-        await getResponse(
-            message:
-                "I can help you find out ⚡How You Can Save With Solar Energy⚡");
-        await getResponse(
-            message:
-                "Let me ask you a few questions to see if you qualify for the free eligibility review type sure.");
       },
     );
+
+    await Future.delayed(const Duration(seconds: 1), () async {
+      await getResponse(
+          message:
+              "I can help you find out ⚡How You Can Save With Solar Energy⚡");
+    });
+
+    await Future.delayed(const Duration(seconds: 1), () async {
+      await getResponse(
+          message:
+              "Let me ask you a few questions to see if you qualify for the free eligibility review type sure.");
+    });
   }
 
   void chatBot() async {

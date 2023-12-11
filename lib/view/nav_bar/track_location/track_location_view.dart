@@ -24,7 +24,11 @@ class TrackLocationView extends StatelessWidget {
                   fit: BoxFit.fill)),
           child: Column(
             children: [
-              Lottie.asset(ImageConstants.location),
+              InkWell(
+                  onTap: () {
+                    trackLocationController.openMap();
+                  },
+                  child: Lottie.asset(ImageConstants.location)),
               const Spacer(),
               Container(
                   padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -56,8 +60,7 @@ class TrackLocationView extends StatelessWidget {
                               ImageConstants.monocrystalineImage,
                               height: 70,
                               width: Get.width * 0.3,
-                              fit: BoxFit
-                                  .cover,
+                              fit: BoxFit.cover,
                             ),
                           ),
                           mediumSpaceh,
@@ -86,7 +89,8 @@ class TrackLocationView extends StatelessWidget {
                                             "+923112136120",
                                             "Hello, I am facing problem with my solar panel. Please help me.");
                                       },
-                                      child: Icon(CupertinoIcons.chat_bubble_2_fill,
+                                      child: Icon(
+                                          CupertinoIcons.chat_bubble_2_fill,
                                           color: btnPrimaryColor),
                                     ),
                                     extraSmallSpace,
@@ -104,9 +108,11 @@ class TrackLocationView extends StatelessWidget {
                                   const Spacer(),
                                   InkWell(
                                     onTap: () {
-                                      trackLocationController.openWhatsAppCall("+923112136120");
+                                      trackLocationController
+                                          .openWhatsAppCall("+923112136120");
                                     },
-                                    child: Icon(CupertinoIcons.phone_circle_fill,
+                                    child: Icon(
+                                        CupertinoIcons.phone_circle_fill,
                                         color: btnPrimaryColor),
                                   ),
                                   extraSmallSpace,

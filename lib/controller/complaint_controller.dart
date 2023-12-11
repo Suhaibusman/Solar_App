@@ -32,6 +32,7 @@ class ComplaintController extends GetxController {
   String status = "Pending"; // Default status
   String userUid = FirebaseAuth.instance.currentUser!.uid;
   List<DateTime> multiDatePickerValueWithDefaultValue = [];
+  RxList<DocumentSnapshot> complainReports = <DocumentSnapshot>[].obs;
   RxList<DocumentSnapshot<Object?>> complaints = <DocumentSnapshot>[].obs;
 
   void addDate(DateTime date) {
@@ -122,6 +123,21 @@ class ComplaintController extends GetxController {
         );
       },
     );
+  }
+
+  Stream<List<DocumentSnapshot>> getComplaintsStream() {
+    String userUID = FirebaseAuth.instance.currentUser!.uid;
+    String subcollectionName = box.read("currentloginedName");
+
+    CollectionReference userComplain = firestore
+        .collection("complain")
+        .doc(userUID)
+        .collection(subcollectionName);
+
+    return userComplain.snapshots().map((querySnapshot) {
+      // Convert QuerySnapshot to List<DocumentSnapshot>
+      return querySnapshot.docs.toList();
+    });
   }
 
   Future<List<DocumentSnapshot>> getComplains() async {
@@ -296,6 +312,7 @@ class ComplaintController extends GetxController {
           .collection(box.read("currentloginedName"))
           .doc(id)
           .delete();
+      complainReports.removeWhere((doc) => doc.id == id);
       Get.snackbar("Complain Deleted", "Your Complain Has been Deleted");
     } catch (e) {
       Get.snackbar("Error", e.toString());
