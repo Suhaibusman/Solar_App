@@ -88,7 +88,7 @@ class ComplaintsView extends StatelessWidget {
                 itemCount: complainReports.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot doc = complainReports[index];
-                  print(doc["title"]);
+
                   return Card(
                     color: white,
                     elevation: 12,

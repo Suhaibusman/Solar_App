@@ -182,6 +182,7 @@ class ComplaintController extends GetxController {
             .collection(box.read("currentloginedName"))
             .add(complainData);
 
+        // await firestore.collection("comp").add(complainData);
         loading.value = false;
 
         Get.snackbar("Complain Submitted", "Your Complain Has been submitted");
@@ -287,13 +288,18 @@ class ComplaintController extends GetxController {
   }
 
   void deleteComplain(String id) {
-    String currentUid = FirebaseAuth.instance.currentUser!.uid;
-    firestore
-        .collection("users")
-        .doc(currentUid)
-        .collection("complain")
-        .doc(id)
-        .delete();
+    try {
+      String currentUid = FirebaseAuth.instance.currentUser!.uid;
+      firestore
+          .collection("complain")
+          .doc(currentUid)
+          .collection(box.read("currentloginedName"))
+          .doc(id)
+          .delete();
+      Get.snackbar("Complain Deleted", "Your Complain Has been Deleted");
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
   }
   // void deleteComplain(String id) {
   //   // Assuming Complain class has an 'id' property
