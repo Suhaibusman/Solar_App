@@ -49,7 +49,7 @@ class HomeView extends StatelessWidget {
               child: CircleAvatar(
                 radius: 18,
                 backgroundColor: btnPrimaryColor,
-              child: Icon(
+                child: Icon(
                   Icons.exit_to_app,
                   color: white,
                 ),

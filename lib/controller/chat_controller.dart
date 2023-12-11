@@ -10,7 +10,8 @@ class ChatController extends GetxController {
   RxList<Map<String, dynamic>> messages = <Map<String, dynamic>>[].obs;
   String formattedTime = "";
   RxBool isOptionButtonVisible = true.obs;
-  bool chatActive = true;
+  bool isQuestionActive = false;
+  bool isGreetingCompleted = false;
   bool isEnterAddress = false;
   final greetings = ["hi", "hello", "hey"];
   late DialogFlowtter dialogFlowtter;
@@ -72,12 +73,79 @@ class ChatController extends GetxController {
     });
   }
 
-  void handleUserInput() {
+  void handleUserInput() async {
     if (msgController.text.isEmpty) {
       Get.snackbar("Undefined", "Please enter your complaint");
-    } else {
-      chatBot();
+    } else if (greetings.contains(msgController.text.toLowerCase())) {
+      isGreetingCompleted = true;
+
+      await sendMessage(message: msgController.text);
       msgController.clear();
+      await greetingMessage();
+    } else if (!isGreetingCompleted) {
+      await sendMessage(message: msgController.text);
+      msgController.clear();
+      await Future.delayed(
+        const Duration(seconds: 1),
+        () async {
+          await getResponse(
+              message: "I Can't Understand Please Type Hi or Hello or Hey");
+        },
+      );
+    } else {
+      if (isGreetingCompleted && msgController.text == "sure") {
+        await sendMessage(message: msgController.text);
+        msgController.clear();
+        Future.delayed(const Duration(seconds: 1), () async {
+          await getResponse(message: "Great! Then, here is my first question");
+        });
+
+        Future.delayed(const Duration(seconds: 2), () async {
+          await getResponse(message: "Is Your Home Shaded? (Yes/No)");
+        });
+        isQuestionActive = true;
+      } else if (isGreetingCompleted &&
+          isQuestionActive &&
+          msgController.text.toLowerCase() == "yes") {
+        sendMessage(message: msgController.text);
+        msgController.clear();
+        Future.delayed(const Duration(seconds: 2), () async {
+          await getResponse(
+              message:
+                  "Please type your address including city, state, and country.");
+        });
+
+        isEnterAddress = true;
+      } else if (isEnterAddress &&
+          msgController.text.isNotEmpty &&
+          isGreetingCompleted) {
+        await sendMessage(message: msgController.text);
+        msgController.clear();
+        Future.delayed(const Duration(seconds: 1), () async {
+          getResponse(message: "Our Company Will Call You.");
+        });
+
+        isGreetingCompleted = false;
+        isEnterAddress = false;
+      } else if (isQuestionActive && msgController.text == "no") {
+        sendMessage(message: msgController.text);
+        msgController.clear();
+        getResponse(
+            message:
+                "I Think You Need To Contact our company so after the survey they will tell you if you are eligible for solar or not.");
+        isGreetingCompleted = false;
+      } else if (isQuestionActive) {
+        await sendMessage(message: msgController.text);
+        msgController.clear();
+        Future.delayed(
+          const Duration(seconds: 2),
+          () async {
+            await getResponse(
+                message: "I Can't Understand what are you saying");
+          },
+        );
+        isGreetingCompleted = false;
+      }
     }
   }
 
@@ -120,6 +188,7 @@ class ChatController extends GetxController {
       } else if (msgController.text == "no") {
         await sendMessage(message: msgController.text);
         await getResponse(message: "I think you are not interested.");
+        isGreetingCompleted = false;
       } else {
         await sendMessage(message: msgController.text);
         generateAutoReply("2");
@@ -144,6 +213,7 @@ class ChatController extends GetxController {
       while (isEnterAddress) {
         sendMessage(message: msgController.text);
         getResponse(message: "Our Company Will Call You.");
+        isGreetingCompleted = false;
         isEnterAddress = false;
       }
     } else {
@@ -152,6 +222,7 @@ class ChatController extends GetxController {
         getResponse(
             message:
                 "I Think You Need To Contact our company so after survey they tell u are you eligible for solar or not.");
+        isGreetingCompleted = false;
       }
     }
   }
