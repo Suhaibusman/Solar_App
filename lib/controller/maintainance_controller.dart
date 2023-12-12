@@ -76,6 +76,7 @@ class MaintainanceController extends GetxController {
         "emailAddress": FirebaseAuth.instance.currentUser!.email,
         "phoneNumber": box.read("currentLoginedPhoneNumber"),
         "userName": box.read("currentloginedName"),
+        "progress": "pending",
       });
       Get.back();
     });

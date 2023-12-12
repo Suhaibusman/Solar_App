@@ -13,14 +13,6 @@ import 'package:solar_app/view/nav_bar/complaint_details/reg_complaint_view.dart
 class ComplaintsView extends StatelessWidget {
   const ComplaintsView({super.key});
 
-// func(doc){
-//    Timestamp timestamp = doc['timestamp'],
-//                           DateTime complaintDate = timestamp.toDate();
-
-//         // Format the date
-//                   String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
-// }
-
   yourFunction(DocumentSnapshot doc) {
     Timestamp timestamp = doc['timestamp'];
 
