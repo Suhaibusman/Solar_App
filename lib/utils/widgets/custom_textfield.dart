@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,19 +7,19 @@ import 'package:solar_app/utils/themes/color_theme.dart';
 
 class CustomUnderLineTextField extends StatelessWidget {
   final TextEditingController? controller;
- final bool? isobscure;
+  final bool? isobscure;
   bool? isreadOnly = true;
   bool? issuffixIcon = false;
   bool? isPreffixIcon = false;
   final IconData? suffixIcon;
-  
+
   final int? maxLines;
   var onSuffixTap;
   var onTap;
   final String hint;
   final TextInputType type;
   CustomUnderLineTextField({
-     this.isobscure,
+    this.isobscure,
     required this.controller,
     required this.hint,
     this.issuffixIcon,
@@ -79,8 +79,7 @@ class CustomUnderLineTextField extends StatelessWidget {
                   ))
               : const SizedBox.shrink(),
         ),
-        onChanged: (value) {
-        },
+        onChanged: (value) {},
       ),
     );
   }
@@ -103,7 +102,6 @@ class CustomBorderTextField extends StatefulWidget {
   final int? maxLines;
 
   const CustomBorderTextField({
-    
     Key? key,
     required this.hint,
     this.isobscure,
@@ -118,7 +116,7 @@ class CustomBorderTextField extends StatefulWidget {
     this.controller,
     this.valid,
     this.onchanged,
-    this.maxLines, 
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -179,8 +177,11 @@ class _FieldTextState extends State<CustomBorderTextField> {
             child: IconButton(
               onPressed: widget.onTap,
               icon: InkWell(
-                onTap: widget.suffixonTap,
-                child: Icon(widget.suffix, color: Colors.grey,)),
+                  onTap: widget.suffixonTap,
+                  child: Icon(
+                    widget.suffix,
+                    color: Colors.grey,
+                  )),
             ),
           ),
         ),

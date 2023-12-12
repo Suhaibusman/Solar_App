@@ -43,36 +43,36 @@ class ComplaintsView extends StatelessWidget {
     ComplaintController complainController = Get.find<ComplaintController>();
 
     return Scaffold(
-      backgroundColor: primarycolor,
-      appBar: AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: true,
-        leading: InkWell(
-            onTap: () {
-              Get.to(() => MyBottomNavbar());
-            },
-            child: Icon(Icons.arrow_back_ios_new, color: white)),
-        title: ctext(
-            text: "Complains",
-            fontWeight: FontWeight.bold,
-            fontSize: 13,
-            color: white),
-        backgroundColor: Colors.transparent,
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.to(() => RegisterComplaintView());
-            },
-            child: CircleAvatar(
-              radius: 16,
-              backgroundColor: btnPrimaryColor,
-              child: Icon(Icons.add, color: white),
+        backgroundColor: primarycolor,
+        appBar: AppBar(
+          elevation: 0.0,
+          automaticallyImplyLeading: true,
+          leading: InkWell(
+              onTap: () {
+                Get.to(() => MyBottomNavbar());
+              },
+              child: Icon(Icons.arrow_back_ios_new, color: white)),
+          title: ctext(
+              text: "Complains",
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color: white),
+          backgroundColor: Colors.transparent,
+          actions: [
+            InkWell(
+              onTap: () {
+                Get.to(() => RegisterComplaintView());
+              },
+              child: CircleAvatar(
+                radius: 16,
+                backgroundColor: btnPrimaryColor,
+                child: Icon(Icons.add, color: white),
+              ),
             ),
-          ),
-          mediumSpaceh
-        ],
-      ),
-      body: FutureBuilder<List<DocumentSnapshot>>(
+            mediumSpaceh
+          ],
+        ),
+        body: FutureBuilder<List<Map<String, dynamic>>>(
           future: complainController.getComplains(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -80,14 +80,19 @@ class ComplaintsView extends StatelessWidget {
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {
-              List<DocumentSnapshot<Object?>>? complainReports = snapshot.data;
-              if (complainReports!.isEmpty) {
+              List<Map<String, dynamic>> complainReports = snapshot.data!;
+              if (complainReports.isEmpty) {
                 return const Center(child: Text("No Complain Found"));
               }
+              // ... (previous code)
+
               return ListView.builder(
                 itemCount: complainReports.length,
                 itemBuilder: (context, index) {
-                  DocumentSnapshot doc = complainReports[index];
+                  Map<String, dynamic> complainData = complainReports[index];
+
+                  DateTime dateTime = complainData['timestamp']
+                      .toDate(); // Convert timestamp to DateTime
 
                   return Card(
                     color: white,
@@ -102,14 +107,16 @@ class ComplaintsView extends StatelessWidget {
                         Row(
                           children: [
                             ctext(
-                                text: doc["title"],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.black),
+                              text: complainData['title'],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
                             const Spacer(),
                             InkWell(
                               onTap: () {
-                                complainController.deleteComplain(doc.id);
+                                complainController.deleteComplain(
+                                    complainData['complaintNumber']);
                               },
                               child: Icon(
                                 Icons.delete,
@@ -121,42 +128,50 @@ class ComplaintsView extends StatelessWidget {
                         extraSmallSpace,
                         Row(
                           children: [
-                            Icon(Icons.calendar_month_outlined,
-                                size: 14, color: Colors.grey.withOpacity(.6)),
-                            yourFunction(doc)
-                            // ctext(
-                            //     text: DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
-                            //     fontWeight: FontWeight.bold,
-                            //     fontSize: 11,
-                            //     color: Colors.grey.withOpacity(.6)),
+                            Icon(
+                              Icons.calendar_month_outlined,
+                              size: 14,
+                              color: Colors.grey.withOpacity(.6),
+                            ),
+                            ctext(
+                              text: DateFormat('yyyy-MM-dd HH:mm:ss')
+                                  .format(dateTime),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                              color: Colors.grey.withOpacity(.6),
+                            ),
                           ],
                         ),
                         extraSmallSpace,
                         Row(
                           children: [
                             ctext(
-                                text: "Status: ",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11),
+                              text: "Status: ",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
                             ctext(
-                                text: doc["status"],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
-                                color: Colors.red),
+                              text: complainData['status'],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                              color: Colors.red,
+                            ),
                           ],
                         ),
                         extraSmallSpace,
                         Row(
                           children: [
                             ctext(
-                                text: "Progress: ",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11),
+                              text: "Progress: ",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
                             ctext(
-                                text: doc["progress"],
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11,
-                                color: btnPrimaryColor),
+                              text: complainData['progress'],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                              color: btnPrimaryColor,
+                            ),
                             const Spacer(),
                           ],
                         )
@@ -165,6 +180,7 @@ class ComplaintsView extends StatelessWidget {
                   );
                 },
               );
+// ... (remaining code)
             } else {
               return ctext(
                   color: Colors.white,
@@ -172,7 +188,7 @@ class ComplaintsView extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 20);
             }
-          }),
-    );
+          },
+        ));
   }
 }

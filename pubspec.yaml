@@ -50,7 +50,7 @@ dependencies:
   cloud_firestore: ^4.13.2
   firebase_auth: ^4.14.1
   get_storage: ^2.1.1
-  firebase_database: ^10.3.6
+  firebase_database: ^10.3.8
   firebase_storage: ^11.5.3
   image_picker: ^1.0.4
   intl: ^0.18.1
@@ -58,6 +58,7 @@ dependencies:
   google_sign_in: ^6.1.6
   mailer: ^6.0.1
   dialog_flowtter: ^0.2.0-nullsafety.0
+  firebase_app_check: ^0.2.1+8
 
 dev_dependencies:
   flutter_test:

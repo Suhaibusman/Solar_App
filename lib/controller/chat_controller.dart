@@ -134,7 +134,7 @@ class ChatController extends GetxController {
             message:
                 "I Think You Need To Contact our company so after the survey they will tell you if you are eligible for solar or not.");
         isGreetingCompleted = false;
-      } else if (isQuestionActive) {
+      } else if (isQuestionActive && isGreetingCompleted) {
         await sendMessage(message: msgController.text);
         msgController.clear();
         Future.delayed(
@@ -144,6 +144,7 @@ class ChatController extends GetxController {
                 message: "I Can't Understand what are you saying");
           },
         );
+
         isGreetingCompleted = false;
       }
     }

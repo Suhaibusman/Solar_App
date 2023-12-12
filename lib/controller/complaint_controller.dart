@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,7 @@ class ComplaintController extends GetxController {
   List<DateTime> multiDatePickerValueWithDefaultValue = [];
   RxList<DocumentSnapshot> complainReports = <DocumentSnapshot>[].obs;
   RxList<DocumentSnapshot<Object?>> complaints = <DocumentSnapshot>[].obs;
+  final databaseRef = FirebaseDatabase.instance.ref("complain");
 
   void addDate(DateTime date) {
     selectedDates.add(date);
@@ -140,21 +142,27 @@ class ComplaintController extends GetxController {
     });
   }
 
-  Future<List<DocumentSnapshot>> getComplains() async {
-    String userUID = FirebaseAuth.instance.currentUser!.uid;
-    String subcollectionName = box.read("currentloginedName");
+  Future<List<Map<String, dynamic>>> getComplains() async {
+    String loggedInUid = FirebaseAuth.instance.currentUser!.uid;
 
-    CollectionReference userComplain = firestore
-        .collection("complain")
-        .doc(userUID)
-        .collection(subcollectionName);
+    CollectionReference userComplain = firestore.collection("complain");
 
     QuerySnapshot complainSnapshot = await userComplain.get();
 
+    List<Map<String, dynamic>> complainDataList = [];
+
     if (complainSnapshot.docs.isNotEmpty) {
-      return complainSnapshot.docs;
+      complainSnapshot.docs.forEach((DocumentSnapshot document) {
+        Map<String, dynamic> complainData =
+            document.data() as Map<String, dynamic>;
+        // Check if the 'uid' in the document matches the current logged-in UID
+        if (complainData['uid'] == loggedInUid) {
+          complainDataList.add(complainData);
+        }
+      });
     }
-    return [];
+
+    return complainDataList;
   }
 
   void addComplain(context) async {
@@ -182,6 +190,7 @@ class ComplaintController extends GetxController {
 
         // Prepare data to be added to Firestore
         Map<String, dynamic> complainData = {
+          'uid': currentLoginUid,
           'title': titleController.text,
           'description': descriptionController.text,
           'status': selectedValue.value,
@@ -192,12 +201,25 @@ class ComplaintController extends GetxController {
         };
 
         // Add data to Firestore
-        await firestore
-            .collection("complain")
-            .doc(userUid)
-            .collection(box.read("currentloginedName"))
-            .add(complainData);
 
+        await firestore.collection("complain").add(complainData);
+
+        // .add(complainData);
+        // await firestore
+        //     .collection("complain")
+        //     .doc(userUid)
+        //     .collection(box.read("currentloginedName"))
+        //     .add(complainData);
+        // await databaseRef
+        //     .child(userUid)
+        //     .child(box.read("currentloginedName"))
+        //     .set(complainData);
+        // await FirebaseDatabase.instance
+        //     .ref("complain")
+        //     .child(userUid)
+        //     .child(box.read("currentloginedName"))
+        //     .push()
+        //     .set(complainData);
         // await firestore.collection("comp").add(complainData);
         loading.value = false;
 
@@ -303,21 +325,34 @@ class ComplaintController extends GetxController {
     }
   }
 
-  void deleteComplain(String id) {
+  void deleteComplain(String uid) async {
     try {
       String currentUid = FirebaseAuth.instance.currentUser!.uid;
-      firestore
-          .collection("complain")
-          .doc(currentUid)
-          .collection(box.read("currentloginedName"))
-          .doc(id)
-          .delete();
-      complainReports.removeWhere((doc) => doc.id == id);
-      Get.snackbar("Complain Deleted", "Your Complain Has been Deleted");
+
+      // Get a reference to the complain collection
+      CollectionReference complainCollection = firestore.collection("complain");
+
+      // Query for the document with the given 'uid' and the current logged-in UID
+      QuerySnapshot querySnapshot =
+          await complainCollection.where('uid', isEqualTo: currentUid).get();
+
+      // Check if any document is found
+      if (querySnapshot.docs.isNotEmpty) {
+        // Delete the first document found (assuming 'uid' is unique)
+        await querySnapshot.docs.first.reference.delete();
+
+        // You might want to update your local list here as well
+        complainReports.removeWhere((doc) => doc['uid'] == uid);
+
+        Get.snackbar("Complain Deleted", "Your Complain has been Deleted");
+      } else {
+        Get.snackbar("Error", "Complain not found");
+      }
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
   }
+
   // void deleteComplain(String id) {
   //   // Assuming Complain class has an 'id' property
   //   complaints.removeWhere((complain) => complain.id == id);

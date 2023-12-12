@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_null_comparison
 
 import 'dart:io';
 
@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:solar_app/data.dart';
 
 class ProfileController extends GetxController {
   TextEditingController emailController = TextEditingController();
