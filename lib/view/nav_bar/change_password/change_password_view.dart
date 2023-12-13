@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/controller/change_password-controller.dart';
+import 'package:solar_app/data.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -49,96 +50,107 @@ class ChangePasswordView extends StatelessWidget {
                     ],
                   ).paddingOnly(left: 20, right: 20, top: 20, bottom: 40),
                   largeSpace,
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
-                    height: Get.height * 0.69,
-                    width: Get.width * 0.88,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: white,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        largeSpace,
-                        ctext(text: "Old Password"),
-                        CustomUnderLineTextField(
-                            isobscure: changePasswordController
-                                .isOldPassVissible.value,
-                            onSuffixTap: () {
-                              changePasswordController.isOldPassVissible.value =
-                                  !changePasswordController
-                                      .isOldPassVissible.value;
-                            },
-                            suffixIcon:
-                                changePasswordController.isOldPassVissible.value
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                            controller:
-                                changePasswordController.oldPasswordController,
-                            hint: "**********",
-                            type: TextInputType.emailAddress),
-                        largeSpace,
-                        ctext(text: "New Password"),
-                        CustomUnderLineTextField(
-                            onSuffixTap: () {
-                              changePasswordController.isNewPassVissible.value =
-                                  !changePasswordController
-                                      .isNewPassVissible.value;
-                            },
-                            suffixIcon:
-                                changePasswordController.isNewPassVissible.value
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                            isobscure: changePasswordController
-                                .isNewPassVissible.value,
-                            controller:
-                                changePasswordController.newPasswordController,
-                            hint: "**********",
-                            type: TextInputType.emailAddress),
-                        largeSpace,
-                        ctext(text: "Retype Password"),
-                        CustomUnderLineTextField(
-                            onSuffixTap: () {
-                              changePasswordController
-                                      .isconfirmNewPassVissible.value =
-                                  !changePasswordController
-                                      .isconfirmNewPassVissible.value;
-                            },
-                            suffixIcon: changePasswordController
-                                    .isconfirmNewPassVissible.value
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            isobscure: changePasswordController
-                                .isconfirmNewPassVissible.value,
-                            controller: changePasswordController
-                                .confirmNewPasswordController,
-                            hint: "**********",
-                            type: TextInputType.emailAddress),
-                        largeSpace,
-                        Center(
-                          child: Obx(() {
-                            return changePasswordController.loading.value
-                                ? const CircularProgressIndicator()
-                                : CustomButton(
-                                    borderRadius: BorderRadius.circular(15),
-                                    height: 43,
-                                    mywidth: 0.75,
-                                    onPressed: () {
-                                      changePasswordController.changePassword();
-                                    },
-                                    child: 'Change Password',
-                                    gradientColors: [
-                                      btnPrimaryColor,
-                                      btnSecondaryColor
-                                    ],
-                                    color: btnSecondaryColor);
-                          }),
-                        ),
-                      ],
-                    ),
-                  )
+                  box.read("loginwithemail") == true
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          height: Get.height * 0.69,
+                          width: Get.width * 0.88,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              largeSpace,
+                              ctext(text: "Old Password"),
+                              CustomUnderLineTextField(
+                                  isobscure: changePasswordController
+                                      .isOldPassVissible.value,
+                                  onSuffixTap: () {
+                                    changePasswordController
+                                            .isOldPassVissible.value =
+                                        !changePasswordController
+                                            .isOldPassVissible.value;
+                                  },
+                                  suffixIcon: changePasswordController
+                                          .isOldPassVissible.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  controller: changePasswordController
+                                      .oldPasswordController,
+                                  hint: "**********",
+                                  type: TextInputType.emailAddress),
+                              largeSpace,
+                              ctext(text: "New Password"),
+                              CustomUnderLineTextField(
+                                  onSuffixTap: () {
+                                    changePasswordController
+                                            .isNewPassVissible.value =
+                                        !changePasswordController
+                                            .isNewPassVissible.value;
+                                  },
+                                  suffixIcon: changePasswordController
+                                          .isNewPassVissible.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  isobscure: changePasswordController
+                                      .isNewPassVissible.value,
+                                  controller: changePasswordController
+                                      .newPasswordController,
+                                  hint: "**********",
+                                  type: TextInputType.emailAddress),
+                              largeSpace,
+                              ctext(text: "Retype Password"),
+                              CustomUnderLineTextField(
+                                  onSuffixTap: () {
+                                    changePasswordController
+                                            .isconfirmNewPassVissible.value =
+                                        !changePasswordController
+                                            .isconfirmNewPassVissible.value;
+                                  },
+                                  suffixIcon: changePasswordController
+                                          .isconfirmNewPassVissible.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  isobscure: changePasswordController
+                                      .isconfirmNewPassVissible.value,
+                                  controller: changePasswordController
+                                      .confirmNewPasswordController,
+                                  hint: "**********",
+                                  type: TextInputType.emailAddress),
+                              largeSpace,
+                              Center(
+                                child: Obx(() {
+                                  return changePasswordController.loading.value
+                                      ? const CircularProgressIndicator()
+                                      : CustomButton(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          height: 43,
+                                          mywidth: 0.75,
+                                          onPressed: () {
+                                            changePasswordController
+                                                .changePassword();
+                                          },
+                                          child: 'Change Password',
+                                          gradientColors: [
+                                            btnPrimaryColor,
+                                            btnSecondaryColor
+                                          ],
+                                          color: btnSecondaryColor);
+                                }),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ctext(
+                          text: "You are not logged in with email and password",
+                          color: white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )
                 ]),
           )
         ]));

@@ -46,7 +46,7 @@ class LoginController extends GetxController {
           box.write("currentloginedName", userData["username"]);
           box.write("currentLoginedPhoneNumber", userData["phoneNumber"]);
           box.write("address", userData["address"]);
-
+          box.write("loginwithemail", true);
           currentLoginedName = box.read("currentloginedName");
 
           Get.offAll(() => MyBottomNavbar());
