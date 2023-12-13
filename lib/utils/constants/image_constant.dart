@@ -1,5 +1,6 @@
 abstract class ImageConstants {
   static const welcome = 'assets/images/welcome.png';
+  static const logo = 'assets/images/logo.png';
   static const ellipseLeft = 'assets/images/ellipseleft.png';
   static const ellipseBottom = 'assets/images/ellipsebottom.png';
   static const monocrystalineImage = 'assets/images/monocrystaline.png';
@@ -11,6 +12,7 @@ abstract class ImageConstants {
   static const bgImage = 'assets/images/bg.png';
   static const bot = 'assets/images/bot_animate.json';
   static const location = 'assets/images/location.json';
+  static const patternImage = 'assets/images/pattern.png';
   static const mapImage = 'assets/images/map.png';
 }
 
