@@ -19,17 +19,15 @@ class ChatController extends GetxController {
   late DialogFlowtter dialogFlowtter;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final databaseRef = FirebaseDatabase.instance.ref("chats");
   @override
   void onInit() {
     super.onInit();
 
-    _firestore
+    firestore
         .collection("users")
-        .doc(_auth.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection(box.read("currentloginedName"))
         .orderBy('currenttime')
         .snapshots()
