@@ -34,6 +34,7 @@ class SignUpController extends GetxController {
           password: password,
         );
         await firestore.collection("users").doc(credential.user!.uid).set({
+          "uid": credential.user!.uid,
           "username": userName,
           "emailAddress": emailAddress,
           "Password": password,
