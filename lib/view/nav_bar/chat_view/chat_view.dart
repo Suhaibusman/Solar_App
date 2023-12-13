@@ -2,7 +2,6 @@ import 'package:custom_clippers/custom_clippers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:solar_app/controller/chat_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
@@ -12,6 +11,7 @@ import 'package:solar_app/utils/widgets/text_widget.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
+  final ScrollController _scrollController = ScrollController();
 
   ChatScreen({super.key});
 
@@ -40,14 +40,15 @@ class ChatScreen extends StatelessWidget {
             height: Get.height,
             child: Column(
               children: [
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Lottie.asset(ImageConstants.bot,
-                        height: Get.height * 0.2)),
+                // Align(
+                //     alignment: Alignment.topLeft,
+                //     child: Lottie.asset(ImageConstants.bot,
+                //         height: Get.height * 0.2)),
                 smallSpace,
                 Expanded(
                   child: Obx(() => // Inside your ListView.builder
                       ListView.builder(
+                        controller: _scrollController,
                         itemCount: chatController.messages.length,
                         itemBuilder: (BuildContext context, int index) {
                           final message =
@@ -192,10 +193,12 @@ class ChatScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // print("Messages: ${chatController.messages}");
-                          //   chatController.getChats();
-                          // chatController.chatBot();
                           chatController.handleUserInput();
+                          _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
+                          );
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 6),
