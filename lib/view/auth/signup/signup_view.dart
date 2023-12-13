@@ -97,7 +97,7 @@ class SignUpView extends StatelessWidget {
                         color: lightPrimaryTextColor,
                         fontSize: 13),
                     Obx(() {
-                      return  CustomBorderTextField(
+                      return CustomBorderTextField(
                           isobscure: signUpController.isPassVisible.value,
                           controller: signUpController.passwordController,
                           hint: 'Password',
@@ -153,42 +153,73 @@ class SignUpView extends StatelessWidget {
                     mediumSpace,
                     Center(
                       child: SizedBox(
-                        height: 50,
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: signUpController.signUpLogos.length,
-                          itemBuilder: (context, index) {
-                            final logos = signUpController.signUpLogos[index];
-                            return Container(
-                              padding: const EdgeInsets.all(5),
-                              margin: const EdgeInsets.only(right: 25),
-                              height: 40,
-                              width: 65,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                border: Border.all(
-                                  width: .5,
-                                  color: lightPrimaryTextColor,
+                          height: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  signUpController.signInWithGoogle();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  margin: const EdgeInsets.only(right: 25),
+                                  height: 40,
+                                  width: 65,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    border: Border.all(
+                                      width: .5,
+                                      color: lightPrimaryTextColor,
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        Colors.grey.withOpacity(.3),
+                                        const Color(0xff353C43),
+                                        const Color(0xff222A33),
+                                        const Color(0xff19232D),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Image.asset(IconsConstants.googleIcon),
                                 ),
-                                gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [
-                                    Colors.grey.withOpacity(.3),
-                                    const Color(0xff353C43),
-                                    const Color(0xff222A33),
-                                    const Color(0xff19232D),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Image.asset(logos),
-                            );
-                          },
-                        ),
-                      ),
+                              InkWell(
+                                onTap: () {
+                                  signUpController.signInWithGoogle();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  margin: const EdgeInsets.only(right: 25),
+                                  height: 40,
+                                  width: 65,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    border: Border.all(
+                                      width: .5,
+                                      color: lightPrimaryTextColor,
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [
+                                        Colors.grey.withOpacity(.3),
+                                        const Color(0xff353C43),
+                                        const Color(0xff222A33),
+                                        const Color(0xff19232D),
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child:
+                                      Image.asset(IconsConstants.facebookIcon),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ],
                 ),

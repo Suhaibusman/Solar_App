@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/controller/login_controller.dart';
+import 'package:solar_app/controller/signup_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -16,6 +17,7 @@ class LoginView extends StatelessWidget {
   LoginView({super.key});
 
   LoginController loginController = Get.put(LoginController());
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -109,20 +111,21 @@ class LoginView extends StatelessWidget {
                         ),
                         Obx(() {
                           return CustomBorderTextField(
-                           
-                             isobscure: loginController.isPass.value,
+                            isobscure: loginController.isPass.value,
                             controller: loginController.passwordController,
                             hint: 'Password',
                             prefix: Icon(
                               Icons.key,
                               color: lightPrimaryTextColor,
                             ),
-                           suffixonTap: (){
-                            loginController.isPass.value =!loginController.isPass.value;
-                           }, suffix: loginController.isPass.value
+                            suffixonTap: () {
+                              loginController.isPass.value =
+                                  !loginController.isPass.value;
+                            },
+                            suffix: loginController.isPass.value
                                 ? Icons.visibility_off
                                 : Icons.visibility,
-                                
+
                             // valid: (value) {
                             //   if (value!.isEmpty) {
                             //     return 'Please enter your password';
@@ -133,21 +136,23 @@ class LoginView extends StatelessWidget {
                         }),
                         mediumSpace,
                         Obx(() {
-                          return loginController.loading.value ?const Center(child: CircularProgressIndicator()): CustomButton(
-                            borderRadius: BorderRadius.circular(15),
-                            height: 43,
-                            mywidth: 1,
-                            onPressed: () {
-                              loginController.loginWithEmailAndPassword();
-                              // Get.to(MyBottomNavbar());
-                            },
-                            child: 'Sign in',
-                            gradientColors: [
-                              btnPrimaryColor,
-                              btnSecondaryColor,
-                            ],
-                            color: btnSecondaryColor,
-                          );
+                          return loginController.loading.value
+                              ? const Center(child: CircularProgressIndicator())
+                              : CustomButton(
+                                  borderRadius: BorderRadius.circular(15),
+                                  height: 43,
+                                  mywidth: 1,
+                                  onPressed: () {
+                                    loginController.loginWithEmailAndPassword();
+                                    // Get.to(MyBottomNavbar());
+                                  },
+                                  child: 'Sign in',
+                                  gradientColors: [
+                                    btnPrimaryColor,
+                                    btnSecondaryColor,
+                                  ],
+                                  color: btnSecondaryColor,
+                                );
                         }),
                         smallSpace,
                         Row(
@@ -176,42 +181,74 @@ class LoginView extends StatelessWidget {
                         mediumSpace,
                         Center(
                           child: SizedBox(
-                            height: 50,
-                            child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: loginController.loginLogos.length,
-                              itemBuilder: (context, index) {
-                                final logos = loginController.loginLogos[index];
-                                return Container(
-                                  padding: const EdgeInsets.all(5),
-                                  margin: const EdgeInsets.only(right: 25),
-                                  height: 40,
-                                  width: 65,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    border: Border.all(
-                                      width: .5,
-                                      color: lightPrimaryTextColor,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      loginController.signInWithGoogle();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5),
+                                      margin: const EdgeInsets.only(right: 25),
+                                      height: 40,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(
+                                          width: .5,
+                                          color: lightPrimaryTextColor,
+                                        ),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [
+                                            Colors.grey.withOpacity(.3),
+                                            const Color(0xff353C43),
+                                            const Color(0xff222A33),
+                                            const Color(0xff19232D),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Image.asset(
+                                          IconsConstants.googleIcon),
                                     ),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [
-                                        Colors.grey.withOpacity(.3),
-                                        const Color(0xff353C43),
-                                        const Color(0xff222A33),
-                                        const Color(0xff19232D),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Image.asset(logos),
-                                );
-                              },
-                            ),
-                          ),
+                                  InkWell(
+                                    onTap: () {
+                                      loginController.signInWithGoogle();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(5),
+                                      margin: const EdgeInsets.only(right: 25),
+                                      height: 40,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(
+                                          width: .5,
+                                          color: lightPrimaryTextColor,
+                                        ),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                          colors: [
+                                            Colors.grey.withOpacity(.3),
+                                            const Color(0xff353C43),
+                                            const Color(0xff222A33),
+                                            const Color(0xff19232D),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Image.asset(
+                                          IconsConstants.facebookIcon),
+                                    ),
+                                  ),
+                                ],
+                              )),
                         ),
                         smallSpace,
                         Row(

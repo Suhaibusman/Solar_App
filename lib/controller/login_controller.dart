@@ -82,20 +82,71 @@ class LoginController extends GetxController {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      loading.value = true;
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Sign in with Firebase
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Access the user details
+      final user = userCredential.user;
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      if (user != null) {
+        loading.value = false;
+
+        // Store additional user information in Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'username': user.displayName,
+          'emailAddress': user.email,
+
+          "uid": user.uid,
+
+          "phoneNumber": "",
+          "profileImage": "",
+          "address": ""
+          // Add any other fields you want to store
+        });
+
+        DocumentSnapshot userSnapshot =
+            await firestore.collection("users").doc(user.uid).get();
+        if (userSnapshot.exists) {
+          // User is a regular user
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
+
+          box.write("currentloginedName", userData["username"]);
+          box.write("currentLoginedPhoneNumber", userData["phoneNumber"]);
+          box.write("address", userData["address"]);
+
+          currentLoginedName = box.read("currentloginedName");
+
+          Get.offAll(() => MyBottomNavbar());
+
+          // Navigate to HomeScreen
+          // Get.offAll(()=>HomeView(
+          // userName: currentLoginedName ?? box.read("currentloginedName"),
+          // ));
+          box.write("isLogined", true);
+        }
+      }
+
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      loading.value = false;
+      Get.snackbar("Error", e.toString());
+      rethrow;
+    } catch (e) {
+      loading.value = false;
+      Get.snackbar("Error", e.toString());
+      rethrow;
+    }
   }
 }
