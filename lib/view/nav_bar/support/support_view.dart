@@ -5,6 +5,7 @@ import 'package:solar_app/controller/support_controller.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
+import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
 // ignore: must_be_immutable
@@ -30,10 +31,11 @@ class SupportView extends StatelessWidget {
                   mediumSpace,
                   Row(
                     children: [
-                      Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: white,
-                      ),
+                      InkWell(
+                          onTap: () {
+                            Get.to(() => MyBottomNavbar());
+                          },
+                          child: Icon(Icons.arrow_back_ios_new, color: white)),
                       smallSpaceh,
                       ctext(
                           text: 'Contact Us',

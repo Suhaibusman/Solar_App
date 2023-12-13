@@ -12,7 +12,8 @@ class BottomNavBarController extends GetxController {
 
   @override
   onInit() {
-    _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
+    _currentScreen = HomeView(
+        userName: currentLoginedName ?? box.read("currentloginedName"));
     currentIndex(0);
     super.onInit();
   }
@@ -21,7 +22,8 @@ class BottomNavBarController extends GetxController {
     super.onClose();
   }
 
-  Widget _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
+  Widget _currentScreen =
+      HomeView(userName: box.read("currentloginedName") ?? "User");
 
   Widget get currentScreen => _currentScreen;
 
@@ -29,7 +31,8 @@ class BottomNavBarController extends GetxController {
     currentIndex(index);
     switch (index) {
       case 0:
-        _currentScreen = HomeView( userName: currentLoginedName ?? box.read("currentloginedName"));
+        _currentScreen =
+            HomeView(userName: box.read("currentloginedName") ?? "User");
         break;
       case 1:
         _currentScreen = const TrackLocationView();

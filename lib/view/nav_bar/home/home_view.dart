@@ -26,6 +26,7 @@ class HomeView extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: primarycolor,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: ctext(
               text: "Home",
               fontWeight: FontWeight.bold,

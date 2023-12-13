@@ -9,6 +9,7 @@ import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/custom_button.dart';
 import 'package:solar_app/utils/widgets/custom_textfield.dart';
+import 'package:solar_app/utils/widgets/nav_bar.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
 class ChangePasswordView extends StatelessWidget {
@@ -34,10 +35,11 @@ class ChangePasswordView extends StatelessWidget {
                   mediumSpace,
                   Row(
                     children: [
-                      Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: white,
-                      ),
+                      InkWell(
+                          onTap: () {
+                            Get.to(() => MyBottomNavbar());
+                          },
+                          child: Icon(Icons.arrow_back_ios_new, color: white)),
                       smallSpaceh,
                       ctext(
                           text: 'Change Password',
@@ -117,19 +119,21 @@ class ChangePasswordView extends StatelessWidget {
                         largeSpace,
                         Center(
                           child: Obx(() {
-                            return changePasswordController.loading.value? const CircularProgressIndicator() : CustomButton(
-                                borderRadius: BorderRadius.circular(15),
-                                height: 43,
-                                mywidth: 0.75,
-                                onPressed: () {
-                                  changePasswordController.changePassword();
-                                },
-                                child: 'Change Password',
-                                gradientColors: [
-                                  btnPrimaryColor,
-                                  btnSecondaryColor
-                                ],
-                                color: btnSecondaryColor);
+                            return changePasswordController.loading.value
+                                ? const CircularProgressIndicator()
+                                : CustomButton(
+                                    borderRadius: BorderRadius.circular(15),
+                                    height: 43,
+                                    mywidth: 0.75,
+                                    onPressed: () {
+                                      changePasswordController.changePassword();
+                                    },
+                                    child: 'Change Password',
+                                    gradientColors: [
+                                      btnPrimaryColor,
+                                      btnSecondaryColor
+                                    ],
+                                    color: btnSecondaryColor);
                           }),
                         ),
                       ],
