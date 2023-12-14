@@ -178,11 +178,17 @@ class MaintainanceView extends StatelessWidget {
                       text: "Select Date",
                       fontSize: 17,
                       fontWeight: FontWeight.bold),
-                  ctext(
-                      text: "select according to your availability",
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: lightPrimaryTextColor),
+                  //"select according to your availability"
+                  Obx(
+                    () => ctext(
+                        text: maintainanceController.selectedDates.toString() ==
+                                "[]"
+                            ? "select according to your availability"
+                            : maintainanceController.selectedDates.toString(),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: lightPrimaryTextColor),
+                  ),
                   const Divider(),
                   Container(
                     padding: EdgeInsets.zero,

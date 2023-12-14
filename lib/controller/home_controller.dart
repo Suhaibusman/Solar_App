@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/data.dart';
+import 'package:solar_app/notifications/firebase_notifications.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/view/nav_bar/change_password/change_password_view.dart';
 import 'package:solar_app/view/nav_bar/chat_view/chat_view.dart';
@@ -37,6 +38,14 @@ class HomeController extends GetxController {
     SupportView(),
     ChangePasswordView()
   ];
+
+  Notification notification = Notification();
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    notification.requestNotificationPermissions();
+  }
 
   void signout() async {
     try {
