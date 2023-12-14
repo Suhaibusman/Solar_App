@@ -184,7 +184,8 @@ class MaintainanceView extends StatelessWidget {
                         text: maintainanceController.selectedDates.toString() ==
                                 "[]"
                             ? "select according to your availability"
-                            : maintainanceController.selectedDates.toString(),
+                            : maintainanceController.formatSelectedDates(
+                                maintainanceController.selectedDates),
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: lightPrimaryTextColor),

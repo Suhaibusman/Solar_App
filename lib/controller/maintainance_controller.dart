@@ -5,10 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:solar_app/data.dart';
 
 class MaintainanceController extends GetxController {
   RxList<DateTime> selectedDates = <DateTime>[].obs;
+
+  String formatSelectedDates(RxList<DateTime> dates) {
+    // Format the list of DateTime to display only the date
+    List<String> formattedDates = dates.map((date) {
+      return DateFormat('dd-MM-yyyy').format(date);
+    }).toList();
+
+    // Join the formatted dates into a single string
+    return formattedDates.join(', ');
+  }
 
   // List images = [
   //   ImageConstants.monocrystalineImage,
@@ -26,6 +37,7 @@ class MaintainanceController extends GetxController {
   RxInt selectedIndex = 0.obs;
   RxBool loading = false.obs;
   void addDate(DateTime date) {
+    date = DateTime(date.year, date.month, date.day);
     selectedDates.add(date);
   }
 
