@@ -81,13 +81,13 @@ class SupportView extends StatelessWidget {
                           largeSpace,
                           largeSpace,
                           ctext(
-                              text: "Call us: +92 7837XXXX",
+                              text: "Call us: +92 2134300121",
                               fontWeight: FontWeight.w800,
                               textAlign: TextAlign.center,
                               color: primaryTextColor.withOpacity(.7),
                               fontSize: 13),
                           ctext(
-                              text: "Mail us - solarpanel@gmail.com",
+                              text: "Mail us - info@intermarkproduct.com",
                               fontWeight: FontWeight.w800,
                               textAlign: TextAlign.center,
                               color: primaryTextColor.withOpacity(.7),

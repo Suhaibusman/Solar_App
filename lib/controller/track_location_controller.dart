@@ -27,7 +27,7 @@ class TrackLocationController extends GetxController {
 
   void openMap() async {
     try {
-      String mapsUrl = 'https://maps.app.goo.gl/rbTmuyow4PBep4fK7';
+      String mapsUrl = 'https://maps.app.goo.gl/PVewxJv3ngfU8eY49';
       await launch(mapsUrl);
     } catch (e) {
       print('Error launching Google Maps: $e');

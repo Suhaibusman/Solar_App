@@ -59,6 +59,9 @@ dependencies:
   mailer: ^6.0.1
   dialog_flowtter: ^0.2.0-nullsafety.0
   firebase_app_check: ^0.2.1+8
+  firebase_messaging: ^14.7.9
+  flutter_local_notifications: ^16.2.0
+  app_settings: ^5.1.1
 
 dev_dependencies:
   flutter_test:
