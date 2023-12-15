@@ -67,4 +67,5 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex:2.0.1'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
 }

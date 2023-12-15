@@ -9,11 +9,24 @@ import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   final ChatController chatController = Get.put(ChatController());
+
   final ScrollController _scrollController = ScrollController();
 
-  ChatScreen({super.key});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    chatController.getProfileImage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +119,11 @@ class ChatScreen extends StatelessWidget {
                                         ],
                                       ),
                                       mediumSpaceh,
-                                      const CircleAvatar(
+                                      CircleAvatar(
                                         backgroundImage: NetworkImage(
-                                          "https://img.freepik.com/free-photo/woman-with-long-hair-yellow-hoodie-with-word-music-it_1340-39068.jpg?size=626&ext=jpg&ga=GA1.1.117946456.1673173317&semt=sph",
+                                          chatController.imagePath.value == ""
+                                              ? "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg"
+                                              : chatController.imagePath.value,
                                         ),
                                       ).paddingOnly(top: 15),
                                     ],

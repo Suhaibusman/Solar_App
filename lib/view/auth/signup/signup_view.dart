@@ -189,7 +189,7 @@ class SignUpView extends StatelessWidget {
                               ),
                               InkWell(
                                 onTap: () {
-                                  signUpController.signInWithGoogle();
+                                  signUpController.signInWithFacebook();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(5),

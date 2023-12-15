@@ -61,8 +61,8 @@ class SupportView extends StatelessWidget {
                           largeSpace,
                           smallSpace,
                           Image.asset(
-                            ImageConstants.supportImage,
-                            width: Get.width * 0.3,
+                            IconsConstants.checkIcon,
+                            width: Get.width * 0.5,
                           ),
                           largeSpace,
                           ctext(

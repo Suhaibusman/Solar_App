@@ -198,6 +198,7 @@ class ComplaintController extends GetxController {
           'complainpicture': downloadUrl,
           'timestamp': FieldValue.serverTimestamp(),
           'progress': 'pending',
+          'emailAddress': FirebaseAuth.instance.currentUser!.email,
         };
 
         // Add data to Firestore

@@ -24,6 +24,7 @@ class ProfileController extends GetxController {
   void onInit() {
     super.onInit();
     fetchDetails();
+    getProfileImage();
   }
 
   @override
@@ -32,6 +33,25 @@ class ProfileController extends GetxController {
     phoneController.dispose();
     addressController.dispose();
     super.onClose();
+  }
+
+  Future getProfileImage() async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    // Check if the profileImage field exists and is not null
+    if (userDoc.exists) {
+      Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
+
+      if (userData != null && userData['profileImage'] != null) {
+        imagePath.value = userData['profileImage'] as String;
+      } else {
+        imagePath.value =
+            "https://www.plslwd.org/wp-content/plugins/lightbox/images/No-image-found.jpg";
+      }
+    }
   }
 
   Future<void> fetchDetails() async {

@@ -14,10 +14,21 @@ import 'package:solar_app/utils/widgets/helper_widget.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
 // ignore: must_be_immutable
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   ProfileView({super.key});
 
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   ProfileController profileController = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+    profileController.getProfileImage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +83,13 @@ class ProfileView extends StatelessWidget {
                                   width: 90,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image:
-                                          profileController.imagePath.isNotEmpty
-                                              ? FileImage(File(profileController
-                                                  .imagePath.value))
-                                              : const AssetImage(
-                                                      'assets/default.png')
-                                                  as ImageProvider<Object>,
+                                      image: profileController
+                                              .imagePath.isNotEmpty
+                                          ? NetworkImage(
+                                              profileController.imagePath.value)
+                                          : const AssetImage(
+                                                  'assets/default.png')
+                                              as ImageProvider<Object>,
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(12),

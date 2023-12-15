@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,10 +16,9 @@ class ChatController extends GetxController {
   bool isEnterAddress = false;
   final greetings = ["hi", "hello", "hey"];
   late DialogFlowtter dialogFlowtter;
-
+  RxString imagePath = "".obs;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  final databaseRef = FirebaseDatabase.instance.ref("chats");
   @override
   void onInit() {
     super.onInit();
@@ -42,6 +40,35 @@ class ChatController extends GetxController {
     });
   }
 
+  Future<void> getProfileImage() async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      // Check if the profileImage field exists and is not null
+      if (userDoc.exists) {
+        Map<String, dynamic>? userData =
+            userDoc.data() as Map<String, dynamic>?;
+
+        if (userData != null && userData['profileImage'] != null) {
+          imagePath.value = userData['profileImage'] as String;
+        }
+      } else {
+        // If the document doesn't exist, set a default/fallback image URL
+        imagePath.value =
+            'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-4.png';
+      }
+    } catch (error) {
+      // Handle errors appropriately, e.g., log or show an error message
+      print("Error getting profile image: $error");
+      // Set a default/fallback image URL in case of an error
+      imagePath.value =
+          'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-4.png';
+    }
+  }
+
   String getCurrentTime() {
     final DateTime now = DateTime.now();
     final String formattedTime =
@@ -51,15 +78,6 @@ class ChatController extends GetxController {
   }
 
   Future<void> sendMessage({message}) async {
-    // await firestore
-    //     .collection("users")
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .collection(box.read("currentloginedName")) // Create a sub-collection for messages
-    //     .add({
-    //   'message': message,
-    //   'isSent': true,
-    //   'currenttime': getCurrentTime(),
-    // });
     await firestore
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
