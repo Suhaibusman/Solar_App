@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -159,9 +162,7 @@ class SignUpController extends GetxController {
         await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
           'username': user.displayName,
           'emailAddress': user.email,
-
           "uid": user.uid,
-
           "phoneNumber": "",
           "profileImage": "",
           "address": ""
@@ -191,14 +192,72 @@ class SignUpController extends GetxController {
       }
 
       return userCredential;
-    } on FirebaseAuthException catch (e) {
+    } catch (e, stackTrace) {
       loading.value = false;
-      Get.snackbar("Error", e.toString());
-      rethrow;
-    } catch (e) {
-      loading.value = false;
-      Get.snackbar("Error", e.toString());
+      runZonedGuarded(() {
+        Get.snackbar("Error", e.toString());
+      }, (error, stackTrace) {
+        print("Unhandled error: $error");
+      });
       rethrow;
     }
+  }
+
+  Future<UserCredential> signInWithFacebookNative() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  Future<UserCredential> signInWithFacebookWeb() async {
+    // Create a new provider
+    FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+
+    facebookProvider.addScope('email');
+    facebookProvider.setCustomParameters({
+      'display': 'popup',
+    });
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithPopup(facebookProvider);
+
+    // Or use signInWithRedirect
+    // return await FirebaseAuth.instance.signInWithRedirect(facebookProvider);
+  }
+
+  loginWithFB() async {
+    UserCredential userCredential;
+    try {
+      if (kIsWeb) {
+        userCredential = await signInWithFacebookWeb();
+      } else {
+        userCredential = await signInWithFacebookNative();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("error in sign in with google $e");
+      }
+    }
+  }
+
+  updateUserProfilefromFB(User user) {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    CollectionReference users = firestore.collection("users");
+    users.doc(user.uid).set({
+      'username': user.displayName,
+      'emailAddress': user.email,
+      "uid": user.uid,
+      "phoneNumber": "",
+      "profileImage": "",
+      "address": ""
+    }).then((value) {
+      print("User Added");
+    }).catchError((error) => print("Failed to add user: $error"));
   }
 }

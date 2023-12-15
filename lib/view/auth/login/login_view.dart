@@ -72,7 +72,7 @@ class LoginView extends StatelessWidget {
                         ),
                         Center(
                           child: ctext(
-                            text: "welcome back wwe missed you",
+                            text: "welcome back we missed you",
                             fontWeight: FontWeight.w500,
                             color: lightPrimaryTextColor,
                             fontSize: 13,
