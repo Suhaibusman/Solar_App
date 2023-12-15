@@ -160,9 +160,12 @@ class ChatController extends GetxController {
       } else if (isQuestionActive && msgController.text == "yes") {
         sendMessage(message: msgController.text);
         msgController.clear();
-        getResponse(
-            message:
-                "I Think You Need To Contact our company so after the survey they will tell you if you are eligible for solar or not.");
+        Future.delayed(const Duration(seconds: 1), () async {
+          getResponse(
+              message:
+                  "I Think You Need To Contact our company so after the survey they will tell you if you are eligible for solar or not.");
+        });
+
         isGreetingCompleted = false;
       } else if (isQuestionActive && isGreetingCompleted) {
         await sendMessage(message: msgController.text);
