@@ -19,42 +19,40 @@ class MaintainanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: primarycolor,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0.0,
-          automaticallyImplyLeading: true,
-          leading: reusableBackButton(),
-          title: ctext(
-              text: "Maintainance",
-              fontWeight: FontWeight.bold,
-              fontSize: 13,
-              color: white),
-          backgroundColor: Colors.transparent,
-        ),
-        body: FutureBuilder(
-          future: maintainanceController.checkMaintainanceInProgress(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Show loading indicator while checking
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              // Handle error
-              return Center(child: Text('Error: ${snapshot.error}'));
+    return Scaffold(
+      backgroundColor: primarycolor,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0.0,
+        automaticallyImplyLeading: true,
+        leading: reusableBackButton(),
+        title: ctext(
+            text: "Maintainance",
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+            color: white),
+        backgroundColor: Colors.transparent,
+      ),
+      body: FutureBuilder(
+        future: maintainanceController.checkMaintainanceInProgress(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Show loading indicator while checking
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Handle error
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            bool isInProgress = snapshot.data as bool;
+            if (isInProgress) {
+              // Show Maintenance in Progress page
+              return const Center(child: Text('Maintainance in Progress '));
             } else {
-              bool isInProgress = snapshot.data as bool;
-              if (isInProgress) {
-                // Show Maintenance in Progress page
-                return const Center(child: Text('Maintainance in Progress '));
-              } else {
-                // Show your regular page
-                return buildRegularPage();
-              }
+              // Show your regular page
+              return buildRegularPage();
             }
-          },
-        ),
+          }
+        },
       ),
     );
   }

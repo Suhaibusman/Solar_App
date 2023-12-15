@@ -47,7 +47,7 @@ class ComplaintsView extends StatelessWidget {
           title: ctext(
               text: "Complains",
               fontWeight: FontWeight.bold,
-              fontSize: 13,
+              fontSize: 22,
               color: white),
           backgroundColor: Colors.transparent,
           actions: [
@@ -76,7 +76,6 @@ class ComplaintsView extends StatelessWidget {
               if (complainReports.isEmpty) {
                 return const Center(child: Text("No Complain Found"));
               }
-              // ... (previous code)
 
               return ListView.builder(
                 itemCount: complainReports.length,
