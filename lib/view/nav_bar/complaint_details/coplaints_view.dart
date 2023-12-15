@@ -64,8 +64,8 @@ class ComplaintsView extends StatelessWidget {
             mediumSpaceh
           ],
         ),
-        body: FutureBuilder<List<Map<String, dynamic>>>(
-          future: complainController.getComplains(),
+        body: StreamBuilder<List<Map<String, dynamic>>>(
+          stream: complainController.getComplains(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());

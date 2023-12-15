@@ -142,27 +142,29 @@ class ComplaintController extends GetxController {
     });
   }
 
-  Future<List<Map<String, dynamic>>> getComplains() async {
+  Stream<List<Map<String, dynamic>>> getComplains() {
     String loggedInUid = FirebaseAuth.instance.currentUser!.uid;
 
+    // Create a reference to the collection
     CollectionReference userComplain = firestore.collection("complain");
 
-    QuerySnapshot complainSnapshot = await userComplain.get();
+    // Return a stream of snapshots
+    return userComplain.snapshots().map((complainSnapshot) {
+      List<Map<String, dynamic>> complainDataList = [];
 
-    List<Map<String, dynamic>> complainDataList = [];
+      if (complainSnapshot.docs.isNotEmpty) {
+        complainSnapshot.docs.forEach((DocumentSnapshot document) {
+          Map<String, dynamic> complainData =
+              document.data() as Map<String, dynamic>;
+          // Check if the 'uid' in the document matches the current logged-in UID
+          if (complainData['uid'] == loggedInUid) {
+            complainDataList.add(complainData);
+          }
+        });
+      }
 
-    if (complainSnapshot.docs.isNotEmpty) {
-      complainSnapshot.docs.forEach((DocumentSnapshot document) {
-        Map<String, dynamic> complainData =
-            document.data() as Map<String, dynamic>;
-        // Check if the 'uid' in the document matches the current logged-in UID
-        if (complainData['uid'] == loggedInUid) {
-          complainDataList.add(complainData);
-        }
-      });
-    }
-
-    return complainDataList;
+      return complainDataList;
+    });
   }
 
   void addComplain(context) async {
