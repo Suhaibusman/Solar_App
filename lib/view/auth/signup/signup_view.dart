@@ -188,8 +188,9 @@ class SignUpView extends StatelessWidget {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {
-                                  signUpController.signInWithFacebook();
+                                onTap: () async {
+                                  debugPrint("Signug FB");
+                                  await signUpController.signInWithFacebook();
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.all(5),
