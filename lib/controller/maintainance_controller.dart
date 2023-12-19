@@ -79,6 +79,7 @@ class MaintainanceController extends GetxController {
           .collection("maintainance")
           .doc(currentUid)
           .set({
+        "uid": currentUid,
         "date": formatSelectedDates(selectedDates),
         "price": price[initialIndex.value],
         "issue": text[initialIndex.value],

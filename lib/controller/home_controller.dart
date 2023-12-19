@@ -40,12 +40,12 @@ class HomeController extends GetxController {
     ChangePasswordView()
   ];
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    checkMaintenanceDate();
-  }
+  // @override
+  // void onInit() {
+  //   // TODO: implement onInit
+  //   super.onInit();
+  //   checkMaintenanceDate();
+  // }
 
   void signout() async {
     try {
