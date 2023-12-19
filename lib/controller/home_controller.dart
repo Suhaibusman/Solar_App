@@ -47,7 +47,7 @@ class HomeController extends GetxController {
   //   checkMaintenanceDate();
   // }
 
-  var isNotificationEnabled =
+  RxBool isNotificationEnabled =
       false.obs; // Track notification status as observable
 
   void toggleNotificationStatus() async {

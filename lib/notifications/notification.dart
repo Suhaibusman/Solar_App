@@ -121,7 +121,16 @@ class NotificationService {
     );
   }
 
-  static enableNotifications() {}
+  static Future<void> enableNotifications() async {
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  }
 
-  static disableNotifications() {}
+  static Future<void> disableNotifications() async {
+    await AwesomeNotifications().cancelAllSchedules();
+    await AwesomeNotifications().cancelAllSchedules();
+    await AwesomeNotifications().dismissAllNotifications();
+  }
 }
