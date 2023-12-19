@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:solar_app/data.dart';
-import 'package:solar_app/notifications/firebase_notifications.dart';
 import 'package:solar_app/notifications/notification.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/view/nav_bar/change_password/change_password_view.dart';
@@ -41,13 +40,12 @@ class HomeController extends GetxController {
     ChangePasswordView()
   ];
 
-  Notification notification = Notification();
-  // @override
-  // void onInit() {
-  //   // TODO: implement onInit
-  //   super.onInit();
-  //   notification.requestNotificationPermissions();
-  // }
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    checkMaintenanceDate();
+  }
 
   void signout() async {
     try {
@@ -64,41 +62,35 @@ class HomeController extends GetxController {
     } catch (e) {}
   }
 
-  Future<void> checkMaintenanceDate() async {
+  void checkMaintenanceDate() async {
     // Get the current user's UID
-    String currentUid = FirebaseAuth.instance.currentUser!.uid;
+    String uid = FirebaseAuth.instance.currentUser!.uid;
 
-    // Get the Firestore document for the current user
-    DocumentSnapshot maintenanceDoc = await FirebaseFirestore.instance
-        .collection('maintainance')
-        .doc(currentUid)
-        .get();
+    // Reference to the Firestore collection
+    var maintenanceDocRef =
+        FirebaseFirestore.instance.collection("maintainance").doc(uid);
 
-    // Check if the document exists and has a 'date' field
-    if (maintenanceDoc.exists && maintenanceDoc.data() != null) {
-      dynamic dateData = maintenanceDoc.data();
+    // Get the document snapshot
+    var docSnapshot = await maintenanceDocRef.get();
 
-      // Check if 'date' is a List and contains valid timestamp data
-      if (dateData is List<dynamic> && dateData.isNotEmpty) {
-        Timestamp timestamp = dateData.first;
-        DateTime maintenanceDate = timestamp.toDate();
+    // Check if the document exists and contains the 'date' field
+    if (docSnapshot.exists &&
+        docSnapshot.data() != null &&
+        docSnapshot.data()!['date'] != null) {
+      // Get the maintenance date from the document
+      String maintenanceDate = docSnapshot.data()!['date'];
 
-        // Check if maintenanceDate is tomorrow
-        if (isTomorrow(maintenanceDate)) {
-          // Show notification
-          await NotificationService.showNotification(
-            title: 'Maintenance Alert',
-            body: 'Tomorrow is your maintenance',
-          );
-        }
+      // Get tomorrow's date
+      DateTime tomorrow = DateTime.now().add(Duration(days: 1));
+      String tomorrowDate =
+          "${tomorrow.day}-${tomorrow.month}-${tomorrow.year}";
+
+      // Compare the dates
+      if (maintenanceDate == tomorrowDate) {
+        // If the dates match, show a notification
+        NotificationService.showNotification(
+            title: "Maintenance Alert", body: "Tommorow is your maintenance");
       }
     }
-  }
-
-  bool isTomorrow(DateTime date) {
-    DateTime tomorrow = DateTime.now().add(const Duration(days: 1));
-    return date.year == tomorrow.year &&
-        date.month == tomorrow.month &&
-        date.day == tomorrow.day;
   }
 }

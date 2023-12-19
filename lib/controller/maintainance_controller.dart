@@ -75,9 +75,6 @@ class MaintainanceController extends GetxController {
     Future.delayed(const Duration(seconds: 2), () {
       loading.value = false;
       String currentUid = FirebaseAuth.instance.currentUser!.uid;
-      List<Timestamp?> timestampList = selectedDates
-          .map((date) => date != null ? Timestamp.fromDate(date) : null)
-          .toList();
       FirebaseFirestore.instance
           .collection("maintainance")
           .doc(currentUid)

@@ -1,24 +1,34 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:solar_app/controller/home_controller.dart';
-import 'package:solar_app/notifications/notification.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
 import 'package:solar_app/utils/widgets/text_widget.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   final String userName;
   HomeView({
     Key? key,
     required this.userName,
   }) : super(key: key);
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    homeController.checkMaintenanceDate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +44,23 @@ class HomeView extends StatelessWidget {
             fontSize: 20),
         actions: [
           InkWell(
-            onTap: () async {
-              // Check for notification permissions
-              bool isAllowed =
-                  await AwesomeNotifications().isNotificationAllowed();
+            onTap: () {
+              homeController.checkMaintenanceDate();
 
-              if (!isAllowed) {
-                await AwesomeNotifications()
-                    .requestPermissionToSendNotifications();
-              } else {
-                // Initialize and show notification
-                // await NotificationService.showNotification(
-                //   title: 'Maintenance Alert',
-                //   body: 'Tomorrow is your maintenance',
-                // );
-                homeController.checkMaintenanceDate();
-              }
+              // bool isAllowed =
+              //     await AwesomeNotifications().isNotificationAllowed();
+
+              // if (!isAllowed) {
+              //   await AwesomeNotifications()
+              //       .requestPermissionToSendNotifications();
+              // } else {
+              //   // Initialize and show notification
+              //   // await NotificationService.showNotification(
+              //   //   title: 'Maintenance Alert',
+              //   //   body: 'Tomorrow is your maintenance',
+              //   // );
+              //   homeController.checkMaintenanceDate();
+              // }
             },
             child: CircleAvatar(
               radius: 18,
@@ -91,7 +102,7 @@ class HomeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ctext(
-                    text: "Hi $userName",
+                    text: "Hi ${widget.userName}",
                     fontSize: 24,
                     fontWeight: FontWeight.w400,
                     color: white),
