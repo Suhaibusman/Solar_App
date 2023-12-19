@@ -65,6 +65,7 @@ dependencies:
   flutter_facebook_auth: 
   facebook_auth: 
   awesome_notifications: ^0.8.2
+  flutter_background_service: ^5.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
