@@ -96,7 +96,7 @@ class HomeController extends GetxController {
   }
 
   bool isTomorrow(DateTime date) {
-    DateTime tomorrow = DateTime.now().add(Duration(days: 1));
+    DateTime tomorrow = DateTime.now().add(const Duration(days: 1));
     return date.year == tomorrow.year &&
         date.month == tomorrow.month &&
         date.day == tomorrow.day;

@@ -82,7 +82,7 @@ class MaintainanceController extends GetxController {
           .collection("maintainance")
           .doc(currentUid)
           .set({
-        "date": timestampList,
+        "date": formatSelectedDates(selectedDates),
         "price": price[initialIndex.value],
         "issue": text[initialIndex.value],
         "emailAddress": FirebaseAuth.instance.currentUser!.email,

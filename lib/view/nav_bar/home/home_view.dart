@@ -44,10 +44,11 @@ class HomeView extends StatelessWidget {
                     .requestPermissionToSendNotifications();
               } else {
                 // Initialize and show notification
-                await NotificationService.showNotification(
-                  title: 'Maintenance Alert',
-                  body: 'Tomorrow is your maintenance',
-                );
+                // await NotificationService.showNotification(
+                //   title: 'Maintenance Alert',
+                //   body: 'Tomorrow is your maintenance',
+                // );
+                homeController.checkMaintenanceDate();
               }
             },
             child: CircleAvatar(
