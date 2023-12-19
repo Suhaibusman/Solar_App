@@ -47,6 +47,21 @@ class HomeController extends GetxController {
   //   checkMaintenanceDate();
   // }
 
+  var isNotificationEnabled =
+      false.obs; // Track notification status as observable
+
+  void toggleNotificationStatus() async {
+    // Toggle notification status
+    isNotificationEnabled.value = !isNotificationEnabled.value;
+
+    // Toggle notification permission
+    if (isNotificationEnabled.value) {
+      await NotificationService.enableNotifications();
+    } else {
+      await NotificationService.disableNotifications();
+    }
+  }
+
   void signout() async {
     try {
       await FirebaseAuth.instance.signOut();

@@ -69,8 +69,6 @@ class NotificationService {
     final payload = receivedAction.payload ?? {};
     if (payload["navigate"] == "true") {
       if (payload.containsKey('navigatekey')) {
-        final routeName = payload['navigatekey'];
-
         // Get the crossponding Material page route from route Mapping
         // final route = routeMappings[routeName];
         // if (route != null) {
@@ -122,4 +120,8 @@ class NotificationService {
           : null,
     );
   }
+
+  static enableNotifications() {}
+
+  static disableNotifications() {}
 }

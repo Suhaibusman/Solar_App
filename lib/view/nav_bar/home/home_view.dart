@@ -43,34 +43,18 @@ class _HomeViewState extends State<HomeView> {
             color: white,
             fontSize: 20),
         actions: [
-          InkWell(
-            onTap: () {
-              homeController.checkMaintenanceDate();
-
-              // bool isAllowed =
-              //     await AwesomeNotifications().isNotificationAllowed();
-
-              // if (!isAllowed) {
-              //   await AwesomeNotifications()
-              //       .requestPermissionToSendNotifications();
-              // } else {
-              //   // Initialize and show notification
-              //   // await NotificationService.showNotification(
-              //   //   title: 'Maintenance Alert',
-              //   //   body: 'Tomorrow is your maintenance',
-              //   // );
-              //   homeController.checkMaintenanceDate();
-              // }
-            },
-            child: CircleAvatar(
-              radius: 18,
-              backgroundColor: btnPrimaryColor,
-              child: Icon(
-                Icons.notifications,
-                color: white,
-              ),
-            ),
-          ),
+          Obx(() => InkWell(
+                onTap: () {
+                  homeController.toggleNotificationStatus();
+                },
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundColor: btnPrimaryColor,
+                  child: homeController.isNotificationEnabled.value
+                      ? Icon(Icons.notifications, color: white)
+                      : Icon(Icons.notifications_off, color: white),
+                ),
+              )),
           smallSpaceh,
           InkWell(
             onTap: () {

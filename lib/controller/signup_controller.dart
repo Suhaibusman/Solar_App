@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_return_type_for_catch_error
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -192,7 +194,7 @@ class SignUpController extends GetxController {
       }
 
       return userCredential;
-    } catch (e, stackTrace) {
+    } catch (e) {
       loading.value = false;
       runZonedGuarded(() {
         Get.snackbar("Error", e.toString());
@@ -232,13 +234,9 @@ class SignUpController extends GetxController {
   }
 
   loginWithFB() async {
-    UserCredential userCredential;
     try {
       if (kIsWeb) {
-        userCredential = await signInWithFacebookWeb();
-      } else {
-        userCredential = await signInWithFacebookNative();
-      }
+      } else {}
     } catch (e) {
       if (kDebugMode) {
         print("error in sign in with google $e");
@@ -258,6 +256,6 @@ class SignUpController extends GetxController {
       "address": ""
     }).then((value) {
       print("User Added");
-    }).catchError((error) => print("Failed to add user: $error"));
+    }).catchError((error) => debugPrint("Failed to add user: $error"));
   }
 }
