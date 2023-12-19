@@ -103,23 +103,14 @@ class LoginController extends GetxController {
       if (user != null) {
         loading.value = false;
 
-        // Store additional user information in Firestore
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'username': user.displayName,
-          'emailAddress': user.email,
+        // Check if user already exists in Firestore
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
-          "uid": user.uid,
-
-          "phoneNumber": "",
-          "profileImage": "",
-          "address": ""
-          // Add any other fields you want to store
-        });
-
-        DocumentSnapshot userSnapshot =
-            await firestore.collection("users").doc(user.uid).get();
         if (userSnapshot.exists) {
-          // User is a regular user
+          // User already exists, retrieve existing data
           Map<String, dynamic> userData =
               userSnapshot.data() as Map<String, dynamic>;
 
@@ -130,12 +121,21 @@ class LoginController extends GetxController {
           currentLoginedName = box.read("currentloginedName");
 
           Get.offAll(() => MyBottomNavbar());
-
-          // Navigate to HomeScreen
-          // Get.offAll(()=>HomeView(
-          // userName: currentLoginedName ?? box.read("currentloginedName"),
-          // ));
           box.write("isLogined", true);
+        } else {
+          // User does not exist, store additional user information in Firestore
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set({
+            'username': user.displayName,
+            'emailAddress': user.email,
+            "uid": user.uid,
+            "phoneNumber": "",
+            "profileImage": "",
+            "address": ""
+            // Add any other fields you want to store
+          });
         }
       }
 
