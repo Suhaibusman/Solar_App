@@ -40,12 +40,12 @@ class HomeController extends GetxController {
   ];
 
   Notification notification = Notification();
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    notification.requestNotificationPermissions();
-  }
+  // @override
+  // void onInit() {
+  //   // TODO: implement onInit
+  //   super.onInit();
+  //   notification.requestNotificationPermissions();
+  // }
 
   void signout() async {
     try {

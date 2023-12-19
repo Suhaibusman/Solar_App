@@ -31,12 +31,17 @@ class HomeView extends StatelessWidget {
             color: white,
             fontSize: 20),
         actions: [
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: btnPrimaryColor,
-            child: Icon(
-              Icons.notifications,
-              color: white,
+          InkWell(
+            onTap: () {
+              homeController.notification.requestNotificationPermissions();
+            },
+            child: CircleAvatar(
+              radius: 18,
+              backgroundColor: btnPrimaryColor,
+              child: Icon(
+                Icons.notifications,
+                color: white,
+              ),
             ),
           ),
           smallSpaceh,

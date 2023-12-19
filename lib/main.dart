@@ -10,6 +10,7 @@ import 'package:solar_app/view/splash/splash_view.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 
+
 void main() async {
   // await MyAppInitializer.initialize();
   await GetStorage.init();

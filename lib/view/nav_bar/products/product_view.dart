@@ -43,68 +43,61 @@ class ProductView extends StatelessWidget {
                   ],
                 ).paddingOnly(left: 20, right: 20, top: 20, bottom: 40),
                 Expanded(
-                    child: Container(
-                  padding: const EdgeInsets.only(top: 30),
-                  decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25))),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(const ProductDetailsView());
-                    },
-                    child: ListView.builder(
-                        itemCount: productController.productname.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              padding: const EdgeInsets.only(
-                                  top: 20, left: 15, right: 0, bottom: 15),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      width: .4, color: lightPrimaryTextColor)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ctext(
-                                      text:
-                                          productController.productname[index],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13),
-                                  smallSpace,
-                                  ListTile(
-                                    minVerticalPadding: 0.0,
-                                    leading: Container(
-                                      height: 116,
-                                      width: 94,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            productController
-                                                .productImages[index],
-                                          ),
-                                          fit: BoxFit.cover,
+                    child: InkWell(
+                  onTap: () {
+                    Get.to(const ProductDetailsView());
+                  },
+                  child: ListView.builder(
+                      itemCount: productController.productname.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 15, right: 0, bottom: 15),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                    width: .4, color: lightPrimaryTextColor)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ctext(
+                                    text: productController.productname[index],
+                                    fontWeight: FontWeight.bold,
+                                    color: white,
+                                    fontSize: 13),
+                                smallSpace,
+                                ListTile(
+                                  minVerticalPadding: 0.0,
+                                  leading: Container(
+                                    height: 116,
+                                    width: 94,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                          productController
+                                              .productImages[index],
                                         ),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    title: ctext(
-                                        text: productController
-                                            .productTitle[index],
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                    subtitle: ctext(
-                                            text: productController
-                                                .productDescription[index],
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w600,
-                                            color: lightPrimaryTextColor)
-                                        .paddingOnly(right: 10),
-                                  )
-                                ],
-                              )).paddingOnly(bottom: 20);
-                        }),
-                  ),
+                                  ),
+                                  title: ctext(
+                                      text:
+                                          productController.productTitle[index],
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: white),
+                                  subtitle: ctext(
+                                          text: productController
+                                              .productDescription[index],
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: lightPrimaryTextColor)
+                                      .paddingOnly(right: 10),
+                                )
+                              ],
+                            )).paddingOnly(bottom: 20);
+                      }),
                 ))
               ])
         ]));
