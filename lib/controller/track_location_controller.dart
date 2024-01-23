@@ -6,9 +6,8 @@ class TrackLocationController extends GetxController {
 // Function to open WhatsApp with a pre-filled message
   void launchWhatsApp(String phone, String message) async {
     try {
-      Uri uri = Uri.parse(Uri.encodeFull(
-          'https://wa.me/$phone/?text=${Uri.encodeComponent(message)}'));
-      await launch(uri.toString());
+      String url = 'https://wa.me/$phone/?text=$message';
+      await launch(url);
     } catch (e) {
       print('Error launching WhatsApp: $e');
     }
