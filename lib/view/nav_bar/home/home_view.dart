@@ -43,18 +43,18 @@ class _HomeViewState extends State<HomeView> {
             color: white,
             fontSize: 20),
         actions: [
-          Obx(() => InkWell(
-                onTap: () {
-                  homeController.toggleNotificationStatus();
-                },
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: btnPrimaryColor,
-                  child: homeController.isNotificationEnabled.value
-                      ? Icon(Icons.notifications, color: white)
-                      : Icon(Icons.notifications_off, color: white),
-                ),
-              )),
+          // Obx(() => InkWell(
+          //       onTap: () {
+          //         homeController.toggleNotificationStatus();
+          //       },
+          //       child: CircleAvatar(
+          //         radius: 18,
+          //         backgroundColor: btnPrimaryColor,
+          //         child: homeController.isNotificationEnabled.value
+          //             ? Icon(Icons.notifications, color: white)
+          //             : Icon(Icons.notifications_off, color: white),
+          //       ),
+          //     )),
           smallSpaceh,
           InkWell(
             onTap: () {

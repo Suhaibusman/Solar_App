@@ -165,7 +165,7 @@ class SignUpView extends StatelessWidget {
                                   padding: const EdgeInsets.all(5),
                                   margin: const EdgeInsets.only(right: 25),
                                   height: 40,
-                                  width: 65,
+                                  width: 120,
                                   decoration: BoxDecoration(
                                     color: Colors.black,
                                     border: Border.all(
@@ -184,41 +184,53 @@ class SignUpView extends StatelessWidget {
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Image.asset(IconsConstants.googleIcon),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  debugPrint("Signug FB");
-                                  await signUpController.signInWithFacebook();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  margin: const EdgeInsets.only(right: 25),
-                                  height: 40,
-                                  width: 65,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    border: Border.all(
-                                      width: .5,
-                                      color: lightPrimaryTextColor,
-                                    ),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [
-                                        Colors.grey.withOpacity(.3),
-                                        const Color(0xff353C43),
-                                        const Color(0xff222A33),
-                                        const Color(0xff19232D),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(IconsConstants.googleIcon),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      ctext(
+                                        text: "Google",
+                                        color: white,
+                                        fontSize: 14,
+                                      )
+                                    ],
                                   ),
-                                  child:
-                                      Image.asset(IconsConstants.facebookIcon),
                                 ),
                               ),
+                              // InkWell(
+                              //   onTap: () async {
+                              //     debugPrint("Signug FB");
+                              //     await signUpController.signInWithFacebook();
+                              //   },
+                              //   child: Container(
+                              //     padding: const EdgeInsets.all(5),
+                              //     margin: const EdgeInsets.only(right: 25),
+                              //     height: 40,
+                              //     width: 65,
+                              //     decoration: BoxDecoration(
+                              //       color: Colors.black,
+                              //       border: Border.all(
+                              //         width: .5,
+                              //         color: lightPrimaryTextColor,
+                              //       ),
+                              //       gradient: LinearGradient(
+                              //         begin: Alignment.centerLeft,
+                              //         end: Alignment.centerRight,
+                              //         colors: [
+                              //           Colors.grey.withOpacity(.3),
+                              //           const Color(0xff353C43),
+                              //           const Color(0xff222A33),
+                              //           const Color(0xff19232D),
+                              //         ],
+                              //       ),
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //     child:
+                              //         Image.asset(IconsConstants.facebookIcon),
+                              //   ),
+                              // ),
                             ],
                           )),
                     ),

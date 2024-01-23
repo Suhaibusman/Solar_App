@@ -101,12 +101,12 @@ class _ProfileViewState extends State<ProfileView> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13,
                                 ),
-                                subtitle: ctext(
-                                  text: "Client No: 0",
-                                  fontWeight: FontWeight.w400,
-                                  color: lightPrimaryTextColor,
-                                  fontSize: 12,
-                                ),
+                                // subtitle: ctext(
+                                //   text: "Client No: 0",
+                                //   fontWeight: FontWeight.w400,
+                                //   color: lightPrimaryTextColor,
+                                //   fontSize: 12,
+                                // ),
                                 trailing:
                                     profileController.imagePath.value == ""
                                         ? InkWell(
@@ -120,21 +120,30 @@ class _ProfileViewState extends State<ProfileView> {
                             }),
                           ),
                           largeSpace,
-                          ctext(text: "Your Mail ID"),
+                          ctext(
+                            text: "Your Mail ID",
+                            fontWeight: FontWeight.bold,
+                          ),
                           CustomUnderLineTextField(
                               isobscure: false,
                               controller: profileController.emailController,
                               hint: "abc@gmail.com",
                               type: TextInputType.emailAddress),
                           largeSpace,
-                          ctext(text: "Phone Number"),
+                          ctext(
+                            text: "Phone Number",
+                            fontWeight: FontWeight.bold,
+                          ),
                           CustomUnderLineTextField(
                               isobscure: false,
                               controller: profileController.phoneController,
                               hint: "+92 332 283628",
                               type: TextInputType.emailAddress),
                           largeSpace,
-                          ctext(text: "Address"),
+                          ctext(
+                            text: "Address",
+                            fontWeight: FontWeight.bold,
+                          ),
                           CustomUnderLineTextField(
                               isobscure: false,
                               controller: profileController.addressController,
