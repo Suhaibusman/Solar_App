@@ -11,9 +11,9 @@ class ProductController extends GetxController {
   ];
 
   List productDescription = [
-    "Of all the solar panel types, monocrystalline panels are likely to be the most expensive option. This is largely due to the manufacturing process.",
-    "Polycrystalline solar panels are typically cheaper than monocrystalline solar panels.",
-    "What you pay for thin-film solar cells will largely depend on the type of thin-film panel."
+    "Monocrystalline solar panels are most expensive due to their manufacturing process.",
+    "Polycrystalline panels are generally cheaper than monocrystalline ones.",
+    "The cost of thin-film solar cells depends on the specific type of panel."
   ];
 
   List productTitle = [

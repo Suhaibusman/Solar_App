@@ -82,53 +82,53 @@ class ProductDetailsView extends StatelessWidget {
                             color: btnPrimaryColor,
                             fontSize: 13),
                         mediumSpace,
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisSpacing: 5.0,
-                            crossAxisSpacing: 5.0,
-                            childAspectRatio: MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                .6 /
-                                (MediaQuery.of(context).size.height * 0.25 / 1),
-                          ),
-                          itemCount: 6,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  color: white,
-                                  borderRadius: BorderRadius.circular(25)),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 45,
-                                    width: 45,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1,
-                                            color: lightPrimaryTextColor),
-                                        borderRadius:
-                                            BorderRadius.circular(35)),
-                                    child: Icon(Icons.add,
-                                        color: lightPrimaryTextColor),
-                                  ),
-                                  extraSmallSpace,
-                                  ctext(
-                                      text: "Battery",
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: lightPrimaryTextColor)
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        smallSpace,
+                        // GridView.builder(
+                        //   padding: EdgeInsets.zero,
+                        //   physics: const NeverScrollableScrollPhysics(),
+                        //   shrinkWrap: true,
+                        //   gridDelegate:
+                        //       SliverGridDelegateWithFixedCrossAxisCount(
+                        //     crossAxisCount: 3,
+                        //     mainAxisSpacing: 5.0,
+                        //     crossAxisSpacing: 5.0,
+                        //     childAspectRatio: MediaQuery.of(context)
+                        //             .size
+                        //             .width *
+                        //         .6 /
+                        //         (MediaQuery.of(context).size.height * 0.25 / 1),
+                        //   ),
+                        //   itemCount: 6,
+                        //   itemBuilder: (context, index) {
+                        //     return Container(
+                        //       decoration: BoxDecoration(
+                        //           color: white,
+                        //           borderRadius: BorderRadius.circular(25)),
+                        //       child: Column(
+                        //         children: [
+                        //           Container(
+                        //             height: 45,
+                        //             width: 45,
+                        //             decoration: BoxDecoration(
+                        //                 border: Border.all(
+                        //                     width: 1,
+                        //                     color: lightPrimaryTextColor),
+                        //                 borderRadius:
+                        //                     BorderRadius.circular(35)),
+                        //             child: Icon(Icons.add,
+                        //                 color: lightPrimaryTextColor),
+                        //           ),
+                        //           extraSmallSpace,
+                        //           ctext(
+                        //               text: "Battery",
+                        //               fontSize: 12,
+                        //               fontWeight: FontWeight.w400,
+                        //               color: lightPrimaryTextColor)
+                        //         ],
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
+                        // smallSpace,
                         ctext(
                             text: "Cell",
                             fontWeight: FontWeight.bold,
