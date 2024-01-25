@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductController extends GetxController {
   List productname = ["Monocrystalline", "Polycrystalline", "Thin-film"];
@@ -21,4 +22,13 @@ class ProductController extends GetxController {
     "Lower costs",
     "Portable and flexible"
   ];
+
+  void openCompanyWebsite() async {
+    try {
+      String companyWebsiteUrl = 'https://intermarkproduct.com/';
+      await launch(companyWebsiteUrl);
+    } catch (e) {
+      print('Error launching Website: $e');
+    }
+  }
 }

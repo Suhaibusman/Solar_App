@@ -110,7 +110,7 @@ class ProfileController extends GetxController {
         String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
         // Update user details in Firestore
-        await firestore.collection("users").doc(userUid).update({
+        await firestore.collection("users").doc(userUid).set({
           "phoneNumber": phoneController.text,
           "address": addressController.text,
           "profileImage": downloadUrl,
