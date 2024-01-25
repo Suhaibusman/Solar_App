@@ -72,9 +72,14 @@ class ProductDetailsView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ctext(
-                            text: "Monocrystalline solar panels",
+                            text: "InterMark Solar System",
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
+                        smallSpace,
+                        // ctext(
+                        //     text: "Monocrystalline solar panels",
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 16),
                         // ctext(
                         //     text: "w5-320Wp to W5-350Wp",
                         //     fontWeight: FontWeight.w500,
