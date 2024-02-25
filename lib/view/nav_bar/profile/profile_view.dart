@@ -138,7 +138,7 @@ class _ProfileViewState extends State<ProfileView> {
                               isobscure: false,
                               controller: profileController.phoneController,
                               hint: "+92 332 283628",
-                              type: TextInputType.emailAddress),
+                              type: TextInputType.number),
                           largeSpace,
                           ctext(
                             text: "Address",
@@ -148,7 +148,7 @@ class _ProfileViewState extends State<ProfileView> {
                               isobscure: false,
                               controller: profileController.addressController,
                               hint: "abc street, Apt R-42, pechs society",
-                              type: TextInputType.emailAddress),
+                              type: TextInputType.streetAddress),
                           largeSpace,
                           Obx(() {
                             return profileController.isLoading.value
