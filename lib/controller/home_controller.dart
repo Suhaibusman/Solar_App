@@ -50,17 +50,17 @@ class HomeController extends GetxController {
   RxBool isNotificationEnabled =
       false.obs; // Track notification status as observable
 
-  void toggleNotificationStatus() async {
-    // Toggle notification status
-    isNotificationEnabled.value = !isNotificationEnabled.value;
+  // void toggleNotificationStatus() async {
+  //   // Toggle notification status
+  //   isNotificationEnabled.value = !isNotificationEnabled.value;
 
-    // Toggle notification permission
-    if (isNotificationEnabled.value) {
-      await NotificationService.enableNotifications();
-    } else {
-      await NotificationService.disableNotifications();
-    }
-  }
+  //   // Toggle notification permission
+  //   if (isNotificationEnabled.value) {
+  //     await NotificationService.enableNotifications();
+  //   } else {
+  //     await NotificationService.disableNotifications();
+  //   }
+  // }
 
   void signout() async {
     try {

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:solar_app/controller/home_controller.dart';
+import 'package:solar_app/notifications/notification.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';

@@ -128,9 +128,9 @@ class NotificationService {
     }
   }
 
-  static Future<void> disableNotifications() async {
-    await AwesomeNotifications().cancelAllSchedules();
-    await AwesomeNotifications().cancelAllSchedules();
-    await AwesomeNotifications().dismissAllNotifications();
-  }
+  // static Future<void> disableNotifications() async {
+  //   await AwesomeNotifications().cancelAllSchedules();
+  //   await AwesomeNotifications().cancelAllSchedules();
+  //   await AwesomeNotifications().dismissAllNotifications();
+  // }
 }
