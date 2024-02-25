@@ -157,7 +157,8 @@ class ProfileController extends GetxController {
     final ImagePicker picker = ImagePicker();
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      imagePath.value = image.path.toString();
+      File convertedFile = File(image.path);
+      imagePath.value = convertedFile.path;
     }
   }
 }

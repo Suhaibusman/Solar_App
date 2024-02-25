@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -83,11 +85,11 @@ class _ProfileViewState extends State<ProfileView> {
                                     image: DecorationImage(
                                       image: profileController
                                               .imagePath.isNotEmpty
-                                          ? NetworkImage(
-                                              profileController.imagePath.value)
-                                          : const AssetImage(
-                                                  'assets/default.png')
-                                              as ImageProvider<Object>,
+                                          ? FileImage(File(profileController
+                                              .imagePath.value))
+                                          : NetworkImage(profileController
+                                              .imagePath
+                                              .value) as ImageProvider<Object>,
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(12),
