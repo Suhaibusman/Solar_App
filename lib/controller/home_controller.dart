@@ -105,7 +105,7 @@ class HomeController extends GetxController {
       // Compare the dates
       if (maintenanceDate == tomorrowDate) {
         // If the dates match, show a notification
-        Get.snackbar("Maintenance Alert", "Tommorow is your maintenance");
+        // Get.snackbar("Maintenance Alert", "Tommorow is your maintenance");
         NotificationService.showNotification(
             title: "Maintenance Alert", body: "Tommorow is your maintenance");
       }
