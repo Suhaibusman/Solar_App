@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:solar_app/controller/home_controller.dart';
-import 'package:solar_app/notifications/notification.dart';
 import 'package:solar_app/utils/constants/app_constant.dart';
 import 'package:solar_app/utils/constants/image_constant.dart';
 import 'package:solar_app/utils/themes/color_theme.dart';
@@ -44,18 +43,18 @@ class _HomeViewState extends State<HomeView> {
             color: white,
             fontSize: 20),
         actions: [
-          Obx(() => InkWell(
-                onTap: () {
-                  homeController.checkMaintenanceDate();
-                },
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: btnPrimaryColor,
-                  child: homeController.isNotificationEnabled.value
-                      ? Icon(Icons.notifications, color: white)
-                      : Icon(Icons.notifications_off, color: white),
-                ),
-              )),
+          // Obx(() => InkWell(
+          //       onTap: () {
+          //         homeController.checkMaintenanceDate();
+          //       },
+          //       child: CircleAvatar(
+          //         radius: 18,
+          //         backgroundColor: btnPrimaryColor,
+          //         child: homeController.isNotificationEnabled.value
+          //             ? Icon(Icons.notifications, color: white)
+          //             : Icon(Icons.notifications_off, color: white),
+          //       ),
+          //     )),
           smallSpaceh,
           InkWell(
             onTap: () {

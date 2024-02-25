@@ -85,11 +85,11 @@ class _ProfileViewState extends State<ProfileView> {
                                     image: DecorationImage(
                                       image: profileController
                                               .imagePath.isNotEmpty
-                                          ? FileImage(File(profileController
-                                              .imagePath.value))
-                                          : NetworkImage(profileController
+                                          ? NetworkImage(
+                                              profileController.imagePath.value)
+                                          : FileImage(File(profileController
                                               .imagePath
-                                              .value) as ImageProvider<Object>,
+                                              .value)) as ImageProvider<Object>,
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(12),

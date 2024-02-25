@@ -120,10 +120,10 @@ class ProfileController extends GetxController {
         isLoading.value = false;
 
         // Show success snackbar
-        Get.snackbar("Success", "User details updated successfully",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.green,
-            colorText: Colors.white);
+        Get.snackbar(
+          "Success",
+          "User details updated successfully",
+        );
 
         // Navigate back
         Get.back();
