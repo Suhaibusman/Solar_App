@@ -74,7 +74,9 @@ class HomeController extends GetxController {
       box.erase();
 
       Get.offAll(const SplashScreen());
-    } catch (e) {}
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
   }
 
   void checkMaintenanceDate() async {
@@ -96,13 +98,14 @@ class HomeController extends GetxController {
       String maintenanceDate = docSnapshot.data()!['date'];
 
       // Get tomorrow's date
-      DateTime tomorrow = DateTime.now().add(Duration(days: 1));
+      DateTime tomorrow = DateTime.now().add(const Duration(days: 1));
       String tomorrowDate =
           "${tomorrow.day}-${tomorrow.month}-${tomorrow.year}";
-
+      // Get.snackbar(tomorrowDate, maintenanceDate);
       // Compare the dates
       if (maintenanceDate == tomorrowDate) {
         // If the dates match, show a notification
+        Get.snackbar("Maintenance Alert", "Tommorow is your maintenance");
         NotificationService.showNotification(
             title: "Maintenance Alert", body: "Tommorow is your maintenance");
       }

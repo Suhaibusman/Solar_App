@@ -14,7 +14,7 @@ class MaintainanceController extends GetxController {
   String formatSelectedDates(RxList<DateTime> dates) {
     // Format the list of DateTime to display only the date
     List<String> formattedDates = dates.map((date) {
-      return DateFormat('dd-MM-yyyy').format(date);
+      return DateFormat('dd-M-yyyy').format(date);
     }).toList();
 
     // Join the formatted dates into a single string
